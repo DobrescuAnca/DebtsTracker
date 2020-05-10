@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="isLoading"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_debtstracker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="40dp"
+                android:text="@string/debts_tracker"
+                android:textSize="30sp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_view"
+                android:layout_below="@+id/tv_debtstracker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp">
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="1dp"
+                    android:alpha="0.5"
+                    android:background="@color/colorDarkGrey"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_up"
+                    android:textSize="10sp"
+                    android:layout_gravity="center_vertical"
+                    tools:ignore="SmallSp" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="1dp"
+                    android:alpha="0.5"
+                    android:background="@color/colorDarkGrey"
+                    />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_name"
+                android:layout_below="@+id/ll_view"
+                style="@style/EditTextSimpleStyle"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
+                />
+
+            <RelativeLayout
+                android:id="@+id/ll_pass"
+                android:layout_below="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_pass"
+                    style="@style/EditTextSimpleStyle"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    />
+
+                <Button
+                    android:id="@+id/btn_pass_eye"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_eye" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll_pass_confirm"
+                android:layout_below="@+id/ll_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_confirm_pass"
+                    style="@style/EditTextSimpleStyle"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    />
+
+                <Button
+                    android:id="@+id/btn_confirm_pass_eye"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_eye" />
+            </RelativeLayout>
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_email"
+                android:layout_below="@+id/ll_pass_confirm"
+                style="@style/EditTextSimpleStyle"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_conf_email"
+                android:layout_below="@+id/et_email"
+                style="@style/EditTextSimpleStyle"
+                android:hint="@string/confirm_email"
+                android:inputType="textEmailAddress"
+                />
+
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                android:layout_marginBottom="10dp"
+                />
+
+        </RelativeLayout>
+
+<!--        <com.debts.debtstracker.ui.custom_views.LoadingView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"-->
+<!--            />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
