@@ -36,9 +36,9 @@ class SplashFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val refreshToken = sharedPrefs.getRefreshToken()
-        if (refreshToken == null)
-//            findNavController().navigate(R.id.)
-//        else
+        if (refreshToken != null)
+            findNavController().navigate(R.id.action_splashFragment_to_mainActivity)
+        else
             findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
     }
 

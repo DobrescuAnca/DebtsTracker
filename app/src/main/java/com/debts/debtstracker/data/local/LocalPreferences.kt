@@ -1,5 +1,6 @@
 package com.debts.debtstracker.data.local
 
+import com.debts.debtstracker.data.network.api.updateAuthorizationInterceptor
 import com.debts.debtstracker.data.network.model.AuthModel
 import com.debts.debtstracker.injection.moshi
 
@@ -12,6 +13,7 @@ class LocalPreferences(
 
     override fun saveRefreshToken(token: AuthModel) {
         preferencesSource.customPrefs()[REFRESH_TOKEN] = tokenJsonAdapter.toJson(token)
+        updateAuthorizationInterceptor(token.access_token)
     }
 
     override fun getRefreshToken(): AuthModel? {
@@ -23,6 +25,7 @@ class LocalPreferences(
 
     override fun clearSharedPrefs() {
         preferencesSource.customPrefs().edit().clear().apply()
+        updateAuthorizationInterceptor("")
     }
 
     companion object {

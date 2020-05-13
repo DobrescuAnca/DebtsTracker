@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryTransparent">#666200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
     <color name="white">#ffffff</color>
-    <color name="whiteTransparent">#50ffffff</color>
+    <color name="whiteTransparent">#B3ffffff</color>
     <color name="transparent">#00ffffff</color>
     <color name="black">#000000</color>
 
@@ -16,3 +17,26 @@
     <color name="colorLightGrey">#4a4948</color>
     <color name="greyLightTransparent">#66AAAAFF</color>
 </resources>
+
+
+<!--opacity values-->
+<!--    100% — FF-->
+<!--    95% — F2-->
+<!--    90% — E6-->
+<!--    85% — D9-->
+<!--    80% — CC-->
+<!--    75% — BF-->
+<!--    70% — B3-->
+<!--    65% — A6-->
+<!--    60% — 99-->
+<!--    55% — 8C-->
+<!--    50% — 80-->
+<!--    45% — 73-->
+<!--    40% — 66-->
+<!--    35% — 59-->
+<!--    30% — 4D-->
+<!--    25% — 40-->
+<!--    20% — 33-->
+<!--    15% — 26-->
+<!--    10% — 1A-->
+<!--    5% — 0D-->

@@ -24,7 +24,9 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".ui.main.MainActivity"
+            android:theme="@style/AppThemeUltraFullScreen"
+            android:screenOrientation="portrait"/>
 
     </application>
 </manifest>

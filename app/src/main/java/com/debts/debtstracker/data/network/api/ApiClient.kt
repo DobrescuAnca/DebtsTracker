@@ -1,5 +1,6 @@
 package com.debts.debtstracker.data.network.api
 
+import com.debts.debtstracker.injection.authorizationInterceptor
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -8,7 +9,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class ApiClient(moshi: Moshi) {
+class ApiClient(
+    moshi: Moshi,
+    authorizationInterceptor: AuthorizationInterceptor
+) {
     private val okHttpClient: OkHttpClient
     private val retrofitBuilder: Retrofit.Builder
 
@@ -23,6 +27,7 @@ class ApiClient(moshi: Moshi) {
         val loggingInterceptor = HttpLoggingInterceptor().apply { this.level = level }
 
         okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(authorizationInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(ErrorInterceptor())
             .build()
@@ -48,6 +53,21 @@ class ApiClient(moshi: Moshi) {
     }
 }
 
+class AuthorizationInterceptor(var accessToken: String?) : Interceptor {
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val original = chain.request()
+        val builder = original.newBuilder()
+
+        if(accessToken != "")
+            builder.addHeader("Authorization", "Bearer${accessToken}")
+
+
+        val request = builder.url(original.url).build()
+        return chain.proceed(request)
+    }
+}
+
 class ErrorInterceptor: Interceptor{
     override fun intercept(chain: Interceptor.Chain): Response {
         val original = chain.request()
@@ -56,6 +76,10 @@ class ErrorInterceptor: Interceptor{
         when(response.code) {
             //TODO add response codes here
             //401 "invalid_token" pe errror din modelul cu error si error_description
+            401 -> {
+                //TODO treat this shit
+                // trebuie sa vina pe "error": "invalid_token"
+            }
         }
 
         return response
@@ -63,3 +87,7 @@ class ErrorInterceptor: Interceptor{
 }
 
 class NoNetworkConnectionException : Exception()
+
+fun updateAuthorizationInterceptor(accessToken: String) {
+    authorizationInterceptor.accessToken = accessToken
+}

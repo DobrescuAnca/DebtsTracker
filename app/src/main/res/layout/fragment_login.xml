@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
@@ -90,16 +90,17 @@
                     style="@style/EditTextSimpleStyle"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
-                    android:layout_toStartOf="@id/btn_pass_eye"/>
+                    android:layout_toStartOf="@id/iv_pass_eye"/>
 
-                <Button
-                    android:id="@+id/btn_pass_eye"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginEnd="5dp"
+                <ImageView
+                    android:id="@+id/iv_pass_eye"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_eye"
+                    android:layout_marginEnd="10dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/ic_eye" />
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
 
@@ -137,13 +138,11 @@
 
         </RelativeLayout>
 
-<!--        <com.debts.debtstracker.ui.custom_views.LoadingView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"-->
-<!--            />-->
-
-
+        <com.debts.debtstracker.ui.custom_views.LoadingView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

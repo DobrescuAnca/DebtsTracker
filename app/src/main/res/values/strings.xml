@@ -81,4 +81,5 @@
     <string name="success_logout">You have successfully logout</string>
     <string name="password_changed">Password successfully changed</string>
     <string name="empty_friend_list">Empty Friend List</string>
+    <string name="home">Home</string>
 </resources>

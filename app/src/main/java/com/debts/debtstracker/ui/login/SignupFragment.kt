@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.local.LocalPreferencesInterface
@@ -55,10 +56,10 @@ class SignupFragment: BaseFragment() {
                     dataBinding.etPass.text.toString()
                 ))
         }
-        dataBinding.btnPassEye.setOnClickListener {
+        dataBinding.ivPassEye.setOnClickListener {
             switchPasswordSecureInput(dataBinding.etPass)
         }
-        dataBinding.btnConfirmPassEye.setOnClickListener {
+        dataBinding.ivConfirmPassEye.setOnClickListener {
             switchPasswordSecureInput(dataBinding.etConfirmPass)
         }
     }
@@ -101,7 +102,7 @@ class SignupFragment: BaseFragment() {
             when (result) {
                 is ResponseStatus.Success -> {
                     sharedPrefs.saveRefreshToken(result.data as AuthModel)
-                    //navigate to main
+                    findNavController().navigate(R.id.action_signupFragment_to_mainActivity)
                 }
                 is ResponseStatus.Loading -> setLoading(true)
                 is ResponseStatus.Error -> {

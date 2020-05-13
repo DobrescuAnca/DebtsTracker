@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/homeFragment"
+        app:popUpToInclusive="true"/>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.debts.debtstracker.ui.main.home.HomeFragment"
+        tools:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+
+    <action
+        android:id="@+id/action_global_friendsFragment"
+        app:destination="@id/friendsFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/friendsFragment"
+        app:popUpToInclusive="true"/>
+
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.debts.debtstracker.ui.main.friends.FriendsFragment"
+        tools:label="FriendsFragment"
+        tools:layout="@layout/fragment_friends"/>
+
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.debts.debtstracker.ui.main.profile.ProfileFragment"
+        tools:label="ProfileFragment"
+        tools:layout=""/>
+
+</navigation>

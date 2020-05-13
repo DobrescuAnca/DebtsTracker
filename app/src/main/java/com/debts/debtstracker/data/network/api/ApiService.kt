@@ -18,7 +18,7 @@ interface ApiService {
         @Field("scope") scope: String = "mobile",
         @Field("username") username: String,
         @Field("password") password: String,
-        @Header("authorization") authorization:String = "Basic ZGVidHN0cmFja2VyOg=="
+        @Header("Authorization") authorization:String = "Basic ZGVidHN0cmFja2VyOg=="
     ): Response<AuthModel>
 
 

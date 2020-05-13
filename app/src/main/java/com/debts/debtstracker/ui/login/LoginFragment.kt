@@ -46,7 +46,7 @@ class LoginFragment: BaseFragment() {
     }
 
     private fun setupLayout(){
-        dataBinding.btnPassEye.setOnClickListener {
+        dataBinding.ivPassEye.setOnClickListener {
             switchPasswordSecureInput(dataBinding.etPassLogin)
         }
 
@@ -67,7 +67,7 @@ class LoginFragment: BaseFragment() {
             when (result) {
                 is ResponseStatus.Success -> {
                     sharedPrefs.saveRefreshToken(result.data as AuthModel)
-                    //go to main
+                    findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
                 }
                 is ResponseStatus.Loading -> setLoading(true)
                 is ResponseStatus.Error -> {

@@ -5,6 +5,7 @@ import com.debts.debtstracker.data.local.LocalPreferencesInterface
 import com.debts.debtstracker.data.local.PreferencesSource
 import com.debts.debtstracker.data.network.api.ApiClient
 import com.debts.debtstracker.data.network.api.ApiService
+import com.debts.debtstracker.data.network.api.AuthorizationInterceptor
 import com.debts.debtstracker.data.repository.Repository
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.login.OnboardingViewModel
@@ -17,9 +18,11 @@ val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
+val authorizationInterceptor = AuthorizationInterceptor("")
+
 object ApiServiceObject {
     val RETROFIT_SERVICE : ApiService by lazy {
-        val apiClient = ApiClient(moshi)
+        val apiClient = ApiClient(moshi, authorizationInterceptor)
         apiClient.createApi(ApiService::class.java)
     }
 }
