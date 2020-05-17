@@ -1,6 +1,8 @@
 package com.debts.debtstracker.data.network.api
 
+import com.debts.debtstracker.data.network.model.AuthErrorModel
 import com.debts.debtstracker.injection.authorizationInterceptor
+import com.debts.debtstracker.injection.moshi
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -27,6 +29,7 @@ class ApiClient(
         val loggingInterceptor = HttpLoggingInterceptor().apply { this.level = level }
 
         okHttpClient = OkHttpClient.Builder()
+            .authenticator(TokenAuthenticator())
             .addInterceptor(authorizationInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(ErrorInterceptor())
@@ -51,6 +54,10 @@ class ApiClient(
 
         return retrofitBuilder.baseUrl(BASE_URL).build().create(apiClass)
     }
+
+    companion object{
+        const val HEADER_AUTHORIZATION = "Authorization"
+    }
 }
 
 class AuthorizationInterceptor(var accessToken: String?) : Interceptor {
@@ -60,8 +67,7 @@ class AuthorizationInterceptor(var accessToken: String?) : Interceptor {
         val builder = original.newBuilder()
 
         if(accessToken != "")
-            builder.addHeader("Authorization", "Bearer${accessToken}")
-
+            builder.addHeader(ApiClient.HEADER_AUTHORIZATION, "Bearer${accessToken}")
 
         val request = builder.url(original.url).build()
         return chain.proceed(request)
@@ -73,12 +79,17 @@ class ErrorInterceptor: Interceptor{
         val original = chain.request()
         val response = chain.proceed(original)
 
+        //pt original am method si url, pe care le pot pastra
         when(response.code) {
             //TODO add response codes here
-            //401 "invalid_token" pe errror din modelul cu error si error_description
             401 -> {
-                //TODO treat this shit
-                // trebuie sa vina pe "error": "invalid_token"
+                val errorString: String = response.body?.string() ?: ""
+                val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
+                val error = jsonAdapter.fromJson(errorString)?.error
+                if(error == INVALID_TOKEN){
+                    //
+                }
+
             }
         }
 
@@ -90,4 +101,19 @@ class NoNetworkConnectionException : Exception()
 
 fun updateAuthorizationInterceptor(accessToken: String) {
     authorizationInterceptor.accessToken = accessToken
+}
+
+const val INVALID_TOKEN = "invalid_token"
+
+fun parseError(response: retrofit2.Response<*>): AuthErrorModel? {
+    // response.errorBody().string - must be saved in a different variable, because a second call will return error
+    val errorString: String = response.errorBody()?.string() ?: ""
+
+    return if (errorString.isEmpty()) {
+        AuthErrorModel(response.code().toString())
+    } else {
+        val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
+        val error = jsonAdapter.fromJson(errorString)
+        error
+    }
 }

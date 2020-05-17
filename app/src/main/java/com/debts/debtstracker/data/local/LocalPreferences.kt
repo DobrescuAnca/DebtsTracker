@@ -11,15 +11,18 @@ class LocalPreferences(
     private val tokenJsonAdapter =
         moshi.adapter(AuthModel::class.java)
 
-    override fun saveRefreshToken(token: AuthModel) {
+    override fun saveRefreshToken(token: AuthModel?) {
         preferencesSource.customPrefs()[REFRESH_TOKEN] = tokenJsonAdapter.toJson(token)
-        updateAuthorizationInterceptor(token.access_token)
+        updateAuthorizationInterceptor(token?.access_token ?: "")
     }
 
     override fun getRefreshToken(): AuthModel? {
         val localTokenJson: String = preferencesSource.customPrefs()[REFRESH_TOKEN] ?: ""
-        if(localTokenJson.isEmpty())
+        if(localTokenJson.isEmpty()) {
+            updateAuthorizationInterceptor("")
             return null
+        }
+        updateAuthorizationInterceptor( tokenJsonAdapter.fromJson(localTokenJson)?.access_token ?: "")
         return tokenJsonAdapter.fromJson(localTokenJson)
     }
 

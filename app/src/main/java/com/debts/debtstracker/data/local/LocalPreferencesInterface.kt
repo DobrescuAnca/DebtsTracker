@@ -4,7 +4,7 @@ import com.debts.debtstracker.data.network.model.AuthModel
 
 interface LocalPreferencesInterface {
 
-    fun saveRefreshToken(token: AuthModel)
+    fun saveRefreshToken(token: AuthModel?)
 
     fun getRefreshToken(): AuthModel?
 

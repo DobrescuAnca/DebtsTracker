@@ -9,6 +9,8 @@ import com.debts.debtstracker.data.network.api.AuthorizationInterceptor
 import com.debts.debtstracker.data.repository.Repository
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.login.OnboardingViewModel
+import com.debts.debtstracker.ui.main.friends.FriendListViewModel
+import com.debts.debtstracker.ui.main.friends.UserListViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -42,12 +44,18 @@ val localPreferencesModule = module {
 
 val repositoryModule = module(createdAtStart = true) {
     single<RepositoryInterface> {
-        Repository(get())
+        Repository(get(), get())
     }
 }
 
 val onboardingViewModel = module {
     viewModel{ OnboardingViewModel(get()) }
+}
+val friendListViewModel = module {
+    viewModel{ FriendListViewModel() }
+}
+val userListViewModel = module {
+    viewModel{ UserListViewModel() }
 }
 
 val modulesList = listOf(
@@ -55,5 +63,7 @@ val modulesList = listOf(
     preferencesModule,
     localPreferencesModule,
     repositoryModule,
-    onboardingViewModel
+    onboardingViewModel,
+    friendListViewModel,
+    userListViewModel
 )

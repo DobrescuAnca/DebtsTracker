@@ -1,6 +1,7 @@
 package com.debts.debtstracker.data.repository
 
 import com.debts.debtstracker.data.ResponseStatus
+import com.debts.debtstracker.data.local.LocalPreferencesInterface
 import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.AuthModel
 import com.debts.debtstracker.data.network.model.RegisterModel
@@ -11,7 +12,8 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class Repository(
-    private val apiService: ApiServiceObject
+    private val apiService: ApiServiceObject,
+    private val sharedPrefs: LocalPreferencesInterface
 ): RepositoryInterface {
 
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO

@@ -9,17 +9,19 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.Status
-import com.debts.debtstracker.databinding.FragmentFriendListBinding
+import com.debts.debtstracker.databinding.FragmentUserListBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.util.EventObserver
+import com.debts.debtstracker.util.hideKeyboard
+import com.debts.debtstracker.util.openKeyboard
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class FriendsFragment: BaseFragment() {
+class UserListFragment: BaseFragment() {
 
-    private lateinit var dataBinding: FragmentFriendListBinding
+    private lateinit var dataBinding: FragmentUserListBinding
+    private val viewModel: UserListViewModel by sharedViewModel()
+
     private lateinit var adapter: UserListAdapter
-
-    private val viewModel: FriendListViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,9 +30,10 @@ class FriendsFragment: BaseFragment() {
     ): View? {
         dataBinding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_friend_list,
+            R.layout.fragment_user_list,
             container,
-            false)
+            false
+        )
 
         return dataBinding.root
     }
@@ -38,18 +41,32 @@ class FriendsFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         initAdapter()
+        setUpLayout()
         attachObservers()
 
-        dataBinding.topAppBar.setOnClickListener{
-            findNavController().navigate(R.id.action_friendsFragment_to_userListFragment)
+    }
+
+    private fun setUpLayout(){
+        dataBinding.viewModel = viewModel
+
+        dataBinding.etSearch.requestFocus()
+        context?.openKeyboard()
+        dataBinding.etSearch.setOnFocusChangeListener { view, hasFocus ->
+            if(!hasFocus)
+                context?.hideKeyboard(view)
+        }
+
+        dataBinding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
     private fun initAdapter(){
         adapter = UserListAdapter(
             this::gotoUserProfile,
-            R.layout.item_friend_list
+            R.layout.item_user_list
         )
         dataBinding.listContainer.adapter = adapter
     }
@@ -67,10 +84,10 @@ class FriendsFragment: BaseFragment() {
         viewModel.networkState.observe(viewLifecycleOwner, EventObserver {
             if(it.status == Status.EMPTY_LIST)
                 dataBinding.tvEmptyList.visibility = View.VISIBLE
-            else
+            else {
                 adapter.setNetworkStateValue(it)
+                dataBinding.tvEmptyList.visibility = View.GONE
+            }
         })
     }
-
-
 }

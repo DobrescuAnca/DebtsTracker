@@ -15,7 +15,7 @@ data class MessageModel(
 )
 
 data class AuthErrorModel(
-    val error: String
+    val error: String?
 )
 
 data class AuthModel(

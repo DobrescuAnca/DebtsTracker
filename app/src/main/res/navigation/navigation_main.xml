@@ -37,7 +37,15 @@
         android:id="@+id/friendsFragment"
         android:name="com.debts.debtstracker.ui.main.friends.FriendsFragment"
         tools:label="FriendsFragment"
-        tools:layout="@layout/fragment_friends"/>
+        tools:layout="@layout/fragment_friend_list">
+        <action
+            android:id="@+id/action_friendsFragment_to_userListFragment"
+            app:destination="@id/userListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_profileFragment"
@@ -52,5 +60,10 @@
         android:name="com.debts.debtstracker.ui.main.profile.ProfileFragment"
         tools:label="ProfileFragment"
         tools:layout=""/>
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.debts.debtstracker.ui.main.friends.UserListFragment"
+        tools:label="UserListFragment"
+        tools:layout="@layout/fragment_user_list"/>
 
 </navigation>
