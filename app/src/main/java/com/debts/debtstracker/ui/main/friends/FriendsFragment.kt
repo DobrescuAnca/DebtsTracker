@@ -71,6 +71,4 @@ class FriendsFragment: BaseFragment() {
                 adapter.setNetworkStateValue(it)
         })
     }
-
-
 }

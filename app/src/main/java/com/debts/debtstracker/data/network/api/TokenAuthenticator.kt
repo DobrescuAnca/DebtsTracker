@@ -19,21 +19,24 @@ class TokenAuthenticator: Authenticator, KoinComponent {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         val errorString: String = response.body?.string() ?: ""
-        val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
-        val error = jsonAdapter.fromJson(errorString)?.error
 
-        if (response.code == 401 && error == "invalid_token") {
-            val updatedToken = getNewToken()
+        if (response.code == 401) {
+            val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
+            val error = jsonAdapter.fromJson(errorString)?.error
 
-            return response.request.newBuilder()
-                .header(ApiClient.HEADER_AUTHORIZATION, updatedToken)
-                .build()
+            if(error == "invalid_token") {
+                val updatedToken = getNewToken()
+
+                return response.request.newBuilder()
+                    .header(ApiClient.HEADER_AUTHORIZATION, "Bearer$updatedToken")
+                    .build()
+            }
         }
         return response.request
     }
 
     private fun getNewToken(): String{
-        var authToken: AuthModel?
+        val authToken: AuthModel?
         try {
             authToken = apiService.RETROFIT_SERVICE.refreshToken(refreshToken = sharedPrefs.getRefreshToken()?.refresh_token ?: "").execute().body()
 

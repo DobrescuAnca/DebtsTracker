@@ -83,12 +83,9 @@ class ErrorInterceptor: Interceptor{
         when(response.code) {
             //TODO add response codes here
             401 -> {
-                val errorString: String = response.body?.string() ?: ""
-                val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
-                val error = jsonAdapter.fromJson(errorString)?.error
-                if(error == INVALID_TOKEN){
-                    //
-                }
+//                val errorString: String = response.body?.string() ?: ""
+//                val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
+//                val error = jsonAdapter.fromJson(errorString)?.error
 
             }
         }
@@ -102,8 +99,6 @@ class NoNetworkConnectionException : Exception()
 fun updateAuthorizationInterceptor(accessToken: String) {
     authorizationInterceptor.accessToken = accessToken
 }
-
-const val INVALID_TOKEN = "invalid_token"
 
 fun parseError(response: retrofit2.Response<*>): AuthErrorModel? {
     // response.errorBody().string - must be saved in a different variable, because a second call will return error

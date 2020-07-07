@@ -18,7 +18,7 @@
         <LinearLayout
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:orientation="horizontal"
             android:elevation="5dp"
 
@@ -27,8 +27,8 @@
 
             <ImageView
                 android:id="@+id/ivBack"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_arrow_left"
                 tools:ignore="ContentDescription"
                 android:layout_marginStart="20dp"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/search"
-                android:textSize="23sp"
+                android:textSize="18sp"
                 android:focusable="true"
                 android:textCursorDrawable="@null"
                 app:addTextChangedListener="@{viewModel.onSearchTextChanged}"
