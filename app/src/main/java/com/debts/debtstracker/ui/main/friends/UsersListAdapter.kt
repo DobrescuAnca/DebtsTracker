@@ -1,5 +1,6 @@
 package com.debts.debtstracker.ui.main.friends
 
+import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import com.debts.debtstracker.R
@@ -9,11 +10,12 @@ import com.debts.debtstracker.databinding.ItemFriendListBinding
 import com.debts.debtstracker.databinding.ItemNetworkStateBinding
 import com.debts.debtstracker.databinding.ItemUserListBinding
 import com.debts.debtstracker.util.BasePagedListAdapter
-import com.debts.debtstracker.util.getBitmapFromUrl
+import com.squareup.picasso.Picasso
 
 class UserListAdapter(
     private val callback:(String) -> Unit,
-    layout: Int
+    layout: Int,
+    private val context: Context
 ): BasePagedListAdapter<UserModel>(layout, DiffUtilUser()) {
 
     override fun bind(binding: ViewDataBinding, item: UserModel?, position: Int) {
@@ -21,7 +23,8 @@ class UserListAdapter(
             when(binding){
                 is ItemFriendListBinding -> {
                     binding.user = user
-                    binding.profilePicture.setImageBitmap(getBitmapFromUrl(user.profilePictureUrl))
+
+                    Picasso.with(context).load(user.profilePictureUrl).into(binding.profilePicture)
                     binding.root.setOnClickListener {
                         callback(user.id)
                     }
@@ -29,8 +32,7 @@ class UserListAdapter(
                 is ItemUserListBinding -> {
                     binding.user = user
 
-
-                    binding.profilePicture.setImageBitmap(getBitmapFromUrl(item.profilePictureUrl))
+                    Picasso.with(context).load(user.profilePictureUrl).into(binding.profilePicture)
 
                     val drawable = when(user.friendshipStatus){
                         FriendshipStatus.FRIENDS -> R.drawable.ic_people

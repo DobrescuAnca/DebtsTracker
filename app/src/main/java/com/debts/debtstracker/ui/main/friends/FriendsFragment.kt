@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.debts.debtstracker.DebtsTrackerApplication
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.Status
 import com.debts.debtstracker.databinding.FragmentFriendListBinding
@@ -49,13 +50,14 @@ class FriendsFragment: BaseFragment() {
     private fun initAdapter(){
         adapter = UserListAdapter(
             this::gotoUserProfile,
-            R.layout.item_friend_list
+            R.layout.item_friend_list,
+            context ?: DebtsTrackerApplication.applicationContext()
         )
         dataBinding.listContainer.adapter = adapter
     }
 
     private fun gotoUserProfile(id: String){
-
+        findNavController().navigate(R.id.action_global_profileFragment)
     }
 
     private fun attachObservers() {

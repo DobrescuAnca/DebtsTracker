@@ -40,8 +40,8 @@
     <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="friends">FRIENDS</string>
-    <string name="add_friend">ADD FRIEND</string>
+    <string name="friends">Friends</string>
+    <string name="add_friend">Add Friend</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
     <string name="log_out">Log Out</string>
@@ -83,4 +83,10 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="list_is_empty">List is empty</string>
+    <string name="sent_you_friend_request">Sent you a friend request</string>
+    <string name="respond">Respond</string>
+    <string name="friend_request_sent">Friend request sent</string>
+    <string name="cancel">Cancel</string>
+    <string name="all">All</string>
+    <string name="mine">Mine</string>
 </resources>

@@ -59,7 +59,7 @@
         android:id="@+id/profileFragment"
         android:name="com.debts.debtstracker.ui.main.profile.ProfileFragment"
         tools:label="ProfileFragment"
-        tools:layout=""/>
+        tools:layout="@layout/fragment_profile"/>
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.debts.debtstracker.ui.main.friends.UserListFragment"
