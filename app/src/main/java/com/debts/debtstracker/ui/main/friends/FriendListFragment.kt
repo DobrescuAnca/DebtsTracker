@@ -13,9 +13,10 @@ import com.debts.debtstracker.data.Status
 import com.debts.debtstracker.databinding.FragmentFriendListBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.util.EventObserver
+import com.debts.debtstracker.util.PROFILE_USER_ID
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class FriendsFragment: BaseFragment() {
+class FriendListFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentFriendListBinding
     private lateinit var adapter: UserListAdapter
@@ -57,7 +58,10 @@ class FriendsFragment: BaseFragment() {
     }
 
     private fun gotoUserProfile(id: String){
-        findNavController().navigate(R.id.action_global_profileFragment)
+        val bundle = Bundle()
+        bundle.putString(PROFILE_USER_ID, id)
+
+        findNavController().navigate(R.id.action_global_profileFragment, bundle)
     }
 
     private fun attachObservers() {

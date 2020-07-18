@@ -7,10 +7,14 @@ data class UserModel(
     val profilePictureUrl: String,
     val totalToReceive: Double?,
     val totalToPay: Double?,
-    val friendshipStatus: FriendshipStatus
+    val friendshipStatus: FriendshipStatusEnum
 )
 
-enum class FriendshipStatus{
+enum class FriendshipStatusEnum{
     FRIENDS, NOT_FRIENDS, REQUEST_SENT, REQUEST_RECEIVED
+}
+
+enum class ProfileActionEnum{
+    ADD_FRIEND, REMOVE_FRIEND, CANCEL_REQUEST, ACCEPT_REQUEST, DECLINE_REQUEST
 }
 

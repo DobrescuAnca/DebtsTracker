@@ -11,6 +11,7 @@ import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.login.OnboardingViewModel
 import com.debts.debtstracker.ui.main.friends.FriendListViewModel
 import com.debts.debtstracker.ui.main.friends.UserListViewModel
+import com.debts.debtstracker.ui.main.profile.ProfileViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -57,6 +58,9 @@ val friendListViewModel = module {
 val userListViewModel = module {
     viewModel{ UserListViewModel() }
 }
+val profileViewModel = module {
+    viewModel{ ProfileViewModel(get()) }
+}
 
 val modulesList = listOf(
     remoteDataSourceModule,
@@ -65,5 +69,6 @@ val modulesList = listOf(
     repositoryModule,
     onboardingViewModel,
     friendListViewModel,
-    userListViewModel
+    userListViewModel,
+    profileViewModel
 )

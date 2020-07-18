@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -19,7 +19,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="300dp"
                 android:background="@color/white"
                 app:contentScrim="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:scrollHorizontally="true"
-                        android:text="Nume complet"
+                        tools:text="Nume complet"
                         android:textSize="21sp"
                         android:visibility="visible"
 
@@ -76,7 +76,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:scrollHorizontally="true"
-                        android:text="username"
+                        tools:text="username"
                         android:textSize="16sp"
                         android:visibility="visible"
 
@@ -111,69 +111,69 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/filter_container"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+<!--        <LinearLayout-->
+<!--            android:id="@+id/filter_container"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:paddingStart="10dp"-->
+<!--            android:paddingEnd="10dp"-->
 
-            android:background="@color/colorLightGrey"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<!--            android:background="@color/colorLightGrey"-->
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="@string/debts"
-                android:textAllCaps="true"
-                android:textColor="@color/white"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="14sp"-->
+<!--                android:text="@string/debts"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="@color/white"/>-->
 
-            <TextView
-                android:id="@+id/all_debts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:textSize="14sp"
-                android:text="@string/all"
-                android:textColor="@color/colorAccent"/>
+<!--            <TextView-->
+<!--                android:id="@+id/all_debts"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="25dp"-->
+<!--                android:textSize="14sp"-->
+<!--                android:text="@string/all"-->
+<!--                android:textColor="@color/colorAccent"/>-->
 
-            <TextView
-                android:id="@+id/my_debts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textSize="14sp"
-                android:text="@string/mine"
-                android:textColor="@color/white"/>
+<!--            <TextView-->
+<!--                android:id="@+id/my_debts"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:textSize="14sp"-->
+<!--                android:text="@string/mine"-->
+<!--                android:textColor="@color/white"/>-->
 
-            <TextView
-                android:id="@+id/friends_debts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textSize="14sp"
-                android:text="Friend's"
-                android:textColor="@color/white"/>
+<!--            <TextView-->
+<!--                android:id="@+id/friends_debts"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:textSize="14sp"-->
+<!--                android:text="Friend's"-->
+<!--                android:textColor="@color/white"/>-->
 
 
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:layout_margin="40dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<!--        <androidx.core.widget.NestedScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="none"-->
+<!--            android:layout_margin="40dp"-->
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loreum_ipsum"/>
-        </androidx.core.widget.NestedScrollView>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/loreum_ipsum"/>-->
+<!--        </androidx.core.widget.NestedScrollView>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

@@ -5,11 +5,11 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="com.debts.debtstracker.data.network.model.FriendshipStatus"/>
+        <import type="com.debts.debtstracker.data.network.model.FriendshipStatusEnum"/>
 
         <variable
             name="friendshipStatus"
-            type="com.debts.debtstracker.data.network.model.FriendshipStatus" />
+            type="com.debts.debtstracker.data.network.model.FriendshipStatusEnum" />
 
     </data>
 
@@ -23,7 +23,7 @@
             android:id="@+id/btn_friends"
             style="@style/FriendshipStatusButton"
             android:text="@string/friends"
-            android:visibility="@{friendshipStatus == FriendshipStatus.FRIENDS ? View.VISIBLE : View.GONE}"
+            android:visibility="@{friendshipStatus == FriendshipStatusEnum.FRIENDS ? View.VISIBLE : View.GONE}"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -32,13 +32,13 @@
             android:id="@+id/btn_add_friend"
             style="@style/FriendshipStatusButton"
             android:text="@string/add_friend"
-            android:visibility="@{friendshipStatus == FriendshipStatus.NOT_FRIENDS ? View.VISIBLE : View.GONE}"
+            android:visibility="@{friendshipStatus == FriendshipStatusEnum.NOT_FRIENDS ? View.VISIBLE : View.GONE}"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_friends"/>
 
         <TextView
-            android:id="@+id/tv_request_received"
+            android:id="@+id/tv_respond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
@@ -48,45 +48,55 @@
             tools:ignore="SmallSp" />
 
         <Button
-            android:id="@+id/btn_request_received"
+            android:id="@+id/bt_accept"
             style="@style/FriendshipStatusButton"
-            android:text="@string/respond"
+            android:text = "@string/accept"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_received"
+            app:layout_constraintTop_toBottomOf="@id/tv_respond"
+            />
+
+        <Button
+            android:id="@+id/bt_decline"
+            style="@style/FriendshipStatusButton"
+            android:text="@string/decline"
+            android:layout_marginStart="5dp"
+
+            app:layout_constraintStart_toEndOf="@id/bt_accept"
+            app:layout_constraintTop_toBottomOf="@id/tv_respond"
             />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_request_received, btn_request_received"
-            android:visibility="@{friendshipStatus == FriendshipStatus.REQUEST_RECEIVED ? View.VISIBLE : View.GONE}"
+            app:constraint_referenced_ids="tv_respond, bt_accept, bt_decline"
+            android:visibility="@{friendshipStatus == FriendshipStatusEnum.REQUEST_RECEIVED ? View.VISIBLE : View.GONE}"
             />
 
         <TextView
-            android:id="@+id/tv_request_sent"
+            android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/friend_request_sent"
             android:textSize="10sp"
-            app:layout_constraintTop_toBottomOf="@id/btn_request_received"
+            app:layout_constraintTop_toBottomOf="@id/bt_accept"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="SmallSp" />
 
         <Button
-            android:id="@+id/btn_request_sent"
+            android:id="@+id/btn_cancel"
             style="@style/FriendshipStatusButton"
             android:text="@string/cancel"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_request_sent"
+            app:layout_constraintTop_toBottomOf="@id/tv_cancel"
             />
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_request_sent, btn_request_sent"
-            android:visibility="@{friendshipStatus == FriendshipStatus.REQUEST_SENT ? View.VISIBLE : View.GONE}"
+            app:constraint_referenced_ids="tv_cancel, btn_cancel"
+            android:visibility="@{friendshipStatus == FriendshipStatusEnum.REQUEST_SENT ? View.VISIBLE : View.GONE}"
             />
 
 

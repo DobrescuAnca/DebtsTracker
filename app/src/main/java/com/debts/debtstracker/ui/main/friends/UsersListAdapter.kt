@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import com.debts.debtstracker.R
-import com.debts.debtstracker.data.network.model.FriendshipStatus
+import com.debts.debtstracker.data.network.model.FriendshipStatusEnum
 import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.ItemFriendListBinding
 import com.debts.debtstracker.databinding.ItemNetworkStateBinding
@@ -35,10 +35,10 @@ class UserListAdapter(
                     Picasso.with(context).load(user.profilePictureUrl).into(binding.profilePicture)
 
                     val drawable = when(user.friendshipStatus){
-                        FriendshipStatus.FRIENDS -> R.drawable.ic_people
-                        FriendshipStatus.NOT_FRIENDS -> R.drawable.ic_add_friend
-                        FriendshipStatus.REQUEST_RECEIVED -> R.drawable.ic_add_friend
-                        FriendshipStatus.REQUEST_SENT -> R.drawable.ic_add_friend
+                        FriendshipStatusEnum.FRIENDS -> R.drawable.ic_people
+                        FriendshipStatusEnum.NOT_FRIENDS -> R.drawable.ic_add_friend
+                        FriendshipStatusEnum.REQUEST_RECEIVED -> R.drawable.ic_add_friend
+                        FriendshipStatusEnum.REQUEST_SENT -> R.drawable.ic_add_friend
                     }
 
                     binding.ivRelationshipStatus.setBackgroundResource(drawable)

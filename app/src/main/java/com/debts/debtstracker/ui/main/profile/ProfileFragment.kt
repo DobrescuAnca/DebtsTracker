@@ -6,16 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.debts.debtstracker.R
+import com.debts.debtstracker.data.network.model.FriendshipStatusEnum
+import com.debts.debtstracker.data.network.model.ProfileActionEnum
 import com.debts.debtstracker.databinding.FragmentProfileBinding
 import com.debts.debtstracker.ui.base.BaseFragment
+import com.debts.debtstracker.util.EventObserver
+import com.debts.debtstracker.util.PROFILE_USER_ID
 import com.google.android.material.appbar.AppBarLayout
+import com.squareup.picasso.Picasso
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class ProfileFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentProfileBinding
+    private val viewModel: ProfileViewModel by sharedViewModel()
+
+    private lateinit var userId: String
 
     private var expandedAvatarSize: Float  = 0f
     private var collapseImageSize: Float = 0f
@@ -47,8 +57,13 @@ class ProfileFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setCollapseAppBar()
+        arguments?.getString(PROFILE_USER_ID)?.let {
+            userId = it
+            viewModel.makeRequestForSupportIncidentsList(userId)
+        }
 
+        setCollapseAppBar()
+        attachObservers()
     }
 
     private fun setCollapseAppBar(){
@@ -69,6 +84,35 @@ class ProfileFragment: BaseFragment() {
             updateViews(abs(verticalOffset / appBarLayout.totalScrollRange.toFloat()))
         })
     }
+
+
+
+    private fun makeUserAction(action: ProfileActionEnum){
+        if(action == ProfileActionEnum.REMOVE_FRIEND) {
+            //make dialog with remove friend TODO
+        } else
+            viewModel.sendProfileAction(action, userId)
+    }
+
+    private fun attachObservers(){
+        viewModel.userProfile.observe(viewLifecycleOwner, Observer {
+            dataBinding.tvProfileName.text = it.name
+            dataBinding.tvToolbarText.text = it.name
+            dataBinding.tvUsername.text = it.username
+            dataBinding.friendshipStatusView.setFriendshipStatus(it.friendshipStatus, this::makeUserAction)
+
+            if(it.friendshipStatus != FriendshipStatusEnum.FRIENDS)
+                dataBinding.collapsingToolbar.
+            context?.let {context ->
+                Picasso.with(context).load(it.profilePictureUrl).into(dataBinding.ivProfilePic)
+            }
+        })
+
+        viewModel.loading.observe(viewLifecycleOwner, EventObserver{
+
+        })
+    }
+
 
     private fun updateViews(offset: Float) {
 

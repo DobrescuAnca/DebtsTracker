@@ -1,8 +1,6 @@
 package com.debts.debtstracker.data.network.api
 
-import com.debts.debtstracker.data.network.model.AuthModel
-import com.debts.debtstracker.data.network.model.RegisterModel
-import com.debts.debtstracker.data.network.model.UserModel
+import com.debts.debtstracker.data.network.model.*
 import com.debts.debtstracker.data.pagination.PagedListServerModel
 import retrofit2.Response
 import retrofit2.http.*
@@ -32,9 +30,12 @@ interface ApiService {
         @Header("Authorization") authorization:String = "Basic ZGVidHN0cmFja2VyOg=="
     ): retrofit2.Call<AuthModel>
 
+    @GET("api/account/profile")
+    suspend fun getCurrentUserProfile(): Response<CurrentUserProfile>
+
     // -----  friends -----
 
-    @GET("")
+    @GET("api/users/friends")
     suspend fun getFriendsList(
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
@@ -46,4 +47,15 @@ interface ApiService {
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
     ): Response<PagedListServerModel<UserModel>>
+
+    @GET("api/account/profile")
+    suspend fun getUserProfile(
+        @Query("userId") userId: String
+    ): Response<UserModel>
+
+    @POST("api/users/profile-action")
+    suspend fun sendProfileAction(
+        @Query("profileAction") action: ProfileActionEnum,
+        @Query("userId") userId: String
+    ): Response<UserModel>
 }

@@ -13,6 +13,7 @@ import com.debts.debtstracker.data.Status
 import com.debts.debtstracker.databinding.FragmentUserListBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.util.EventObserver
+import com.debts.debtstracker.util.PROFILE_USER_ID
 import com.debts.debtstracker.util.hideKeyboard
 import com.debts.debtstracker.util.openKeyboard
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -41,7 +42,6 @@ class UserListFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         initAdapter()
         setUpLayout()
@@ -74,7 +74,10 @@ class UserListFragment: BaseFragment() {
     }
 
     private fun gotoUserProfile(id: String){
-        findNavController().navigate(R.id.action_global_profileFragment)
+        val bundle = Bundle()
+        bundle.putString(PROFILE_USER_ID, id)
+
+        findNavController().navigate(R.id.action_global_profileFragment, bundle)
     }
 
     private fun attachObservers() {

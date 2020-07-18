@@ -23,4 +23,13 @@ data class AuthModel(
     val refresh_token: String
 )
 
+data class CurrentUserProfile(
+    val id: String,
+    val name: String,
+    val username: String,
+    val email: String,
+    val profilePictureUrl: String,
+    val friendshipStatus: FriendshipStatusEnum
+)
+
 
