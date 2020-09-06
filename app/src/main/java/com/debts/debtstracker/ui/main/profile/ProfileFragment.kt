@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.FriendshipStatusEnum
 import com.debts.debtstracker.data.network.model.ProfileActionEnum
@@ -95,17 +94,14 @@ class ProfileFragment: BaseFragment() {
     }
 
     private fun attachObservers(){
-        viewModel.userProfile.observe(viewLifecycleOwner, Observer {
+        viewModel.userProfile.observe(viewLifecycleOwner, {
             dataBinding.tvProfileName.text = it.name
             dataBinding.tvToolbarText.text = it.name
             dataBinding.tvUsername.text = it.username
             dataBinding.friendshipStatusView.setFriendshipStatus(it.friendshipStatus, this::makeUserAction)
 
             if(it.friendshipStatus != FriendshipStatusEnum.FRIENDS)
-                dataBinding.collapsingToolbar.
-            context?.let {context ->
-                Picasso.with(context).load(it.profilePictureUrl).into(dataBinding.ivProfilePic)
-            }
+                Picasso.get().load(it.profilePictureUrl).into(dataBinding.ivProfilePic)
         })
 
         viewModel.loading.observe(viewLifecycleOwner, EventObserver{

@@ -13,7 +13,6 @@ import com.debts.debtstracker.data.network.model.AuthModel
 import com.debts.debtstracker.databinding.FragmentLoginBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.util.EventObserver
-import com.debts.debtstracker.util.switchPasswordSecureInput
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -46,14 +45,10 @@ class LoginFragment: BaseFragment() {
     }
 
     private fun setupLayout(){
-        dataBinding.ivPassEye.setOnClickListener {
-            switchPasswordSecureInput(dataBinding.etPassLogin)
-        }
-
         dataBinding.btnLogin.setOnClickListener {
             viewModel.login(
                 dataBinding.etEmail.text.toString(),
-                dataBinding.etPassLogin.text.toString()
+                dataBinding.etPass.text.toString()
             )
         }
 
