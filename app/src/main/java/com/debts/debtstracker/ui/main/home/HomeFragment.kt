@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.Status
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
+import com.debts.debtstracker.ui.main.MainActivity
 import com.debts.debtstracker.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -46,6 +48,10 @@ class HomeFragment: BaseFragment() {
     }
 
     private fun setupLayout(){
+        dataBinding.currentUserProfilePicture.setOnClickListener{
+            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+            (activity as MainActivity).hideNavBar(true)
+        }
     }
 
     private fun initAdapter(){

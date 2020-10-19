@@ -1,179 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="user"
+            type="com.debts.debtstracker.data.network.model.UserModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
+        <TextView
+            android:id="@+id/modifyProfile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsingToolbar"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="@string/edit_profile"
+            android:textSize="21sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="10dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableEndCompat="@drawable/ic_check"
+            app:drawableStartCompat="@drawable/ic_delete" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            android:src="@drawable/ic_people"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/modifyProfile"
+            />
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:src="@drawable/ic_edit"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+
+            app:layout_constraintEnd_toEndOf="@id/ivProfilePicture"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfilePicture"
+            tools:ignore="ContentDescription" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivProfilePicture"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/white"
-                app:contentScrim="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-                
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    android:visibility="invisible"
-                    />
+                android:layout_height="wrap_content"
+                android:text="@{user.name}"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvToolbarText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:text="titlu"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_collapseMode="pin"
-                    android:visibility="invisible"
-                    />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="50dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_profile_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:scrollHorizontally="true"
-                        tools:text="Nume complet"
-                        android:textSize="21sp"
-                        android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameContainer"
+            >
 
-                        app:layout_constraintStart_toEndOf="@id/iv_profile_pic"
-                        app:layout_constraintTop_toTopOf="@id/iv_profile_pic"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{user.username}"
+                android:hint="@string/username"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_username"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:scrollHorizontally="true"
-                        tools:text="username"
-                        android:textSize="16sp"
-                        android:visibility="visible"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-                        app:layout_constraintStart_toEndOf="@id/iv_profile_pic"
-                        app:layout_constraintTop_toBottomOf="@id/tv_profile_name"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/usernameContainer"
+            >
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/iv_profile_pic"
-                        android:layout_width="@dimen/default_expanded_image_size"
-                        android:layout_height="@dimen/default_expanded_image_size"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_people"
-                        android:layout_margin="@dimen/avatar_margin"
-
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        />
-
-                    <com.debts.debtstracker.ui.main.profile.FriendshipStatusView
-                        android:id="@+id/friendship_status_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_profile_pic"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/filter_container"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:paddingStart="10dp"-->
-<!--            android:paddingEnd="10dp"-->
-
-<!--            android:background="@color/colorLightGrey"-->
-<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textSize="14sp"-->
-<!--                android:text="@string/debts"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:textColor="@color/white"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/all_debts"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="25dp"-->
-<!--                android:textSize="14sp"-->
-<!--                android:text="@string/all"-->
-<!--                android:textColor="@color/colorAccent"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/my_debts"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:textSize="14sp"-->
-<!--                android:text="@string/mine"-->
-<!--                android:textColor="@color/white"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/friends_debts"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:textSize="14sp"-->
-<!--                android:text="Friend's"-->
-<!--                android:textColor="@color/white"/>-->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{user.email}"
+                android:hint="@string/email"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
+        <TextView
+            android:id="@+id/tvLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="@string/log_out"
+            android:padding="12dp"
 
-<!--        </LinearLayout>-->
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-<!--        <androidx.core.widget.NestedScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:scrollbars="none"-->
-<!--            android:layout_margin="40dp"-->
-<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/loreum_ipsum"/>-->
-<!--        </androidx.core.widget.NestedScrollView>-->
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

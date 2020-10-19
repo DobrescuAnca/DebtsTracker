@@ -99,4 +99,5 @@
     <string name="at_least_one_borrower_selected">There must be at least one borrower selected</string>
     <string name="hours_ago">hours ago</string>
     <string name="minutes_ago">minutes ago</string>
+    <string name="edit_profile">Edit profile</string>
 </resources>

@@ -20,8 +20,11 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Vi
     private var _loading: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val loading: LiveData<Event<ResponseStatus<*>>> = _loading
 
+    private var _logout: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
+    val logout: LiveData<Event<ResponseStatus<*>>> = _logout
 
-    fun makeRequestForSupportIncidentsList(userId: String){
+
+    fun getUserProfile(userId: String){
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
             measureTimeMillis {
@@ -31,6 +34,20 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Vi
                     _loading.value = Event( ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
                 }
             }
+        }
+    }
+
+    fun getLoggedUser(){
+        viewModelScope.launch {
+            _loading.value = Event(ResponseStatus.Loading)
+
+            try {
+                repositoryInterface.getLoggedUserProfile()
+            } catch (e: NoNetworkConnectionException){
+                _loading.value = Event(ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
+            }
+
+            _loading.value = Event(ResponseStatus.Success(""))
         }
     }
 
@@ -49,6 +66,20 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Vi
         }
     }
 
+    fun logout(){
+        viewModelScope.launch {
+            _loading.value = Event(ResponseStatus.Loading)
 
+            var result: ResponseStatus<*> = ResponseStatus.None
+            result = try {
+                repositoryInterface.logout()
+            } catch (e:NoNetworkConnectionException) {
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
+            }
+
+            _loading.value = Event(result)
+            _logout.value = Event(result)
+        }
+    }
 
 }

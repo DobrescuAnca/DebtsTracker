@@ -34,6 +34,9 @@ interface ApiService {
     @GET("api/account/profile")
     suspend fun getCurrentUserProfile(): Response<CurrentUserProfile>
 
+    @GET("api/account/logout")
+    suspend fun logout(): Response<NetworkState>
+
     // ----- home -------
 
     @GET("api/home/cards")

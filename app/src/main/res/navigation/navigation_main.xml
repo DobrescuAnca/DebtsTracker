@@ -20,7 +20,15 @@
         android:id="@+id/homeFragment"
         android:name="com.debts.debtstracker.ui.main.home.HomeFragment"
         tools:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 
     <action
         android:id="@+id/action_global_friendsFragment"
@@ -49,17 +57,17 @@
 
     <action
         android:id="@+id/action_global_profileFragment"
-        app:destination="@id/profileFragment"
+        app:destination="@id/profileFriendFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"/>
 
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.debts.debtstracker.ui.main.profile.ProfileFragment"
+        android:id="@+id/profileFriendFragment"
+        android:name="com.debts.debtstracker.ui.main.profile.ProfileFriendFragment"
         tools:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_friend_profile"/>
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.debts.debtstracker.ui.main.friends.UserListFragment"
@@ -79,5 +87,10 @@
         android:name="com.debts.debtstracker.ui.main.add_debt.AddDebtFragment"
         tools:label="AddDebtFragment"
         tools:layout="@layout/fragment_add_debt"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.debts.debtstracker.ui.main.profile.ProfileFragment"
+        tools:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
 
 </navigation>

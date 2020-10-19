@@ -48,6 +48,7 @@ class AddDebtFragment: BaseFragment(){
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getServerFriendList()
+        dataBinding.llBorrowersContainer.removeAllViews()
 
         setClickListeners()
         attachObservers()

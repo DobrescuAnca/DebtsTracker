@@ -28,4 +28,6 @@ interface RepositoryInterface {
     suspend fun getLoggedUserProfile(): ResponseStatus<*>
 
     suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<*>
+
+    suspend fun logout(): ResponseStatus<*>
 }

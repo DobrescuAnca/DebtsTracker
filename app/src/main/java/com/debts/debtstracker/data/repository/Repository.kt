@@ -206,4 +206,28 @@ class Repository(
         return ResponseStatus.None
     }
 
+    override suspend fun logout(): ResponseStatus<*> {
+        var response: Response<NetworkState>? = null
+
+        withContext(ioDispatcher){
+            try {
+                response = apiService.RETROFIT_SERVICE.logout()
+            } catch (e: Exception){
+                throw  NoNetworkConnectionException()
+            }
+        }
+
+        response?.let {
+            return if(it.isSuccessful)
+                ResponseStatus.Success(it.body())
+            else {
+                ResponseStatus.Error(
+                    code = it.code(),
+                    errorObject = it.message()
+                )
+            }
+        }
+        return ResponseStatus.None
+    }
+
 }
