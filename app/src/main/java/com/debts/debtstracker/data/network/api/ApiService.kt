@@ -34,6 +34,14 @@ interface ApiService {
     @GET("api/account/profile")
     suspend fun getCurrentUserProfile(): Response<CurrentUserProfile>
 
+    // ----- home -------
+
+    @GET("api/home/cards")
+    suspend fun getHomeCards(
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10
+    ): Response<PagedListServerModel<HomeCardModel>>
+
     // ----- debts ------
 
     @POST("api/debts/add")

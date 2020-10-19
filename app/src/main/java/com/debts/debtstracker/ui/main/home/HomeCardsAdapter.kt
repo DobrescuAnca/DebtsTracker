@@ -1,42 +1,51 @@
 package com.debts.debtstracker.ui.main.home
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.ItemHomeListBinding
-import com.debts.debtstracker.util.DataBindingViewHolder
+import com.debts.debtstracker.databinding.ItemNetworkStateBinding
+import com.debts.debtstracker.util.*
+import com.squareup.picasso.Picasso
 
 class HomeCardsAdapter(
-    private val callback: () -> Unit
-): ListAdapter<HomeCardModel, DataBindingViewHolder>(DiffUtilHome()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder {
-        return DataBindingViewHolder(DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_home_list,
-            parent,
-            false
-        ))
-    }
+    private val callback: (HomeCardModel) -> Unit
+): BasePagedListAdapter<HomeCardModel>(R.layout.item_home_list , DiffUtilHome()) {
 
 
-    override fun onBindViewHolder(holder: DataBindingViewHolder, position: Int) {
-        getItem(position)?.let { bind(holder.binding, it) }
-    }
+    override fun bind(binding: ViewDataBinding, item: HomeCardModel?, position: Int) {
+        item?.let { homeCard ->
+            when(binding) {
+                is ItemHomeListBinding -> {
+                    binding.model = homeCard
+                    Picasso.get().load(homeCard.otherUserProfilePictureUrl).into(binding.notificationPicture)
 
-    private fun bind(binding: ViewDataBinding, item: HomeCardModel) {
-        when(binding) {
-            is ItemHomeListBinding -> {
-                binding.model = item
+                    binding.creationDate.text = when(getCreationDateType(homeCard.creationDate)){
+                        MINUTES_PAST_CREATION ->
+                            getMinutesDate(System.currentTimeMillis()- homeCard.creationDate)
+                                .toString()
+                                .plus(getString(R.string.minutes_ago))
+                        HOURS_PAST_CREATION ->
+                            getHourDate(System.currentTimeMillis()- homeCard.creationDate)
+                                .toString()
+                                .plus(getString(R.string.hours_ago))
+                        DAYS_PAST_CREATION -> getStringDate(homeCard.creationDate)
+                        else -> ""
+                    }
+
+                    binding.tvSum.text = homeCard.sum.toString().plus(getString(R.string.lei))
+                    binding.isDebt = homeCard.debtId != null
+
+                    binding.root.setOnClickListener { callback(homeCard) }
+                }
+
+                is ItemNetworkStateBinding -> {
+                    binding.networkState = loadingState
+                }
             }
         }
     }
-
 }
 
 
@@ -56,6 +65,8 @@ private class DiffUtilHome : DiffUtil.ItemCallback<HomeCardModel>() {
                 &&  oldItem.creationDate == newItem.creationDate
                 &&  oldItem.userId == newItem.userId
                 &&  oldItem.homeCardType == newItem.homeCardType
+                &&  oldItem.otherUserId == newItem.otherUserId
+                &&  oldItem.otherUserProfilePictureUrl == newItem.otherUserProfilePictureUrl
                 &&  oldItem.text == newItem.text
                 &&  oldItem.otherUserId == newItem.otherUserId
                 &&  oldItem.sum == newItem.sum

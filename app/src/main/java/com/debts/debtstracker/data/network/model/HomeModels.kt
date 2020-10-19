@@ -2,13 +2,14 @@ package com.debts.debtstracker.data.network.model
 
 data class HomeCardModel(
     val id: String,
-    val creationDate: Long,
     val userId: String,
-    val homeCardType: HomeCardTypeEnum,
-    val text: String,
     val otherUserId: String,
+    val otherUserProfilePictureUrl: String,
     val debtId: String? = "",
-    val sum: Double? = 0.0
+    val sum: Double? = 0.0,
+    val text: String,
+    val creationDate: Long,
+    val homeCardType: HomeCardTypeEnum
 )
 
 enum class HomeCardTypeEnum {
