@@ -1,6 +1,57 @@
 package com.debts.debtstracker.ui.base
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.debts.debtstracker.data.ResponseStatus
+import com.debts.debtstracker.util.Event
 
-open class BaseFragment: Fragment() {
+abstract class BaseFragment: Fragment() {
+
+    var loadingObserver: Observer<Event<ResponseStatus<*>>>
+
+    init {
+        loadingObserver = createLoadingObserver()
+    }
+
+    private fun createLoadingObserver(): Observer<Event<ResponseStatus<*>>> {
+        return Observer { result ->
+            when (result.getContentIfNotHandled()) {
+                is ResponseStatus.Success -> {
+                    setLoading(false)
+                }
+                is ResponseStatus.Loading -> setLoading(true)
+                is ResponseStatus.Error -> {
+                    setLoading(false)
+//                    handleError(result.peekContent() as ResponseStatus.Error)
+                }
+            }
+        }
+    }
+
+//    fun handleError(resultError: ResponseStatus.Error): Boolean {
+//        return when (resultError.code) {
+//            ErrorCode.UNAUTHORIZED.code -> {
+//                if (this is LoginFragment) {
+//                    showUnauthorizedDialog(resultError.message ?: "")
+//                } else {
+//                    val action = OnboardingActivityDirections.actionGlobalOnboardingActivity(
+//                        OnboardingNavigatonDestinations.LOGIN.destination
+//                    )
+//                    (activity as BaseActivity).navController.navigate(action)
+//                    (activity as MainActivity).finish()
+//                }
+//
+//                true
+//            }
+//
+//            ErrorCode.NO_DATA_CONNECTION.code -> {
+//                activity?.toast(getString(R.string.no_data_connection))
+//                true
+//            }
+//
+//            else -> false
+//        }
+//    }
+
+    abstract fun setLoading(loading: Boolean)
 }

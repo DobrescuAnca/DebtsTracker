@@ -36,4 +36,8 @@ class HomeFragment: BaseFragment() {
 
     }
 
+    override fun setLoading(loading: Boolean) {
+
+    }
+
 }

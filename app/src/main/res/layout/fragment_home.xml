@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,12 +33,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/current_user_profile_pic"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_people"
+                app:srcCompat= "@drawable/ic_people"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +51,6 @@
             android:id="@+id/debts_total_container"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:text="debts in and out"
 
             app:layout_constraintTop_toBottomOf="@id/top_bar"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +73,8 @@
             android:layout_margin="10dp"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/separation_line"/>
+            app:layout_constraintTop_toBottomOf="@id/separation_line"
+            tools:ignore="ContentDescription" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_card_container"

@@ -217,4 +217,8 @@ class ProfileFragment: BaseFragment() {
         const val SWITCHED = 1
         const val LOG_ANIM = "log anim"
     }
+
+    override fun setLoading(loading: Boolean) {
+
+    }
 }

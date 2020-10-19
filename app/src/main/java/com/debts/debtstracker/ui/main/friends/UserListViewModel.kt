@@ -12,7 +12,6 @@ import com.debts.debtstracker.data.pagination.getPagedListRequests
 class UserListViewModel: ViewModel() {
 
     private val searchText = MutableLiveData<String>()
-
     private val repoResult = Transformations.map(searchText){
         getPagedListRequests(UserListDataSource(it, viewModelScope))
     }

@@ -66,4 +66,18 @@
         tools:label="UserListFragment"
         tools:layout="@layout/fragment_user_list"/>
 
+    <action
+        android:id="@+id/action_global_addDebtFragment"
+        app:destination="@id/addDebtFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+
+    <fragment
+        android:id="@+id/addDebtFragment"
+        android:name="com.debts.debtstracker.ui.main.add_debt.AddDebtFragment"
+        tools:label="AddDebtFragment"
+        tools:layout="@layout/fragment_add_debt"/>
+
 </navigation>

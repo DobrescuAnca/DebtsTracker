@@ -29,7 +29,7 @@ class HomeCardsAdapter(
         getItem(position)?.let { bind(holder.binding, it) }
     }
 
-    fun bind(binding: ViewDataBinding, item: HomeCardModel) {
+    private fun bind(binding: ViewDataBinding, item: HomeCardModel) {
         when(binding) {
             is ItemHomeListBinding -> {
                 binding.model = item

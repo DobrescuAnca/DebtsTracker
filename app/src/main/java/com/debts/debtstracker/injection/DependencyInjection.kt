@@ -9,7 +9,7 @@ import com.debts.debtstracker.data.network.api.AuthorizationInterceptor
 import com.debts.debtstracker.data.repository.Repository
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.login.OnboardingViewModel
-import com.debts.debtstracker.ui.main.friends.FriendListViewModel
+import com.debts.debtstracker.ui.main.add_debt.AddDebtViewModel
 import com.debts.debtstracker.ui.main.friends.UserListViewModel
 import com.debts.debtstracker.ui.main.profile.ProfileViewModel
 import com.squareup.moshi.Moshi
@@ -49,17 +49,18 @@ val repositoryModule = module(createdAtStart = true) {
     }
 }
 
-val onboardingViewModel = module {
+val onBoardingViewModel = module {
     viewModel{ OnboardingViewModel(get()) }
 }
-val friendListViewModel = module {
-    viewModel{ FriendListViewModel() }
-}
+
 val userListViewModel = module {
     viewModel{ UserListViewModel() }
 }
 val profileViewModel = module {
     viewModel{ ProfileViewModel(get()) }
+}
+val addDebtViewModel = module {
+    viewModel { AddDebtViewModel(get()) }
 }
 
 val modulesList = listOf(
@@ -67,8 +68,8 @@ val modulesList = listOf(
     preferencesModule,
     localPreferencesModule,
     repositoryModule,
-    onboardingViewModel,
-    friendListViewModel,
+    onBoardingViewModel,
     userListViewModel,
-    profileViewModel
+    profileViewModel,
+    addDebtViewModel
 )

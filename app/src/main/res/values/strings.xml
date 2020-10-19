@@ -56,7 +56,7 @@
     <string name="error_not_same_password">New Password and Confirm Password must be identical</string>
     <string name="incorrect_current_password">Current Password is incorrect</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="sum">sum</string>
+    <string name="sum">Sum</string>
     <string name="spinner_friend_appearance">Each person should appear only once</string>
     <string name="description">Description</string>
     <string name="lei">lei</string>
@@ -89,4 +89,12 @@
     <string name="cancel">Cancel</string>
     <string name="all">All</string>
     <string name="mine">Mine</string>
+    <string name="shared_sum">Shared sum</string>
+    <string name="lender">Lender</string>
+    <string name="borrowers">Borrowers</string>
+    <string name="make_short_description">Make a short description</string>
+    <string name="select_user">Select an user</string>
+    <string name="lender_not_selected">Lender field must be completed</string>
+    <string name="user_must_be_selected_once">An user must be only once selected</string>
+    <string name="at_least_one_borrower_selected">There must be at least one borrower selected</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.debts.debtstracker.data.network.api
 
+import com.debts.debtstracker.data.NetworkState
 import com.debts.debtstracker.data.network.model.*
 import com.debts.debtstracker.data.pagination.PagedListServerModel
 import retrofit2.Response
@@ -33,13 +34,16 @@ interface ApiService {
     @GET("api/account/profile")
     suspend fun getCurrentUserProfile(): Response<CurrentUserProfile>
 
+    // ----- debts ------
+
+    @POST("api/debts/add")
+    suspend fun addDebt(@Body debtModel: AddDebtModel): Response<NetworkState>
+
+
     // -----  friends -----
 
     @GET("api/users/friends")
-    suspend fun getFriendsList(
-        @Query("page") page: Int = 0,
-        @Query("size") size: Int = 10
-    ): Response<PagedListServerModel<UserModel>>
+    suspend fun getFriendsList(): Response<PagedListServerModel<UserModel>>
 
     @GET("api/users/search")
     suspend fun getUserList(
@@ -52,6 +56,9 @@ interface ApiService {
     suspend fun getUserProfile(
         @Query("userId") userId: String
     ): Response<UserModel>
+
+    @GET("api/account/profile")
+    suspend fun getLoggedUserProfile(): Response<UserModel>
 
     @POST("api/users/profile-action")
     suspend fun sendProfileAction(

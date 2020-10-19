@@ -14,6 +14,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/whiteTransparent</item>
     </style>
+    
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 
     <style name="ProgressBar">
         <item name="android:layout_width">wrap_content</item>

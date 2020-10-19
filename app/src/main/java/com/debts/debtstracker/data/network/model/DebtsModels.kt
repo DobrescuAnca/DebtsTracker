@@ -8,6 +8,17 @@ data class FriendDebtModel(
     val status: DebtStatus
 )
 
+data class AddDebtModel(
+    val borrowerSumList: List<BorrowerDebtModel>,
+    val description: String,
+    val lenderId: String
+)
+
+data class BorrowerDebtModel(
+    val borrowerId: String,
+    val sum: Float
+)
+
 enum class DebtStatus {
     PENDING, ACCEPTED, DECLINED, PAYED
 }

@@ -5,28 +5,18 @@ import androidx.recyclerview.widget.DiffUtil
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.FriendshipStatusEnum
 import com.debts.debtstracker.data.network.model.UserModel
-import com.debts.debtstracker.databinding.ItemFriendListBinding
 import com.debts.debtstracker.databinding.ItemNetworkStateBinding
 import com.debts.debtstracker.databinding.ItemUserListBinding
 import com.debts.debtstracker.util.BasePagedListAdapter
 import com.squareup.picasso.Picasso
 
 class UserListAdapter(
-    private val callback:(String) -> Unit,
-    layout: Int
-): BasePagedListAdapter<UserModel>(layout, DiffUtilUser()) {
+    private val callback:(String) -> Unit
+): BasePagedListAdapter<UserModel>(R.layout.item_user_list, DiffUtilUser()) {
 
     override fun bind(binding: ViewDataBinding, item: UserModel?, position: Int) {
         item?.let { user ->
             when(binding){
-                is ItemFriendListBinding -> {
-                    binding.user = user
-
-                    Picasso.get().load(user.profilePictureUrl).into(binding.profilePicture)
-                    binding.root.setOnClickListener {
-                        callback(user.id)
-                    }
-                }
                 is ItemUserListBinding -> {
                     binding.user = user
 
@@ -37,6 +27,7 @@ class UserListAdapter(
                         FriendshipStatusEnum.NOT_FRIENDS -> R.drawable.ic_add_friend
                         FriendshipStatusEnum.REQUEST_RECEIVED -> R.drawable.ic_add_friend
                         FriendshipStatusEnum.REQUEST_SENT -> R.drawable.ic_add_friend
+                        FriendshipStatusEnum.OWN_PROFILE -> R.drawable.ic_people
                     }
 
                     binding.ivRelationshipStatus.setBackgroundResource(drawable)

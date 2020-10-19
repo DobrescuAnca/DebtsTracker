@@ -79,7 +79,6 @@ class ErrorInterceptor: Interceptor{
         val original = chain.request()
         val response = chain.proceed(original)
 
-        //pt original am method si url, pe care le pot pastra
         when(response.code) {
             //TODO add response codes here
             401 -> {

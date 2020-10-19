@@ -64,8 +64,7 @@ class UserListFragment: BaseFragment() {
 
     private fun initAdapter(){
         adapter = UserListAdapter(
-            this::gotoUserProfile,
-            R.layout.item_user_list
+            this::gotoUserProfile
         )
         dataBinding.listContainer.adapter = adapter
     }
@@ -92,4 +91,6 @@ class UserListFragment: BaseFragment() {
             }
         })
     }
+
+    override fun setLoading(loading: Boolean) { }
 }

@@ -72,8 +72,8 @@ class LoginFragment: BaseFragment() {
         })
     }
 
-    private fun setLoading(status: Boolean){
-        dataBinding.isLoading = status
+    override fun setLoading(loading: Boolean){
+        dataBinding.isLoading = loading
     }
 
 }

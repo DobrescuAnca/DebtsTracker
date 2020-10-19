@@ -15,7 +15,6 @@ import com.debts.debtstracker.data.network.model.RegisterModel
 import com.debts.debtstracker.databinding.FragmentSignupBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.util.EventObserver
-import com.debts.debtstracker.util.switchPasswordSecureInput
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -55,12 +54,6 @@ class SignupFragment: BaseFragment() {
                     dataBinding.etName.text.toString(),
                     dataBinding.etPass.text.toString()
                 ))
-        }
-        dataBinding.ivPassEye.setOnClickListener {
-            switchPasswordSecureInput(dataBinding.etPass)
-        }
-        dataBinding.ivConfirmPassEye.setOnClickListener {
-            switchPasswordSecureInput(dataBinding.etConfirmPass)
         }
     }
 
@@ -112,8 +105,8 @@ class SignupFragment: BaseFragment() {
         })
     }
 
-    private fun setLoading(status: Boolean){
-        dataBinding.isLoading = status
+    override fun setLoading(loading: Boolean){
+        dataBinding.isLoading = loading
     }
 
 }
