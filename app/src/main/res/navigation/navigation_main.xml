@@ -80,7 +80,8 @@
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"/>
+        app:popExitAnim="@anim/slide_out_right"
+        app:launchSingleTop="true"/>
 
     <fragment
         android:id="@+id/addDebtFragment"
@@ -91,6 +92,20 @@
         android:id="@+id/profileFragment"
         android:name="com.debts.debtstracker.ui.main.profile.ProfileFragment"
         tools:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_onboardingActivity"
+            app:destination="@id/onboardingActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"/>
+    </fragment>
+    <activity
+        android:id="@+id/onboardingActivity"
+        android:name="com.debts.debtstracker.ui.login.OnboardingActivity"
+        tools:label="OnboardingActivity"
+        tools:layout="@layout/activity_onboarding"/>
 
 </navigation>

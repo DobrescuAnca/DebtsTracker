@@ -21,9 +21,12 @@ class OnboardingViewModel(private val repository: RepositoryInterface): ViewMode
     private var _loginStatus: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val loginStatus: LiveData<Event<ResponseStatus<*>>> = _loginStatus
 
+    private var _loading: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
+    val loading: LiveData<Event<ResponseStatus<*>>> = _loading
+
     fun login(username: String, pass: String){
         viewModelScope.launch {
-            _loginStatus.value = Event(ResponseStatus.Loading)
+            _loading.value = Event(ResponseStatus.Loading)
 
             var result: ResponseStatus<*> = ResponseStatus.None
             measureTimeMillis {
@@ -33,13 +36,15 @@ class OnboardingViewModel(private val repository: RepositoryInterface): ViewMode
                     ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
                 }
             }
+
+            _loading.value = Event(result)
             _loginStatus.value = Event(result)
         }
     }
 
     fun register(model: RegisterModel){
         viewModelScope.launch {
-            _registerStatus.value = Event(ResponseStatus.Loading)
+            _loading.value = Event(ResponseStatus.Loading)
 
             var result: ResponseStatus<*> = ResponseStatus.None
             measureTimeMillis {
@@ -49,6 +54,7 @@ class OnboardingViewModel(private val repository: RepositoryInterface): ViewMode
                     ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
                 }
             }
+            _loading.value = Event(result)
             _registerStatus.value = Event(result)
         }
     }

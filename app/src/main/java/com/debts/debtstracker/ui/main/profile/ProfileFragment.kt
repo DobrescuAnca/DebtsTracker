@@ -5,20 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ResponseStatus
+import com.debts.debtstracker.data.local.LocalPreferencesInterface
 import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.FragmentProfileBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.main.MainActivity
 import com.debts.debtstracker.util.EventObserver
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ProfileFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by sharedViewModel()
+    private val sharedPrefs: LocalPreferencesInterface by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,10 +68,17 @@ class ProfileFragment: BaseFragment() {
 
         viewModel.logout.observe(viewLifecycleOwner, EventObserver{
             when(it){
-                is ResponseStatus.Success -> (activity as MainActivity).logout()
+                is ResponseStatus.Success -> logout()
 
             }
         })
+    }
+
+    private fun logout(){
+        sharedPrefs.clearSharedPrefs()
+
+        findNavController().navigate(R.id.action_profileFragment_to_onboardingActivity)
+        (activity as MainActivity).finish()
     }
 
     override fun setLoading(loading: Boolean) {

@@ -78,31 +78,22 @@ class SignupFragment: BaseFragment() {
 
     private fun attachObservers(){
         viewModel.registerStatus.observe(viewLifecycleOwner, EventObserver { result ->
-            when (result) {
-                is ResponseStatus.Success -> {
-                    viewModel.login(
-                        dataBinding.etEmail.toString(),
-                        dataBinding.etPass.toString()
-                    )
-                }
-                is ResponseStatus.Loading -> setLoading(true)
-                is ResponseStatus.Error -> {
-                    setLoading(false)
-                }
-            }
+            if (result is ResponseStatus.Success)
+                viewModel.login(
+                    dataBinding.etEmail.toString(),
+                    dataBinding.etPass.toString()
+                )
+
         })
         viewModel.loginStatus.observe(viewLifecycleOwner, EventObserver { result ->
-            when (result) {
-                is ResponseStatus.Success -> {
-                    sharedPrefs.saveRefreshToken(result.data as AuthModel)
-                    findNavController().navigate(R.id.action_signupFragment_to_mainActivity)
-                }
-                is ResponseStatus.Loading -> setLoading(true)
-                is ResponseStatus.Error -> {
-                    setLoading(false)
-                }
+            if (result is ResponseStatus.Success) {
+                sharedPrefs.saveRefreshToken(result.data as AuthModel)
+                findNavController().navigate(R.id.action_signupFragment_to_mainActivity)
+                (activity as OnboardingActivity).finish()
             }
         })
+
+        viewModel.loading.observe(viewLifecycleOwner, loadingObserver)
     }
 
     override fun setLoading(loading: Boolean){

@@ -15,11 +15,7 @@ class OnboardingActivity: BaseActivity() {
         navController = findNavController(R.id.onboarding_nav_host_fragment)
 
         intent.extras?.let {
-            val bundle = Bundle()
-            bundle.putInt(UNAUTHORIZED_KEY, intent.getIntExtra(UNAUTHORIZED_KEY, 0))
-            navController.setGraph(navController.graph, bundle)
+            navController.graph = navController.graph
         }
     }
 }
-
-const val UNAUTHORIZED_KEY = "unauthorized"

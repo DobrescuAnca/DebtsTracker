@@ -63,6 +63,7 @@ class LoginFragment: BaseFragment() {
                 is ResponseStatus.Success -> {
                     sharedPrefs.saveRefreshToken(result.data as AuthModel)
                     findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                    (activity as OnboardingActivity).finish()
                 }
                 is ResponseStatus.Loading -> setLoading(true)
                 is ResponseStatus.Error -> {
