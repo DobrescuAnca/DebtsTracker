@@ -6,7 +6,6 @@ import androidx.navigation.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.databinding.ActivityMainBinding
 import com.debts.debtstracker.ui.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(){
 
@@ -36,7 +35,7 @@ class MainActivity : BaseActivity(){
     }
 
     private fun setMenu(){
-        bottomAppBar.setOnMenuItemClickListener{
+        dataBinding.bottomAppBar.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.action_home -> {
                     if(navController.currentDestination?.id != R.id.homeFragment)

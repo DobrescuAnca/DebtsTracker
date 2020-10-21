@@ -2,10 +2,7 @@ package com.debts.debtstracker.data.repository
 
 import androidx.lifecycle.LiveData
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.model.AddDebtModel
-import com.debts.debtstracker.data.network.model.ProfileActionEnum
-import com.debts.debtstracker.data.network.model.RegisterModel
-import com.debts.debtstracker.data.network.model.UserModel
+import com.debts.debtstracker.data.network.model.*
 
 interface RepositoryInterface {
 
@@ -13,10 +10,13 @@ interface RepositoryInterface {
 
     val friendList: LiveData<List<UserModel>>
 
+    val totalDebts: LiveData<HomeTotalDebtsModel>
+
     suspend fun login(username: String, password: String): ResponseStatus<*>
 
     suspend fun signUp(model: RegisterModel): ResponseStatus<*>
 
+    suspend fun getUserTotalDebts(): ResponseStatus<*>
 
     suspend fun getFriendList(): ResponseStatus<*>
 

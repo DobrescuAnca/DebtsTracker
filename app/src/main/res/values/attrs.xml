@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RoundedIconTextView">
+        <attr name="iconResource" format="reference" />
+        <attr name="viewTitle" format="reference" />
+    </declare-styleable>
+
+</resources>

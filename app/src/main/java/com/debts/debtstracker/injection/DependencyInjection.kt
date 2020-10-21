@@ -64,7 +64,7 @@ val addDebtViewModel = module {
     viewModel { AddDebtViewModel(get()) }
 }
 val homeViewModel = module {
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
 }
 
 val modulesList = listOf(

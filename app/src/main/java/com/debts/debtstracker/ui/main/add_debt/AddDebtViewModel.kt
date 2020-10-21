@@ -2,7 +2,6 @@ package com.debts.debtstracker.ui.main.add_debt
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ErrorCode
@@ -13,19 +12,17 @@ import com.debts.debtstracker.data.network.model.BorrowerDebtModel
 import com.debts.debtstracker.data.network.model.EmptyUserModel
 import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.data.repository.RepositoryInterface
+import com.debts.debtstracker.ui.base.BaseViewModel
 import com.debts.debtstracker.util.Event
 import com.debts.debtstracker.util.LOGGED_USER_EXPLANATION
 import com.debts.debtstracker.util.getString
 import kotlinx.coroutines.launch
 import java.util.*
 
-class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): ViewModel() {
+class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
     val friendList = repositoryInterface.friendList
     private val loggedUserProfile = repositoryInterface.userProfile
-
-    private var _loading: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
-    val loading: LiveData<Event<ResponseStatus<*>>> = _loading
 
     private var _addDebtResponse: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val addDebtResponse: LiveData<Event<ResponseStatus<*>>> = _addDebtResponse

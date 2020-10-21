@@ -4,7 +4,7 @@ data class UserModel(
     val id: String,
     var name: String,
     val username: String,
-    val email: String,
+    val email: String ?,
     val profilePictureUrl: String,
     val totalToReceive: Double? = 0.0,
     val totalToPay: Double? = 0.0,

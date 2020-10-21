@@ -34,9 +34,13 @@ class BorrowerCustomView: FrameLayout {
     }
 
     fun getSelectedBorrower(): BorrowerDebtModel? {
+        var sum: String = dataBinding.etSum.text.toString()
+        if(sum.isEmpty())
+            sum = "0.0"
+
         return BorrowerDebtModel(
             dataBinding.spinnerBorrowers.selectedItemId.toInt().toString(),
-            dataBinding.etSum.text.toString().toFloat()
+            sum.toFloat()
         )
     }
 

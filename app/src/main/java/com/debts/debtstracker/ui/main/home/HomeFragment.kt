@@ -1,5 +1,6 @@
 package com.debts.debtstracker.ui.main.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.Status
+import com.debts.debtstracker.data.network.model.HomeCardFilterTypeEnum
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
+import com.debts.debtstracker.ui.custom_views.RoundedIconTextView
 import com.debts.debtstracker.ui.main.MainActivity
 import com.debts.debtstracker.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -36,6 +39,11 @@ class HomeFragment: BaseFragment() {
         return dataBinding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getTotalDebts()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,7 +52,6 @@ class HomeFragment: BaseFragment() {
 
         setupLayout()
         attachObservers()
-
     }
 
     private fun setupLayout(){
@@ -52,6 +59,32 @@ class HomeFragment: BaseFragment() {
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
             (activity as MainActivity).hideNavBar(true)
         }
+
+        dataBinding.allFilter.selectView(true)
+
+        dataBinding.allFilter.setOnClickListener {
+           selectFilter(dataBinding.allFilter, HomeCardFilterTypeEnum.ALL)
+        }
+        dataBinding.friendFilter.setOnClickListener {
+            selectFilter(dataBinding.friendFilter, HomeCardFilterTypeEnum.FRIENDS)
+        }
+        dataBinding.debtsFilter.setOnClickListener {
+            selectFilter(dataBinding.debtsFilter, HomeCardFilterTypeEnum.DEBTS)
+        }
+    }
+
+    private fun selectFilter(filterView: RoundedIconTextView, filterType: HomeCardFilterTypeEnum){
+        if(!filterView.getViewIsSelected()) {
+            deselectFilters()
+            viewModel.setFilter(filterType)
+            filterView.selectView(true)
+        }
+    }
+
+    private fun deselectFilters(){
+        dataBinding.allFilter.selectView(false)
+        dataBinding.debtsFilter.selectView(false)
+        dataBinding.friendFilter.selectView(false)
     }
 
     private fun initAdapter(){
@@ -65,7 +98,13 @@ class HomeFragment: BaseFragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun attachObservers() {
+        viewModel.totalDebts.observe(viewLifecycleOwner, {
+            dataBinding.tvTotalBorrowed.text = "${it.totalBorrowed} lei"
+            dataBinding.tvTotalLend.text = "${it.totalLent} lei"
+        })
+
         viewModel.content.observe(
             viewLifecycleOwner, {
                 adapter.submitList(it)

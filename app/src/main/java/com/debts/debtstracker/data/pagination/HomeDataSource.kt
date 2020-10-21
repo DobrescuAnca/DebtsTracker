@@ -9,6 +9,7 @@ import org.koin.core.inject
 import retrofit2.Response
 
 class HomeDataSource (
+    private val filter: String,
     scope: CoroutineScope
 ): BaseDataSource<HomeCardModel>(scope){
 
@@ -19,6 +20,7 @@ class HomeDataSource (
 
         withContext(Dispatchers.IO) {
             response = api.RETROFIT_SERVICE.getHomeCards(
+                filter = filter,
                 page = page,
                 size = NETWORK_PAGE_SIZE
             )

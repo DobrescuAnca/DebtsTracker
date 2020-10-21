@@ -27,6 +27,9 @@ class Repository(
     private val _friendList = MutableLiveData<List<UserModel>>()
     override val friendList: LiveData<List<UserModel>> = _friendList
 
+    private val _totalDebts = MutableLiveData<HomeTotalDebtsModel>()
+    override val totalDebts: LiveData<HomeTotalDebtsModel> = _totalDebts
+
     override suspend fun login(username: String, password: String): ResponseStatus<*>{
         var response: Response<AuthModel>? = null
 
@@ -204,6 +207,29 @@ class Repository(
             }
         }
         return ResponseStatus.None
+    }
+
+    override suspend fun getUserTotalDebts(): ResponseStatus<*>{
+        val response: Response<HomeTotalDebtsModel>
+
+        withContext(ioDispatcher){
+            try {
+                response = apiService.RETROFIT_SERVICE.getUserTotalDebts()
+            } catch (e: Exception){
+                throw NoNetworkConnectionException()
+            }
+        }
+
+        return if(response.isSuccessful){
+            _totalDebts.value = response.body()
+            ResponseStatus.Success(totalDebts.value)
+        } else {
+            ResponseStatus.Error(
+                code = response.code(),
+                errorObject = response.message()
+            )
+        }
+
     }
 
     override suspend fun logout(): ResponseStatus<*> {

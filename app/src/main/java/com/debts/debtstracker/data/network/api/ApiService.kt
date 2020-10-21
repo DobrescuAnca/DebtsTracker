@@ -38,9 +38,12 @@ interface ApiService {
     suspend fun logout(): Response<NetworkState>
 
     // ----- home -------
+    @GET("api/home/totals")
+    suspend fun getUserTotalDebts(): Response<HomeTotalDebtsModel>
 
     @GET("api/home/cards")
     suspend fun getHomeCards(
+        @Query("filterType") filter: String,
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
     ): Response<PagedListServerModel<HomeCardModel>>

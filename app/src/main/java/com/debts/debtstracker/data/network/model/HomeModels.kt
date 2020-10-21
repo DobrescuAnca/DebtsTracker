@@ -12,6 +12,11 @@ data class HomeCardModel(
     val homeCardType: HomeCardTypeEnum
 )
 
+data class HomeTotalDebtsModel(
+    val totalBorrowed: Float,
+    val totalLent: Float
+)
+
 enum class HomeCardTypeEnum {
     FRIEND_REQUEST_SENT,
     FRIEND_REQUEST_RECEIVED,
@@ -21,4 +26,8 @@ enum class HomeCardTypeEnum {
     DEBT_ACCEPTED,
     DEBT_DECLINED,
     DEBT_PAID
+}
+
+enum class HomeCardFilterTypeEnum {
+    DEBTS, FRIENDS, ALL
 }
