@@ -56,7 +56,7 @@
     </fragment>
 
     <action
-        android:id="@+id/action_global_profileFragment"
+        android:id="@+id/action_global_profileFriendFragment"
         app:destination="@id/profileFriendFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"

@@ -73,7 +73,7 @@ class UserListFragment: BaseFragment() {
         val bundle = Bundle()
         bundle.putString(PROFILE_USER_ID, id)
 
-        findNavController().navigate(R.id.action_global_profileFragment, bundle)
+        findNavController().navigate(R.id.action_global_profileFriendFragment, bundle)
     }
 
     private fun attachObservers() {

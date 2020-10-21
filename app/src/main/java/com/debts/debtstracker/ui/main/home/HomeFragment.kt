@@ -15,7 +15,9 @@ import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.custom_views.RoundedIconTextView
 import com.debts.debtstracker.ui.main.MainActivity
+import com.debts.debtstracker.util.DEBT_ID
 import com.debts.debtstracker.util.EventObserver
+import com.debts.debtstracker.util.PROFILE_USER_ID
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -96,7 +98,17 @@ class HomeFragment: BaseFragment() {
     }
 
     private fun onCardClicked(homeCard: HomeCardModel){
+        if(homeCard.homeCardType.toString().startsWith("FRIEND")){
+            val bundle = Bundle()
+            bundle.putString(PROFILE_USER_ID, homeCard.otherUserId)
+            findNavController().navigate(R.id.action_global_profileFriendFragment, bundle)
+        }
 
+        if(homeCard.homeCardType.toString().startsWith("DEBT")){
+            val bundle = Bundle()
+            bundle.putString(DEBT_ID, homeCard.debtId)
+//            findNavController().navigate(R.id.action_global_debtFragment, bundle)
+        }
     }
 
     @SuppressLint("SetTextI18n")

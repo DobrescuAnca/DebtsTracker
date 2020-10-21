@@ -21,8 +21,8 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Ba
     private var _logout: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val logout: LiveData<Event<ResponseStatus<*>>> = _logout
 
-    private var _response: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
-    val response: LiveData<Event<ResponseStatus<*>>> = _response
+    private var _updateResponse: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
+    val updateResponse: LiveData<Event<ResponseStatus<*>>> = _updateResponse
 
     fun getUserProfile(userId: String){
         viewModelScope.launch {
@@ -61,7 +61,7 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Ba
             }
 
             _loading.value = Event(result)
-            _response.value = Event(result)
+            _updateResponse.value = Event(result)
         }
     }
 
@@ -76,7 +76,7 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Ba
             }
 
             _loading.value = Event(result)
-            _response.value = Event(result)
+            _updateResponse.value = Event(result)
         }
     }
 
