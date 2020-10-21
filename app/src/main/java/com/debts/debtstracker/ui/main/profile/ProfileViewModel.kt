@@ -2,38 +2,37 @@ package com.debts.debtstracker.ui.main.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.debts.debtstracker.data.ErrorCode
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.ProfileActionEnum
+import com.debts.debtstracker.data.network.model.UpdatePasswordModel
+import com.debts.debtstracker.data.network.model.UpdateProfileModel
 import com.debts.debtstracker.data.repository.RepositoryInterface
+import com.debts.debtstracker.ui.base.BaseViewModel
 import com.debts.debtstracker.util.Event
 import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
 
-class ProfileViewModel(private val repositoryInterface: RepositoryInterface): ViewModel() {
+class ProfileViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
     val userProfile = repositoryInterface.userProfile
-
-    private var _loading: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
-    val loading: LiveData<Event<ResponseStatus<*>>> = _loading
 
     private var _logout: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val logout: LiveData<Event<ResponseStatus<*>>> = _logout
 
+    private var _response: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
+    val response: LiveData<Event<ResponseStatus<*>>> = _response
 
     fun getUserProfile(userId: String){
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
-            measureTimeMillis {
-                try {
-                    repositoryInterface.getUserProfile(userId)
-                } catch (e: NoNetworkConnectionException) {
-                    _loading.value = Event( ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
-                }
+            try {
+                repositoryInterface.getUserProfile(userId)
+            } catch (e: NoNetworkConnectionException) {
+                _loading.value = Event( ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
             }
+            _loading.value = Event(ResponseStatus.Success(""))
         }
     }
 
@@ -51,15 +50,44 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Vi
         }
     }
 
+    fun updateLoggedUserProfile(profileModel: UpdateProfileModel){
+        viewModelScope.launch {
+            _loading.value = Event(ResponseStatus.Loading)
+
+            val result: ResponseStatus<*> = try {
+                repositoryInterface.updateProfile(profileModel)
+            } catch (e: NoNetworkConnectionException){
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
+            }
+
+            _loading.value = Event(result)
+            _response.value = Event(result)
+        }
+    }
+
+    fun updateLoggedUserPassword(passwordModel: UpdatePasswordModel){
+        viewModelScope.launch {
+            _loading.value = Event(ResponseStatus.Loading)
+
+            val result: ResponseStatus<*> = try {
+                repositoryInterface.updatePassword(passwordModel)
+            } catch (e: NoNetworkConnectionException){
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
+            }
+
+            _loading.value = Event(result)
+            _response.value = Event(result)
+        }
+    }
+
     fun sendProfileAction(action: ProfileActionEnum, userId: String){
         viewModelScope.launch {
             _loading.value= Event(ResponseStatus.Loading)
 
-            var result: ResponseStatus<*> = ResponseStatus.None
-            result = try {
+            val result: ResponseStatus<*> = try {
                 repositoryInterface.sendProfileAction(action, userId)
             } catch (e:NoNetworkConnectionException) {
-                 ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
             }
 
             _loading.value = Event(result)
@@ -70,8 +98,7 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Vi
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            var result: ResponseStatus<*> = ResponseStatus.None
-            result = try {
+            val result: ResponseStatus<*> = try {
                 repositoryInterface.logout()
             } catch (e:NoNetworkConnectionException) {
                 ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)

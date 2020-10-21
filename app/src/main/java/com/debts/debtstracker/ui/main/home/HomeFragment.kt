@@ -16,6 +16,7 @@ import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.custom_views.RoundedIconTextView
 import com.debts.debtstracker.ui.main.MainActivity
 import com.debts.debtstracker.util.EventObserver
+import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment: BaseFragment() {
@@ -103,6 +104,13 @@ class HomeFragment: BaseFragment() {
         viewModel.totalDebts.observe(viewLifecycleOwner, {
             dataBinding.tvTotalBorrowed.text = "${it.totalBorrowed} lei"
             dataBinding.tvTotalLend.text = "${it.totalLent} lei"
+        })
+
+        viewModel.loggedUser.observe(viewLifecycleOwner, {
+            Picasso.get()
+                .load(it.profilePictureUrl)
+                .error(R.drawable.ic_people_menu)
+                .into(dataBinding.currentUserProfilePicture)
         })
 
         viewModel.content.observe(

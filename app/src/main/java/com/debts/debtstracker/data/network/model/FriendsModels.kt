@@ -13,6 +13,17 @@ data class UserModel(
     var debtSum: Float ? = 0F
 )
 
+data class UpdateProfileModel(
+    val email: String,
+    var name: String,
+    val username: String
+)
+
+data class UpdatePasswordModel(
+    val currentPassword: String,
+    val newPassword: String
+)
+
 enum class FriendshipStatusEnum{
     FRIENDS, NOT_FRIENDS, REQUEST_SENT, REQUEST_RECEIVED, OWN_PROFILE
 }

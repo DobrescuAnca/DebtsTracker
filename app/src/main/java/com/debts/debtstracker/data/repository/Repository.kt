@@ -184,6 +184,54 @@ class Repository(
         return ResponseStatus.None
     }
 
+    override suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<*>{
+        var response: Response<NetworkState>? = null
+
+        withContext(ioDispatcher){
+            try {
+                response = apiService.RETROFIT_SERVICE.updateProfile(profile)
+            } catch (e: Exception){
+                throw  NoNetworkConnectionException()
+            }
+        }
+
+        response?.let {
+            return if(it.isSuccessful)
+                ResponseStatus.Success(it.body())
+            else {
+                ResponseStatus.Error(
+                    code = it.code(),
+                    errorObject = it.message()
+                )
+            }
+        }
+        return ResponseStatus.None
+    }
+
+    override suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<*>{
+        var response: Response<NetworkState>? = null
+
+        withContext(ioDispatcher){
+            try {
+                response = apiService.RETROFIT_SERVICE.updatePassword(passwordModel)
+            } catch (e: Exception){
+                throw  NoNetworkConnectionException()
+            }
+        }
+
+        response?.let {
+            return if(it.isSuccessful)
+                ResponseStatus.Success(it.body())
+            else {
+                ResponseStatus.Error(
+                    code = it.code(),
+                    errorObject = it.message()
+                )
+            }
+        }
+        return ResponseStatus.None
+    }
+
     override suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<*>{
         var response: Response<UserModel>? = null
 

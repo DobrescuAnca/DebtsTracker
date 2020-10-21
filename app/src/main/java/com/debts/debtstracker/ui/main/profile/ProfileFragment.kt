@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.local.LocalPreferencesInterface
+import com.debts.debtstracker.data.network.model.UpdateProfileModel
 import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.FragmentProfileBinding
 import com.debts.debtstracker.ui.base.BaseFragment
@@ -42,12 +43,29 @@ class ProfileFragment: BaseFragment() {
 
         attachClickListeners()
         attachObservers()
-
     }
 
     private fun attachClickListeners(){
         dataBinding.ivProfilePicture.setOnClickListener {
 
+        }
+
+        dataBinding.passContainer.setOnClickListener {
+
+        }
+
+        dataBinding.ivExit.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
+        dataBinding.ivSave.setOnClickListener {
+            viewModel.updateLoggedUserProfile(
+                UpdateProfileModel(
+                    dataBinding.etEmail.text.toString(),
+                    dataBinding.etName.text.toString(),
+                    dataBinding.etUserName.text.toString()
+                )
+            )
         }
 
         dataBinding.tvLogout.setOnClickListener {

@@ -71,12 +71,18 @@ interface ApiService {
         @Query("userId") userId: String
     ): Response<UserModel>
 
-    @GET("api/account/profile")
-    suspend fun getLoggedUserProfile(): Response<UserModel>
-
     @POST("api/users/profile-action")
     suspend fun sendProfileAction(
         @Query("profileAction") action: ProfileActionEnum,
         @Query("userId") userId: String
     ): Response<UserModel>
+
+    @GET("api/account/profile")
+    suspend fun getLoggedUserProfile(): Response<UserModel>
+
+    @POST("api/account/update-password")
+    suspend fun updatePassword(passModel: UpdatePasswordModel): Response<NetworkState>
+
+    @POST("api/account/update-profile")
+    suspend fun updateProfile(profileModel: UpdateProfileModel): Response<NetworkState>
 }
