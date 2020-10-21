@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
 
@@ -155,15 +154,11 @@
 
         </RelativeLayout>
 
-<!--        todo change et to textInptuEditText-->
-        <com.debts.debtstracker.ui.custom_views.LoadingView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+        <include
+            layout="@layout/view_loading"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

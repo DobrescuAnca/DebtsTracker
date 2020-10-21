@@ -155,14 +155,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-        <com.debts.debtstracker.ui.custom_views.LoadingView
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include
+            layout="@layout/view_loading"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
