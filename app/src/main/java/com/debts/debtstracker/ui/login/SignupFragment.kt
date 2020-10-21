@@ -60,11 +60,7 @@ class SignupFragment: BaseFragment() {
     private fun isRegisterDataValid(): Boolean{
         var validData = true
 
-        if (!dataBinding.etEmail.matchData(dataBinding.etConfEmail)){
-            //show error message
-            validData = false
-        }
-        if (!dataBinding.etPass.matchData(dataBinding.etConfirmPass)){
+        if (!dataBinding.etPass.matchData(dataBinding.etPassConf)){
             //show error message
             validData = false
         }
@@ -80,11 +76,11 @@ class SignupFragment: BaseFragment() {
         viewModel.registerStatus.observe(viewLifecycleOwner, EventObserver { result ->
             if (result is ResponseStatus.Success)
                 viewModel.login(
-                    dataBinding.etEmail.toString(),
-                    dataBinding.etPass.toString()
+                    dataBinding.etEmail.text.toString(),
+                    dataBinding.etPass.text.toString()
                 )
-
         })
+        
         viewModel.loginStatus.observe(viewLifecycleOwner, EventObserver { result ->
             if (result is ResponseStatus.Success) {
                 sharedPrefs.saveRefreshToken(result.data as AuthModel)
