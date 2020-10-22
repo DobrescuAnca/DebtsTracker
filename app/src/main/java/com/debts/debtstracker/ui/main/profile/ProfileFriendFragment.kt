@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.debts.debtstracker.R
-import com.debts.debtstracker.data.network.model.FriendshipStatusEnum
+import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.model.ProfileActionEnum
+import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.FragmentFriendProfileBinding
 import com.debts.debtstracker.ui.base.BaseFragment
-import com.debts.debtstracker.util.EventObserver
 import com.debts.debtstracker.util.PROFILE_USER_ID
 import com.google.android.material.appbar.AppBarLayout
 import com.squareup.picasso.Picasso
@@ -95,18 +95,20 @@ class ProfileFriendFragment: BaseFragment() {
 
     private fun attachObservers(){
         viewModel.userProfile.observe(viewLifecycleOwner, {
-            dataBinding.tvProfileName.text = it.name
-            dataBinding.tvToolbarText.text = it.name
-            dataBinding.tvUsername.text = it.username
-            dataBinding.friendshipStatusView.setFriendshipStatus(it.friendshipStatus, this::makeUserAction)
-
-            if(it.friendshipStatus != FriendshipStatusEnum.FRIENDS)
-                Picasso.get().load(it.profilePictureUrl).into(dataBinding.ivProfilePic)
+            if(it is ResponseStatus.Success) {
+                val userProfile = it.data as UserModel
+                dataBinding.tvProfileName.text = userProfile.name
+                dataBinding.tvToolbarText.text = userProfile.name
+                dataBinding.tvUsername.text = userProfile.username
+                dataBinding.friendshipStatusView.setFriendshipStatus(
+                    userProfile.friendshipStatus,
+                    this::makeUserAction
+                )
+                Picasso.get().load(userProfile.profilePictureUrl).into(dataBinding.ivProfilePic)
+            }
         })
 
-        viewModel.loading.observe(viewLifecycleOwner, EventObserver{
-
-        })
+        viewModel.loading.observe(viewLifecycleOwner, loadingObserver)
     }
 
 

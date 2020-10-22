@@ -10,7 +10,7 @@ interface ApiService {
 
     // ----- auth ----
     @POST("/api/account/register")
-    suspend fun register(@Body register: RegisterModel): Response<Any>
+    suspend fun register(@Body register: RegisterModel): Response<NetworkState>
 
     @POST("/api/oauth/token")
     @FormUrlEncoded
@@ -84,5 +84,5 @@ interface ApiService {
     suspend fun updatePassword(passModel: UpdatePasswordModel): Response<NetworkState>
 
     @POST("api/account/update-profile")
-    suspend fun updateProfile(profileModel: UpdateProfileModel): Response<NetworkState>
+    suspend fun updateProfile(profileModel: UpdateProfileModel): Response<UserModel>
 }

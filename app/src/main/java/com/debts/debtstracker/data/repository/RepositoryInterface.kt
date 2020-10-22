@@ -6,11 +6,7 @@ import com.debts.debtstracker.data.network.model.*
 
 interface RepositoryInterface {
 
-    val userProfile: LiveData<UserModel>
-
     val friendList: LiveData<List<UserModel>>
-
-    val totalDebts: LiveData<HomeTotalDebtsModel>
 
     suspend fun login(username: String, password: String): ResponseStatus<*>
 

@@ -21,17 +21,22 @@ class Repository(
 
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    private val _userProfile = MutableLiveData<UserModel>()
-    override val userProfile: LiveData<UserModel> = _userProfile
-
     private val _friendList = MutableLiveData<List<UserModel>>()
     override val friendList: LiveData<List<UserModel>> = _friendList
 
-    private val _totalDebts = MutableLiveData<HomeTotalDebtsModel>()
-    override val totalDebts: LiveData<HomeTotalDebtsModel> = _totalDebts
+    private fun <T>getResponseCall(response: Response<T>): ResponseStatus<*>{
+        return if(response.isSuccessful){
+            ResponseStatus.Success(response.body())
+        } else {
+            ResponseStatus.Error(
+                code = response.code(),
+                errorObject = response.message()
+            )
+        }
+    }
 
     override suspend fun login(username: String, password: String): ResponseStatus<*>{
-        var response: Response<AuthModel>? = null
+        var response: Response<AuthModel>
 
         withContext(ioDispatcher){
             try {
@@ -43,48 +48,24 @@ class Repository(
                 throw  NoNetworkConnectionException()
             }
         }
-
-        response?.let {
-            return if(it.isSuccessful){
-                ResponseStatus.Success(it.body())
-            } else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun signUp(model: RegisterModel): ResponseStatus<*>{
-        var response: Response<Any>? = null
+        var response: Response<NetworkState>
 
         withContext(ioDispatcher){
             try {
-                response = apiService.RETROFIT_SERVICE.register(
-                    model
-                )
+                response = apiService.RETROFIT_SERVICE.register(model)
             } catch (e: Exception){
                 throw  NoNetworkConnectionException()
             }
         }
-
-        response?.let {
-            return if(it.isSuccessful){
-                ResponseStatus.Success(it.body())
-            } else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun getFriendList(): ResponseStatus<*> {
-        var response: Response<PagedListServerModel<UserModel>>? = null
+        var response: Response<PagedListServerModel<UserModel>>
 
         withContext(ioDispatcher){
             try{
@@ -94,47 +75,33 @@ class Repository(
             }
         }
 
-        response?.let {
-            return if(it.isSuccessful){
-                _friendList.value = it.body()?.content
-                ResponseStatus.Success(friendList.value)
+        //todo get rid of _friendList on AddView modification
+        return if(response.isSuccessful){
+                _friendList.value = response.body()?.content
+                ResponseStatus.Success(response.body()?.content)
             } else {
                 ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
+                    code = response.code(),
+                    errorObject = response.message()
                 )
             }
-        }
-        return ResponseStatus.None
     }
 
     override suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<*> {
-        var responseStatus: Response<NetworkState>? = null
+        var response: Response<NetworkState>
 
         withContext(ioDispatcher){
             try{
-                responseStatus = apiService.RETROFIT_SERVICE.addDebt(debtModel)
+                response = apiService.RETROFIT_SERVICE.addDebt(debtModel)
             } catch (e: Exception){
                 throw NoNetworkConnectionException()
             }
         }
-
-        responseStatus?.let {
-            return if(it.isSuccessful)
-                ResponseStatus.Success(it.body())
-            else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun getUserProfile(id: String): ResponseStatus<*>{
-        var response: Response<UserModel>? = null
+        var response: Response<UserModel>
 
         withContext(ioDispatcher){
             try {
@@ -143,24 +110,12 @@ class Repository(
                 throw  NoNetworkConnectionException()
             }
         }
-
-        response?.let {
-            return if(it.isSuccessful){
-                _userProfile.value = it.body()
-                ResponseStatus.Success(userProfile.value)
-            } else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
 
     override suspend fun getLoggedUserProfile(): ResponseStatus<*>{
-        var response: Response<UserModel>? = null
+        var response: Response<UserModel>
 
         withContext(ioDispatcher){
             try {
@@ -169,23 +124,11 @@ class Repository(
                 throw  NoNetworkConnectionException()
             }
         }
-
-        response?.let {
-            return if(it.isSuccessful){
-                _userProfile.value = it.body()
-                ResponseStatus.Success(userProfile.value)
-            } else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<*>{
-        var response: Response<NetworkState>? = null
+        var response: Response<UserModel>
 
         withContext(ioDispatcher){
             try {
@@ -194,22 +137,11 @@ class Repository(
                 throw  NoNetworkConnectionException()
             }
         }
-
-        response?.let {
-            return if(it.isSuccessful)
-                ResponseStatus.Success(it.body())
-            else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<*>{
-        var response: Response<NetworkState>? = null
+        var response: Response<NetworkState>
 
         withContext(ioDispatcher){
             try {
@@ -219,21 +151,11 @@ class Repository(
             }
         }
 
-        response?.let {
-            return if(it.isSuccessful)
-                ResponseStatus.Success(it.body())
-            else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<*>{
-        var response: Response<UserModel>? = null
+        var response: Response<UserModel>
 
         withContext(ioDispatcher){
             try {
@@ -242,19 +164,7 @@ class Repository(
                 throw  NoNetworkConnectionException()
             }
         }
-
-        response?.let {
-            return if(it.isSuccessful){
-                _userProfile.value = it.body()
-                ResponseStatus.Success(userProfile.value)
-            } else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
     override suspend fun getUserTotalDebts(): ResponseStatus<*>{
@@ -267,21 +177,11 @@ class Repository(
                 throw NoNetworkConnectionException()
             }
         }
-
-        return if(response.isSuccessful){
-            _totalDebts.value = response.body()
-            ResponseStatus.Success(totalDebts.value)
-        } else {
-            ResponseStatus.Error(
-                code = response.code(),
-                errorObject = response.message()
-            )
-        }
-
+        return getResponseCall(response)
     }
 
     override suspend fun logout(): ResponseStatus<*> {
-        var response: Response<NetworkState>? = null
+        var response: Response<NetworkState>
 
         withContext(ioDispatcher){
             try {
@@ -291,17 +191,7 @@ class Repository(
             }
         }
 
-        response?.let {
-            return if(it.isSuccessful)
-                ResponseStatus.Success(it.body())
-            else {
-                ResponseStatus.Error(
-                    code = it.code(),
-                    errorObject = it.message()
-                )
-            }
-        }
-        return ResponseStatus.None
+        return getResponseCall(response)
     }
 
 }

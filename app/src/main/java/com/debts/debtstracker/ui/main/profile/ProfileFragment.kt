@@ -81,7 +81,8 @@ class ProfileFragment: BaseFragment() {
 
     private fun attachObservers(){
         viewModel.userProfile.observe(viewLifecycleOwner, {
-            setupLayout(it)
+            if(it is ResponseStatus.Success)
+            setupLayout(it.data as UserModel)
         })
 
         viewModel.logout.observe(viewLifecycleOwner, EventObserver{

@@ -14,7 +14,6 @@ import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.base.BaseViewModel
 import com.debts.debtstracker.util.Event
-import com.debts.debtstracker.util.LOGGED_USER_EXPLANATION
 import com.debts.debtstracker.util.getString
 import kotlinx.coroutines.launch
 import java.util.*
@@ -22,8 +21,8 @@ import java.util.*
 class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
     val friendList = repositoryInterface.friendList
-    private val loggedUserProfile = repositoryInterface.userProfile
 
+    //todo modify everything BAD
     private var _addDebtResponse: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val addDebtResponse: LiveData<Event<ResponseStatus<*>>> = _addDebtResponse
 
@@ -31,14 +30,13 @@ class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): Ba
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            try {
-                repositoryInterface.getLoggedUserProfile()
+            val result = try {
                 repositoryInterface.getFriendList()
             } catch (e: NoNetworkConnectionException){
-                _loading.value = Event(ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
             }
 
-            _loading.value = Event(ResponseStatus.Success(""))
+            _loading.value = Event(result)
         }
     }
 
@@ -78,11 +76,11 @@ class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): Ba
     fun getUpdatedFriendList(): MutableList<UserModel>?{
         val updatedFriendList = friendList.value?.toMutableList()
         val noSelection = EmptyUserModel.copy(name = getString(R.string.select_user))
-        val loggedUser = loggedUserProfile.value?.copy()
+//        val loggedUser = loggedUserProfile.value?.copy()
 
         updatedFriendList?.let { list ->
-            loggedUser?.name = loggedUser?.name + LOGGED_USER_EXPLANATION
-            list.add(0, loggedUser!!)
+//            loggedUser?.name = loggedUser?.name + LOGGED_USER_EXPLANATION
+//            list.add(0, loggedUser!!)
             list.add(0, noSelection)
         }
 

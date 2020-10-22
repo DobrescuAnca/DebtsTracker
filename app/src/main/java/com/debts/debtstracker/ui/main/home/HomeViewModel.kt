@@ -16,8 +16,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
-    val totalDebts = repositoryInterface.totalDebts
-    val loggedUser = repositoryInterface.userProfile
+    val totalDebts = MutableLiveData<ResponseStatus<*>>()
 
     private val filter = MutableLiveData(HomeCardFilterTypeEnum.ALL.toString())
 
@@ -36,14 +35,14 @@ class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseV
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            try {
-                repositoryInterface.getUserTotalDebts()
-                repositoryInterface.getLoggedUserProfile()
-            } catch (e: NoNetworkConnectionException){
-                _loading.value = Event(ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
+            val result = try {
+                 repositoryInterface.getUserTotalDebts()
+            } catch (e: NoNetworkConnectionException) {
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
             }
 
-            _loading.value = Event(ResponseStatus.Success(""))
+            totalDebts.value = result
+            _loading.value = Event(result)
         }
     }
 

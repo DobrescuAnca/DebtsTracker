@@ -8,13 +8,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
+import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.Status
 import com.debts.debtstracker.data.network.model.HomeCardFilterTypeEnum
 import com.debts.debtstracker.data.network.model.HomeCardModel
+import com.debts.debtstracker.data.network.model.HomeTotalDebtsModel
+import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.custom_views.RoundedIconTextView
 import com.debts.debtstracker.ui.main.MainActivity
+import com.debts.debtstracker.ui.main.profile.ProfileViewModel
 import com.debts.debtstracker.util.DEBT_ID
 import com.debts.debtstracker.util.EventObserver
 import com.debts.debtstracker.util.PROFILE_USER_ID
@@ -25,6 +29,7 @@ class HomeFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentHomeBinding
     private val viewModel: HomeViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by sharedViewModel()
 
     private lateinit var adapter: HomeCardsAdapter
 
@@ -55,6 +60,7 @@ class HomeFragment: BaseFragment() {
 
         setupLayout()
         attachObservers()
+        profileViewModel.getLoggedUser()
     }
 
     private fun setupLayout(){
@@ -114,15 +120,19 @@ class HomeFragment: BaseFragment() {
     @SuppressLint("SetTextI18n")
     private fun attachObservers() {
         viewModel.totalDebts.observe(viewLifecycleOwner, {
-            dataBinding.tvTotalBorrowed.text = "${it.totalBorrowed} lei"
-            dataBinding.tvTotalLend.text = "${it.totalLent} lei"
+            if(it is ResponseStatus.Success) {
+                val totalDebts = it.data as HomeTotalDebtsModel
+                dataBinding.tvTotalBorrowed.text = "${totalDebts.totalBorrowed} lei"
+                dataBinding.tvTotalLend.text = "${totalDebts.totalLent} lei"
+            }
         })
 
-        viewModel.loggedUser.observe(viewLifecycleOwner, {
-            Picasso.get()
-                .load(it.profilePictureUrl)
-                .error(R.drawable.ic_people_menu)
-                .into(dataBinding.currentUserProfilePicture)
+        profileViewModel.userProfile.observe(viewLifecycleOwner, {
+            if(it is ResponseStatus.Success)
+                Picasso.get()
+                    .load((it.data as UserModel).profilePictureUrl)
+                    .error(R.drawable.ic_people_menu)
+                    .into(dataBinding.currentUserProfilePicture)
         })
 
         viewModel.content.observe(

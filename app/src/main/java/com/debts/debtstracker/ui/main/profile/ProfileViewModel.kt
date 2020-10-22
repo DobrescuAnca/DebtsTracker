@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
-    val userProfile = repositoryInterface.userProfile
+    val userProfile = MutableLiveData<ResponseStatus<*>>()
 
     private var _logout: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val logout: LiveData<Event<ResponseStatus<*>>> = _logout
@@ -27,12 +27,14 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Ba
     fun getUserProfile(userId: String){
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
-            try {
+
+            val result = try {
                 repositoryInterface.getUserProfile(userId)
             } catch (e: NoNetworkConnectionException) {
-                _loading.value = Event( ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
             }
-            _loading.value = Event(ResponseStatus.Success(""))
+            userProfile.value = result
+            _loading.value = Event(result)
         }
     }
 
@@ -40,13 +42,14 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Ba
         viewModelScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            try {
+            val result = try {
                 repositoryInterface.getLoggedUserProfile()
             } catch (e: NoNetworkConnectionException){
-                _loading.value = Event(ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code))
+                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
             }
 
-            _loading.value = Event(ResponseStatus.Success(""))
+            userProfile.value = result
+            _loading.value = Event(result)
         }
     }
 
