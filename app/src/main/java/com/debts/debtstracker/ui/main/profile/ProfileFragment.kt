@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ResponseStatus
@@ -80,10 +81,10 @@ class ProfileFragment: BaseFragment() {
 
 
     private fun attachObservers(){
-        viewModel.userProfile.observe(viewLifecycleOwner, {
+        viewModel.userProfile.observe(viewLifecycleOwner) {
             if(it is ResponseStatus.Success)
-            setupLayout(it.data as UserModel)
-        })
+                setupLayout(it.data)
+        }
 
         viewModel.logout.observe(viewLifecycleOwner, EventObserver{
             when(it){

@@ -79,16 +79,6 @@ class ErrorInterceptor: Interceptor{
         val original = chain.request()
         val response = chain.proceed(original)
 
-        when(response.code) {
-            //TODO add response codes here
-            401 -> {
-//                val errorString: String = response.body?.string() ?: ""
-//                val jsonAdapter = moshi.adapter(AuthErrorModel::class.java)
-//                val error = jsonAdapter.fromJson(errorString)?.error
-
-            }
-        }
-
         return response
     }
 }

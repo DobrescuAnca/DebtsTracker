@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
+import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.databinding.FragmentFriendListBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.main.add_debt.AddDebtViewModel
@@ -62,10 +64,10 @@ class FriendListFragment: BaseFragment() {
     }
 
     private fun attachObservers() {
-        viewModel.friendList.observe(
-            viewLifecycleOwner, {
-                adapter.submitList(it)
-            })
+        viewModel.friendList.observe(viewLifecycleOwner) {
+            if(it is ResponseStatus.Success)
+                adapter.submitList(it.data.content)
+        }
     }
 
     override fun setLoading(loading: Boolean) { }

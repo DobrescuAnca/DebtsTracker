@@ -2,6 +2,7 @@ package com.debts.debtstracker.ui.base
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.debts.debtstracker.data.ErrorCode
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.util.Event
 
@@ -28,30 +29,16 @@ abstract class BaseFragment: Fragment() {
         }
     }
 
-//    fun handleError(resultError: ResponseStatus.Error): Boolean {
-//        return when (resultError.code) {
-//            ErrorCode.UNAUTHORIZED.code -> {
-//                if (this is LoginFragment) {
-//                    showUnauthorizedDialog(resultError.message ?: "")
-//                } else {
-//                    val action = OnboardingActivityDirections.actionGlobalOnboardingActivity(
-//                        OnboardingNavigatonDestinations.LOGIN.destination
-//                    )
-//                    (activity as BaseActivity).navController.navigate(action)
-//                    (activity as MainActivity).finish()
-//                }
-//
-//                true
-//            }
-//
-//            ErrorCode.NO_DATA_CONNECTION.code -> {
-//                activity?.toast(getString(R.string.no_data_connection))
-//                true
-//            }
-//
-//            else -> false
-//        }
-//    }
+    fun handleError(resultError: ResponseStatus.Error): Boolean {
+        return when (resultError.code) {
+
+            ErrorCode.NO_DATA_CONNECTION.code -> {
+                true
+            }
+
+            else -> false
+        }
+    }
 
     abstract fun setLoading(loading: Boolean)
 }

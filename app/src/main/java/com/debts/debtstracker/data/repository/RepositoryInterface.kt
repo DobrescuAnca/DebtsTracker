@@ -1,33 +1,31 @@
 package com.debts.debtstracker.data.repository
 
-import androidx.lifecycle.LiveData
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.model.*
+import com.debts.debtstracker.data.pagination.PagedListServerModel
 
 interface RepositoryInterface {
 
-    val friendList: LiveData<List<UserModel>>
-
-    suspend fun login(username: String, password: String): ResponseStatus<*>
+    suspend fun login(username: String, password: String): ResponseStatus<AuthModel>
 
     suspend fun signUp(model: RegisterModel): ResponseStatus<*>
 
-    suspend fun getUserTotalDebts(): ResponseStatus<*>
+    suspend fun getUserTotalDebts(): ResponseStatus<HomeTotalDebtsModel>
 
-    suspend fun getFriendList(): ResponseStatus<*>
+    suspend fun getFriendList(): ResponseStatus<PagedListServerModel<UserModel>>
 
     suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<*>
 
 
-    suspend fun getUserProfile(id: String): ResponseStatus<*>
+    suspend fun getUserProfile(id: String): ResponseStatus<UserModel>
 
-    suspend fun getLoggedUserProfile(): ResponseStatus<*>
+    suspend fun getLoggedUserProfile(): ResponseStatus<UserModel>
 
-    suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<*>
+    suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<UserModel>
 
     suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<*>
 
-    suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<*>
+    suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<UserModel>
 
     suspend fun logout(): ResponseStatus<*>
 }

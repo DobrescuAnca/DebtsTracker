@@ -7,6 +7,7 @@ import com.debts.debtstracker.data.ErrorCode
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.HomeCardFilterTypeEnum
+import com.debts.debtstracker.data.network.model.HomeTotalDebtsModel
 import com.debts.debtstracker.data.pagination.HomeDataSource
 import com.debts.debtstracker.data.pagination.getPagedListRequests
 import com.debts.debtstracker.data.repository.RepositoryInterface
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
-    val totalDebts = MutableLiveData<ResponseStatus<*>>()
+    val totalDebts = MutableLiveData<ResponseStatus<HomeTotalDebtsModel>>()
 
     private val filter = MutableLiveData(HomeCardFilterTypeEnum.ALL.toString())
 

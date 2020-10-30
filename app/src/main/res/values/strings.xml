@@ -100,4 +100,13 @@
     <string name="hours_ago">hours ago</string>
     <string name="minutes_ago">minutes ago</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="pick_friend_from_list">Pick Friend from List</string>
+    <string name="friend_list">Friends</string>
+    <string name="description_needed">Description must be completed</string>
+    <string name="ok">OK</string>
+    <string name="info">Information</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="debt_added_successfully">Debt was added successfully</string>
+    <string name="confirm">Confirm</string>
 </resources>

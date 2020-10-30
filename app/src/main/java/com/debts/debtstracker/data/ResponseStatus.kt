@@ -7,6 +7,8 @@ package com.debts.debtstracker.data
 sealed class ResponseStatus<out T> {
 
     data class Success<out T>(val data: T) : ResponseStatus<T>()
+
+
     data class Error(
         val exception: Exception? = null,
         val message: String? = null,
@@ -35,5 +37,8 @@ enum class ErrorCode(val code: Int) {
     DEFAULT(-1),
     NO_USER(0),
     NO_DATA_CONNECTION(1),
-    UNAUTHORIZED(401)
+    INVALID_TOKEN(401),
+    DATA_NOT_FOUND(404),
+    INVALID_DATA(409),
+    SERVER_ERROR(500)
 }

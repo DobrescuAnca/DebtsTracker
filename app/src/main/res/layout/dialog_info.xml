@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="120dp"
+        android:fitsSystemWindows="true"
+        android:padding="20dp"
+        android:background="@drawable/bg_15_rounded_corners"
+        android:backgroundTint="@color/white"
+        app:layout_constrainedHeight="true">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Are you sure????"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvOk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+
+            android:text="@string/cancel"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvOk"
+            tools:ignore="ContentDescription" />
+
+        <ScrollView
+            android:id="@+id/svContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:padding="20dp"
+            android:fillViewport="false"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/tvOk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:gravity="center_vertical"
+                tools:text="your request_was_sent_successfully dfsdfsdfsdf sdgsdgsdgvsdgsg sdgsdg sdgsdg"
+                android:textSize="16sp" />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -9,6 +9,7 @@ import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.ProfileActionEnum
 import com.debts.debtstracker.data.network.model.UpdatePasswordModel
 import com.debts.debtstracker.data.network.model.UpdateProfileModel
+import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.base.BaseViewModel
 import com.debts.debtstracker.util.Event
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
-    val userProfile = MutableLiveData<ResponseStatus<*>>()
+    val userProfile = MutableLiveData<ResponseStatus<UserModel>>()
 
     private var _logout: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
     val logout: LiveData<Event<ResponseStatus<*>>> = _logout
@@ -111,5 +112,4 @@ class ProfileViewModel(private val repositoryInterface: RepositoryInterface): Ba
             _logout.value = Event(result)
         }
     }
-
 }

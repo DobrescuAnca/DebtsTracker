@@ -1,7 +1,5 @@
 package com.debts.debtstracker.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.debts.debtstracker.data.NetworkState
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.local.LocalPreferencesInterface
@@ -21,21 +19,22 @@ class Repository(
 
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    private val _friendList = MutableLiveData<List<UserModel>>()
-    override val friendList: LiveData<List<UserModel>> = _friendList
-
-    private fun <T>getResponseCall(response: Response<T>): ResponseStatus<*>{
-        return if(response.isSuccessful){
-            ResponseStatus.Success(response.body())
-        } else {
-            ResponseStatus.Error(
+    private fun <T>getResponseCall(response: Response<T>): ResponseStatus<T>{
+        if(response.isSuccessful) {
+            response.body()?.let {
+                return ResponseStatus.Success(it)
+            }
+            return ResponseStatus.None
+        }
+        else {
+            return ResponseStatus.Error(
                 code = response.code(),
                 errorObject = response.message()
             )
         }
     }
 
-    override suspend fun login(username: String, password: String): ResponseStatus<*>{
+    override suspend fun login(username: String, password: String): ResponseStatus<AuthModel>{
         var response: Response<AuthModel>
 
         withContext(ioDispatcher){
@@ -51,7 +50,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun signUp(model: RegisterModel): ResponseStatus<*>{
+    override suspend fun signUp(model: RegisterModel): ResponseStatus<NetworkState>{
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
@@ -64,7 +63,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun getFriendList(): ResponseStatus<*> {
+    override suspend fun getFriendList(): ResponseStatus<PagedListServerModel<UserModel>> {
         var response: Response<PagedListServerModel<UserModel>>
 
         withContext(ioDispatcher){
@@ -74,20 +73,10 @@ class Repository(
                 throw NoNetworkConnectionException()
             }
         }
-
-        //todo get rid of _friendList on AddView modification
-        return if(response.isSuccessful){
-                _friendList.value = response.body()?.content
-                ResponseStatus.Success(response.body()?.content)
-            } else {
-                ResponseStatus.Error(
-                    code = response.code(),
-                    errorObject = response.message()
-                )
-            }
+        return getResponseCall(response)
     }
 
-    override suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<*> {
+    override suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<NetworkState> {
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
@@ -100,7 +89,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun getUserProfile(id: String): ResponseStatus<*>{
+    override suspend fun getUserProfile(id: String): ResponseStatus<UserModel>{
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
@@ -114,7 +103,7 @@ class Repository(
     }
 
 
-    override suspend fun getLoggedUserProfile(): ResponseStatus<*>{
+    override suspend fun getLoggedUserProfile(): ResponseStatus<UserModel>{
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
@@ -127,7 +116,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<*>{
+    override suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<UserModel>{
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
@@ -140,7 +129,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<*>{
+    override suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<NetworkState>{
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
@@ -154,7 +143,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<*>{
+    override suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<UserModel>{
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
@@ -167,7 +156,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun getUserTotalDebts(): ResponseStatus<*>{
+    override suspend fun getUserTotalDebts(): ResponseStatus<HomeTotalDebtsModel>{
         val response: Response<HomeTotalDebtsModel>
 
         withContext(ioDispatcher){
@@ -180,7 +169,7 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun logout(): ResponseStatus<*> {
+    override suspend fun logout(): ResponseStatus<NetworkState> {
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){

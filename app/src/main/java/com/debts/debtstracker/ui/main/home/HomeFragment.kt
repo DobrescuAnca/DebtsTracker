@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.Status
 import com.debts.debtstracker.data.network.model.HomeCardFilterTypeEnum
 import com.debts.debtstracker.data.network.model.HomeCardModel
-import com.debts.debtstracker.data.network.model.HomeTotalDebtsModel
-import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.custom_views.RoundedIconTextView
@@ -119,26 +118,26 @@ class HomeFragment: BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun attachObservers() {
-        viewModel.totalDebts.observe(viewLifecycleOwner, {
+        viewModel.totalDebts.observe(viewLifecycleOwner) {
             if(it is ResponseStatus.Success) {
-                val totalDebts = it.data as HomeTotalDebtsModel
+                val totalDebts = it.data
                 dataBinding.tvTotalBorrowed.text = "${totalDebts.totalBorrowed} lei"
                 dataBinding.tvTotalLend.text = "${totalDebts.totalLent} lei"
             }
-        })
+        }
 
-        profileViewModel.userProfile.observe(viewLifecycleOwner, {
+        profileViewModel.userProfile.observe(viewLifecycleOwner) {
             if(it is ResponseStatus.Success)
                 Picasso.get()
-                    .load((it.data as UserModel).profilePictureUrl)
+                    .load(it.data.profilePictureUrl)
                     .error(R.drawable.ic_people_menu)
                     .into(dataBinding.currentUserProfilePicture)
-        })
+        }
 
         viewModel.content.observe(
-            viewLifecycleOwner, {
-                adapter.submitList(it)
-            })
+            viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
 
         viewModel.networkState.observe(viewLifecycleOwner, EventObserver {
             if(it.status == Status.EMPTY_LIST)
