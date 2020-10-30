@@ -61,14 +61,6 @@ private class DiffUtilHome : DiffUtil.ItemCallback<HomeCardModel>() {
         oldItem: HomeCardModel,
         newItem: HomeCardModel
     ): Boolean {
-        return oldItem.id == newItem.id
-                &&  oldItem.creationDate == newItem.creationDate
-                &&  oldItem.userId == newItem.userId
-                &&  oldItem.homeCardType == newItem.homeCardType
-                &&  oldItem.otherUserId == newItem.otherUserId
-                &&  oldItem.otherUserProfilePictureUrl == newItem.otherUserProfilePictureUrl
-                &&  oldItem.text == newItem.text
-                &&  oldItem.otherUserId == newItem.otherUserId
-                &&  oldItem.sum == newItem.sum
+        return oldItem == newItem
     }
 }

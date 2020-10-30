@@ -56,11 +56,6 @@ class DiffUtilUser : DiffUtil.ItemCallback<UserModel>() {
         oldItem: UserModel,
         newItem: UserModel
     ): Boolean {
-        return oldItem.id == newItem.id
-                && oldItem.name == newItem.name
-                && oldItem.username == newItem.username
-                && oldItem.profilePictureUrl == newItem.profilePictureUrl
-                && oldItem.totalToPay == newItem.totalToPay
-                && oldItem.totalToReceive == newItem.totalToReceive
+        return oldItem == newItem
     }
 }
