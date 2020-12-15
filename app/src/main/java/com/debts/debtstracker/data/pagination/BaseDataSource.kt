@@ -21,23 +21,20 @@ abstract class BaseDataSource<T>(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, T>
     ) {
+        networkState.postValue(Event(NetworkState.LOADING))
+
         scope.launch {
             try {
-
-                networkState.postValue(Event(NetworkState.LOADING))
-
                 val response: Response<PagedListServerModel<T>>? = requestData(0)
                 networkState.postValue(Event(NetworkState.LOADED))
 
                 response?.let {
-                    when {
-                        response.isSuccessful -> {
+                    if(response.isSuccessful) {
                             val data = response.body()
                             val list = data?.content ?: emptyList()
                             callback.onResult(list, null, 1)
                             if(list.isEmpty())
                                 networkState.postValue(Event(NetworkState.EMPTY_LIST))
-                        }
                     }
                 }
             } catch (ioException: Exception) {
@@ -51,25 +48,23 @@ abstract class BaseDataSource<T>(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, T>
     ) {
+        networkState.postValue(Event(NetworkState.LOADING))
+
         scope.launch {
             try {
-                networkState.postValue(Event(NetworkState.LOADING))
-
                 val page = params.key
                 val response: Response<PagedListServerModel<T>>? = requestData(page)
 
                 response?.let {
-                    when {
-                        response.isSuccessful -> {
+                    if(response.isSuccessful){
                             val data = response.body()
                             val list = data?.content ?: emptyList()
                             callback.onResult(list, page + 1)
                             networkState.postValue(Event(NetworkState.LOADED))
-                        }
-                        else -> networkState.postValue(
-                            Event(NetworkState.error("error code: ${response.code()}"))
-                        )
                     }
+                    else networkState.postValue(
+                        Event(NetworkState.error("error code: ${response.code()}"))
+                    )
                 }
             } catch (exception: Exception) {
                 networkState.postValue(Event(NetworkState.error(exception.message ?: "unknown err")))

@@ -3,6 +3,7 @@ package com.debts.debtstracker.data.network.api
 import com.debts.debtstracker.data.NetworkState
 import com.debts.debtstracker.data.network.model.*
 import com.debts.debtstracker.data.pagination.PagedListServerModel
+import com.debts.debtstracker.util.BASIC_AUTHORIZATION
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -19,7 +20,7 @@ interface ApiService {
         @Field("scope") scope: String = "mobile",
         @Field("username") username: String,
         @Field("password") password: String,
-        @Header("Authorization") authorization:String = "Basic ZGVidHN0cmFja2VyOg=="
+        @Header("Authorization") authorization:String = BASIC_AUTHORIZATION
     ): Response<AuthModel>
 
     @POST("/api/oauth/token")
@@ -28,7 +29,7 @@ interface ApiService {
         @Field("grant_type") grantType: String = "refresh_token",
         @Field("scope") scope: String = "mobile",
         @Field("refresh_token") refreshToken: String,
-        @Header("Authorization") authorization:String = "Basic ZGVidHN0cmFja2VyOg=="
+        @Header("Authorization") authorization:String = BASIC_AUTHORIZATION
     ): retrofit2.Call<AuthModel>
 
     @GET("api/account/profile")

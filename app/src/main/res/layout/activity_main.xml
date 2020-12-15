@@ -39,6 +39,6 @@
             app:tint="@color/white"
             app:fabSize="normal"
             app:layout_anchor="@id/bottomAppBar"
-            />
+            tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

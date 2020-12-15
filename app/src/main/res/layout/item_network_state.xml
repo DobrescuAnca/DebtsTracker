@@ -29,7 +29,7 @@
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyle"
-            android:visibility="@{networkState.status == Status.RUNNING ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{networkState.status == Status.OK ? View.INVISIBLE : View.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />

@@ -18,6 +18,12 @@ class DataSourceFactory<T>(
     }
 }
 
+val pagedListConfig = PagedList.Config.Builder()
+    .setPageSize(NETWORK_PAGE_SIZE)
+    .setInitialLoadSizeHint(NETWORK_PAGE_SIZE * 2)
+    .setEnablePlaceholders(false)
+    .build()
+
 fun <T>getPagedListRequests(dataSource: BaseDataSource<T>): PagedListModel<T> {
     val config = PagedList.Config.Builder()
         .setInitialLoadSizeHint(NETWORK_PAGE_SIZE)
