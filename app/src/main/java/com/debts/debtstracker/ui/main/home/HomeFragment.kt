@@ -68,6 +68,10 @@ class HomeFragment: BaseFragment() {
             (activity as MainActivity).hideNavBar(true)
         }
 
+        dataBinding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshFilter()
+        }
+
         dataBinding.allFilter.selectView(true)
 
         dataBinding.allFilter.setOnClickListener {
@@ -136,6 +140,7 @@ class HomeFragment: BaseFragment() {
 
         viewModel.content.observe(
             viewLifecycleOwner) {
+            dataBinding.swipeRefresh.isRefreshing = false
             adapter.submitList(it)
         }
 

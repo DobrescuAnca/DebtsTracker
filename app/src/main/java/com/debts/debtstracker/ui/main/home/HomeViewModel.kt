@@ -36,7 +36,6 @@ class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseV
     val networkState = Transformations.switchMap(repoResult) { it.networkState }
 
 
-
     var cardList: LiveData<PagedList<HomeCardModel>>
     var responseStatus: LiveData<Event<NetworkState>>                                 
     private val dataSourceFactory: DataSourceFactory<HomeCardModel>
@@ -73,6 +72,10 @@ class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseV
 
     fun setFilter(filterTypeEnum: HomeCardFilterTypeEnum){
         this.filter.value = filterTypeEnum.toString()
+    }
+
+    fun refreshFilter(){
+        this.filter.value = filter.value
     }
 
 }
