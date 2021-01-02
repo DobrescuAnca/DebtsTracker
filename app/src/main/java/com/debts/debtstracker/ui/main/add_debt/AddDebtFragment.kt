@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
 import com.debts.debtstracker.DebtsTrackerApplication
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.ResponseStatus
@@ -42,7 +41,7 @@ class AddDebtFragment: BaseFragment(){
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dataBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_add_debt,
@@ -140,7 +139,10 @@ class AddDebtFragment: BaseFragment(){
                 view.setSelectedUser(selectedFriend)
 
                 viewModel.updateFriendList(selectedFriend, lastSelectedFriend)
-                addBorrower()
+                if(view.isFirstSelection) {
+                    view.isFirstSelection = false
+                    addBorrower()
+                }
             }
         }
         activeBorrowerViewIndex = null
@@ -150,17 +152,17 @@ class AddDebtFragment: BaseFragment(){
         viewModel.loading.observe(viewLifecycleOwner, loadingObserver)
         profileViewModel.loading.observe(viewLifecycleOwner, loadingObserver)
 
-        viewModel.friendList.observe( viewLifecycleOwner) {
+        viewModel.friendList.observe( viewLifecycleOwner, {
             if(it is ResponseStatus.Success) {
                 viewModel.setUpdatedFriendList(it.data.content)
                 profileViewModel.getLoggedUser()
             }
-        }
+        })
 
-        profileViewModel.userProfile.observe(viewLifecycleOwner) {
+        profileViewModel.userProfile.observe(viewLifecycleOwner, {
             if(it is ResponseStatus.Success)
                 viewModel.updateFriendList(null, it.data)
-        }
+        })
 
         viewModel.addDebtResponse.observe(viewLifecycleOwner, EventObserver { event ->
             when(event){
@@ -177,6 +179,7 @@ class AddDebtFragment: BaseFragment(){
                 is ResponseStatus.Error -> { }
 //                    handleError(result.peekContent() as ResponseStatus.Error)
 
+                else -> {}
             }
 
         })
@@ -201,10 +204,11 @@ class AddDebtFragment: BaseFragment(){
         val view = dataBinding.llBorrowersContainer.getChildAt(index) as BorrowerCustomView
         viewModel.updateFriendList(userToRemove = null, userToAdd =  view.getSelectedUser())
 
-        for(i in index+1 until dataBinding.llBorrowersContainer.childCount)
-            (dataBinding.llBorrowersContainer.getChildAt(i) as BorrowerCustomView).updateIndex(i-1)
-
-        dataBinding.llBorrowersContainer.removeView(view)
+        //for deleting view, not needed yet
+//        for(i in index+1 until dataBinding.llBorrowersContainer.childCount)
+//            (dataBinding.llBorrowersContainer.getChildAt(i) as BorrowerCustomView).updateIndex(i-1)
+//
+//        dataBinding.llBorrowersContainer.removeView(view)
     }
 
     override fun setLoading(loading: Boolean) {

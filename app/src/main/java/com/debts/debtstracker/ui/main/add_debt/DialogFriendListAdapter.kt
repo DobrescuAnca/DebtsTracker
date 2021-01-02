@@ -1,7 +1,6 @@
 package com.debts.debtstracker.ui.main.add_debt
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -29,21 +28,15 @@ class DialogFriendListAdapter(
 
     override fun onBindViewHolder(holder: DataBindingViewHolder, position: Int) {
         getItem(position)?.let {
-            val isLastElement = position == itemCount - 1
-            bind(holder.binding, it, isLastElement)
+            bind(holder.binding, it)
         }
     }
 
-    private fun bind(binding: ViewDataBinding, user: UserModel, isLastElement: Boolean){
+    private fun bind(binding: ViewDataBinding, user: UserModel){
         if(binding is ItemFriendListSimpleBinding) {
             binding.tvName.text = user.name
             Picasso.get().load(user.profilePictureUrl).into(binding.profilePicture)
             binding.root.setOnClickListener { callback(user) }
-
-            if(isLastElement)
-                binding.separationLine.visibility = View.GONE
-            else
-                binding.separationLine.visibility = View.VISIBLE
         }
     }
 }

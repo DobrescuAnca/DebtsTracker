@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="80dp"
             android:text="@string/debts_tracker"
             android:textSize="30sp"
 
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:layout_margin="8dp"
+            android:layout_margin="15dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
-            android:layout_margin="8dp"
+            android:layout_margin="15dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -119,6 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
             android:text="@string/forgot_password"
             android:textSize="15sp"
             android:textColor="@color/colorPrimary"

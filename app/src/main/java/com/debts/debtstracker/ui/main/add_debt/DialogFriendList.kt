@@ -33,7 +33,7 @@ class DialogFriendList(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dataBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.dialog_friend_list,
@@ -78,6 +78,9 @@ class DialogFriendList(
         )
         dataBinding.rvContainer.adapter = adapter
         adapter.submitList(friendList)
+
+        if(friendList.isEmpty())
+            dataBinding.tvEmptyList.visibility = View.VISIBLE
     }
 
     private fun selectFriend(friend: UserModel){

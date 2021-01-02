@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.BorrowerDebtModel
 import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.databinding.ItemBorrowerListBinding
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.fragment_add_debt.view.*
 class BorrowerCustomView: FrameLayout{
 
     private lateinit var dataBinding: ItemBorrowerListBinding
+
+    var isFirstSelection: Boolean = true
     private var index: Int = 0
     private var selectedUser: UserModel? = null
 
@@ -25,6 +28,14 @@ class BorrowerCustomView: FrameLayout{
 
         dataBinding.userName.setOnClickListener {
             callback(SELECT_FRIEND, index)
+        }
+
+        dataBinding.ivClear.setOnClickListener {
+            callback(DELETE_VIEW, index)
+
+            dataBinding.userName.text = ""
+            dataBinding.etSum.setText("0")
+            Picasso.get().load(R.drawable.ic_person).into(profilePicture)
         }
     }
 

@@ -9,59 +9,67 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="8dp">
+        android:layout_height="70dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/bg_5_rounded_corners_stroke">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_person"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <TextView
             android:id="@+id/userName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/select_user"
-            android:paddingStart="35dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:text="nume"
-            android:background="@drawable/bg_15_rounded_corners_stroke"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/etSum"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/profilePicture"
+            app:layout_constraintEnd_toEndOf="@id/separationView"
+            app:layout_constraintTop_toTopOf="@id/profilePicture"
+            app:layout_constraintBottom_toBottomOf="@id/profilePicture"
             tools:ignore="RtlSymmetry" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profilePicture"
+        <ImageView
+            android:id="@+id/ivSum"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginStart="7dp"
-            android:src="@drawable/ic_person"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            android:layout_marginTop="8dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_money"
 
-            app:layout_constraintStart_toStartOf="@id/userName"
-            app:layout_constraintTop_toTopOf="@id/userName"
-            app:layout_constraintBottom_toBottomOf="@id/userName"
-            />
+            app:layout_constraintStart_toStartOf="@id/profilePicture"
+            app:layout_constraintTop_toBottomOf="@id/profilePicture"
+            tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etSum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/sum"
+            android:text="@string/_0"
             android:maxLength="9"
             android:background="@color/white"
-            android:textSize="16sp"
-            android:layout_marginEnd="4dp"
+            android:textSize="13sp"
+            android:layout_marginStart="10dp"
             android:digits="0123456789."
             android:inputType="number"
             android:imeOptions="actionDone"
 
-            app:layout_constraintTop_toTopOf="@id/userName"
-            app:layout_constraintBottom_toBottomOf="@id/userName"
-            app:layout_constraintEnd_toStartOf="@id/tvCurrency"/>
+            app:layout_constraintTop_toTopOf="@id/ivSum"
+            app:layout_constraintBottom_toBottomOf="@id/ivSum"
+            app:layout_constraintStart_toEndOf="@id/ivSum"/>
 
         <TextView
             android:id="@+id/tvCurrency"
@@ -69,9 +77,37 @@
             android:layout_height="wrap_content"
             android:text="@string/lei"
             android:textSize="14sp"
+            android:layout_marginStart="7dp"
+
+            app:layout_constraintStart_toEndOf="@id/etSum"
+            app:layout_constraintTop_toTopOf="@id/ivSum"
+            app:layout_constraintBottom_toBottomOf="@id/ivSum"/>
+
+        <View
+            android:id="@+id/separationView"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="7dp"
+            android:background="@color/greyLightTransparent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivClear"
+            />
+
+        <ImageView
+            android:id="@+id/ivClear"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="7dp"
+            android:padding="7dp"
+            android:src="@drawable/ic_x"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/userName"
-            app:layout_constraintBottom_toBottomOf="@id/userName"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
