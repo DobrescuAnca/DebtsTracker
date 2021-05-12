@@ -72,6 +72,14 @@ interface ApiService {
         @Query("userId") userId: String
     ): Response<UserModel>
 
+    @GET("api/debts")
+    suspend fun getDebtsWithUser(
+        @Query("filter") filter: DebtWithUserStatus,
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10,
+        @Query("userId") userId: String
+    ): Response<PagedListServerModel<FriendDebtModel>>
+
     @POST("api/users/profile-action")
     suspend fun sendProfileAction(
         @Query("profileAction") action: ProfileActionEnum,

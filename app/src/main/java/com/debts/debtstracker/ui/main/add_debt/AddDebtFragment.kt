@@ -160,8 +160,7 @@ class AddDebtFragment: BaseFragment(){
         })
 
         profileViewModel.userProfile.observe(viewLifecycleOwner, {
-            if(it is ResponseStatus.Success)
-                viewModel.updateFriendList(null, it.data)
+                viewModel.updateFriendList(null, it)
         })
 
         viewModel.addDebtResponse.observe(viewLifecycleOwner, EventObserver { event ->

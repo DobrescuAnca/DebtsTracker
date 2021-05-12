@@ -110,4 +110,7 @@
     <string name="debt_added_successfully">Debt was added successfully</string>
     <string name="confirm">Confirm</string>
     <string name="_0">0</string>
+    <string name="lent">Lent</string>
+    <string name="borrowed">Borrowed</string>
+    <string name="equate">Equate</string>
 </resources>

@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ProfileFragment: BaseFragment() {
+class ProfileLoggedUserFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by sharedViewModel()
@@ -30,7 +30,7 @@ class ProfileFragment: BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         dataBinding.lifecycleOwner = viewLifecycleOwner
 
@@ -82,8 +82,7 @@ class ProfileFragment: BaseFragment() {
 
     private fun attachObservers(){
         viewModel.userProfile.observe(viewLifecycleOwner) {
-            if(it is ResponseStatus.Success)
-                setupLayout(it.data)
+            setupLayout(it)
         }
 
         viewModel.logout.observe(viewLifecycleOwner, EventObserver{

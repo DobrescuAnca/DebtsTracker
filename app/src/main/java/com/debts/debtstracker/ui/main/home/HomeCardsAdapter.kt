@@ -6,7 +6,9 @@ import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.ItemHomeListBinding
 import com.debts.debtstracker.databinding.ItemNetworkStateBinding
-import com.debts.debtstracker.util.*
+import com.debts.debtstracker.util.BasePagedListAdapter
+import com.debts.debtstracker.util.getCreationDateForCards
+import com.debts.debtstracker.util.getString
 import com.squareup.picasso.Picasso
 
 class HomeCardsAdapter(
@@ -21,18 +23,7 @@ class HomeCardsAdapter(
                     binding.model = homeCard
                     Picasso.get().load(homeCard.otherUserProfilePictureUrl).into(binding.notificationPicture)
 
-                    binding.creationDate.text = when(getCreationDateType(homeCard.creationDate)){
-                        MINUTES_PAST_CREATION ->
-                            getMinutesDate(System.currentTimeMillis()- homeCard.creationDate)
-                                .toString()
-                                .plus(getString(R.string.minutes_ago))
-                        HOURS_PAST_CREATION ->
-                            getHourDate(System.currentTimeMillis()- homeCard.creationDate)
-                                .toString()
-                                .plus(getString(R.string.hours_ago))
-                        DAYS_PAST_CREATION -> getStringDate(homeCard.creationDate)
-                        else -> ""
-                    }
+                    binding.creationDate.text = getCreationDateForCards(homeCard.creationDate)
 
                     binding.tvSum.text = homeCard.sum.toString().plus(getString(R.string.lei))
                     binding.isDebt = homeCard.debtId != null

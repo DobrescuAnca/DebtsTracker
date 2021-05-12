@@ -131,9 +131,8 @@ class HomeFragment: BaseFragment() {
         }
 
         profileViewModel.userProfile.observe(viewLifecycleOwner) {
-            if(it is ResponseStatus.Success)
                 Picasso.get()
-                    .load(it.data.profilePictureUrl)
+                    .load(it.profilePictureUrl)
                     .error(R.drawable.ic_people_menu)
                     .into(dataBinding.currentUserProfilePicture)
         }

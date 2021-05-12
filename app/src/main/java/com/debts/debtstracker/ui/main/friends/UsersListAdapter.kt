@@ -28,6 +28,7 @@ class UserListAdapter(
                         FriendshipStatusEnum.REQUEST_RECEIVED -> R.drawable.ic_add_friend
                         FriendshipStatusEnum.REQUEST_SENT -> R.drawable.ic_add_friend
                         FriendshipStatusEnum.OWN_PROFILE -> R.drawable.ic_people
+                        else -> R.drawable.ic_add_friend
                     }
 
                     binding.ivRelationshipStatus.setBackgroundResource(drawable)

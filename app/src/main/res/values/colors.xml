@@ -6,7 +6,9 @@
     <color name="colorAccent">#2e7d32</color>
 
     <color name="white">#ffffff</color>
+    <color name="bg_white">#F5F8FC</color>
     <color name="whiteTransparent">#E6ffffff</color>
+    <color name="darkWhite">#F5F8FC</color>
     <color name="transparent">#00ffffff</color>
     <color name="black">#000000</color>
 

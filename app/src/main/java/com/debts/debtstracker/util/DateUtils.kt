@@ -1,5 +1,6 @@
 package com.debts.debtstracker.util
 
+import com.debts.debtstracker.R
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
@@ -30,3 +31,19 @@ fun getCreationDateType(milliseconds: Long): String {
         else -> DAYS_PAST_CREATION
     }
 }
+
+fun getCreationDateForCards(date: Long): String{
+    return when(getCreationDateType(date)){
+        MINUTES_PAST_CREATION ->
+            getMinutesDate(System.currentTimeMillis()- date)
+                .toString()
+                .plus(getString(R.string.minutes_ago))
+        HOURS_PAST_CREATION ->
+            getHourDate(System.currentTimeMillis()- date)
+                .toString()
+                .plus(getString(R.string.hours_ago))
+        DAYS_PAST_CREATION -> getStringDate(date)
+        else -> ""
+    }
+}
+

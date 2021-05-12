@@ -8,7 +8,7 @@ data class UserModel(
     val profilePictureUrl: String,
     val totalToReceive: Double? = 0.0,
     val totalToPay: Double? = 0.0,
-    val friendshipStatus: FriendshipStatusEnum,
+    val friendshipStatus: FriendshipStatusEnum?,
 
     var debtSum: Float ? = 0F
 )
