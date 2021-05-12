@@ -2,10 +2,7 @@ package com.debts.debtstracker.ui.main.add_debt
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.debts.debtstracker.data.ErrorCode
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.AddDebtModel
 import com.debts.debtstracker.data.network.model.UserModel
 import com.debts.debtstracker.data.pagination.PagedListServerModel
@@ -25,14 +22,10 @@ class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): Ba
     val addDebtResponse: LiveData<Event<ResponseStatus<*>>> = _addDebtResponse
 
     fun getServerFriendList(){
-        viewModelScope.launch {
+        baseScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            val result = try {
-                repositoryInterface.getFriendList()
-            } catch (e: NoNetworkConnectionException){
-                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
-            }
+            val result = repositoryInterface.getFriendList()
 
             friendList.value = result
             _loading.value = Event(result)
@@ -40,14 +33,10 @@ class AddDebtViewModel(private val repositoryInterface: RepositoryInterface): Ba
     }
 
     fun addDebt(debtModel: AddDebtModel){
-        viewModelScope.launch {
+        baseScope.launch {
             _loading.value= Event(ResponseStatus.Loading)
 
-            val result = try {
-                repositoryInterface.addDebt(debtModel)
-            } catch (e:NoNetworkConnectionException) {
-                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
-            }
+            val result = repositoryInterface.addDebt(debtModel)
 
             _loading.value = Event(result)
             _addDebtResponse.value = Event(result)

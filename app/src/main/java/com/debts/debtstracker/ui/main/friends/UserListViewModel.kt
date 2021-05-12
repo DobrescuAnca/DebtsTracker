@@ -4,16 +4,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.debts.debtstracker.data.pagination.UserListDataSource
 import com.debts.debtstracker.data.pagination.getPagedListRequests
+import com.debts.debtstracker.ui.base.BaseViewModel
 
-class UserListViewModel: ViewModel() {
+class UserListViewModel: BaseViewModel() {
 
     private val searchText = MutableLiveData<String>()
     private val repoResult = Transformations.map(searchText){
-        getPagedListRequests(UserListDataSource(it, viewModelScope))
+        getPagedListRequests(UserListDataSource(it, baseScope))
     }
 
     val content = Transformations.switchMap(repoResult) { it.pagedList }

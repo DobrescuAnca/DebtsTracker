@@ -2,8 +2,6 @@ package com.debts.debtstracker.data.repository
 
 import com.debts.debtstracker.data.NetworkState
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.local.LocalPreferencesInterface
-import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.*
 import com.debts.debtstracker.data.pagination.PagedListServerModel
 import com.debts.debtstracker.injection.ApiServiceObject
@@ -13,8 +11,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class Repository(
-    private val apiService: ApiServiceObject,
-    private val sharedPrefs: LocalPreferencesInterface
+    private val apiService: ApiServiceObject
 ): RepositoryInterface {
 
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -38,14 +35,10 @@ class Repository(
         var response: Response<AuthModel>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.login(
+            response = apiService.RETROFIT_SERVICE.login(
                     username = username,
                     password = password
                 )
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
         }
         return getResponseCall(response)
     }
@@ -54,11 +47,7 @@ class Repository(
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.register(model)
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.register(model)
         }
         return getResponseCall(response)
     }
@@ -67,11 +56,7 @@ class Repository(
         var response: Response<PagedListServerModel<UserModel>>
 
         withContext(ioDispatcher){
-            try{
-                response = apiService.RETROFIT_SERVICE.getFriendsList()
-            } catch (e: Exception){
-                throw NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.getFriendsList()
         }
         return getResponseCall(response)
     }
@@ -80,11 +65,7 @@ class Repository(
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
-            try{
-                response = apiService.RETROFIT_SERVICE.addDebt(debtModel)
-            } catch (e: Exception){
-                throw NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.addDebt(debtModel)
         }
         return getResponseCall(response)
     }
@@ -93,11 +74,7 @@ class Repository(
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.getUserProfile(id)
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.getUserProfile(id)
         }
         return getResponseCall(response)
     }
@@ -107,11 +84,7 @@ class Repository(
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.getLoggedUserProfile()
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.getLoggedUserProfile()
         }
         return getResponseCall(response)
     }
@@ -120,11 +93,7 @@ class Repository(
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.updateProfile(profile)
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.updateProfile(profile)
         }
         return getResponseCall(response)
     }
@@ -133,11 +102,7 @@ class Repository(
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.updatePassword(passwordModel)
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.updatePassword(passwordModel)
         }
 
         return getResponseCall(response)
@@ -147,11 +112,7 @@ class Repository(
         var response: Response<UserModel>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.sendProfileAction(action, id)
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.sendProfileAction(action, id)
         }
         return getResponseCall(response)
     }
@@ -160,11 +121,7 @@ class Repository(
         val response: Response<HomeTotalDebtsModel>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.getUserTotalDebts()
-            } catch (e: Exception){
-                throw NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.getUserTotalDebts()
         }
         return getResponseCall(response)
     }
@@ -173,11 +130,7 @@ class Repository(
         var response: Response<NetworkState>
 
         withContext(ioDispatcher){
-            try {
-                response = apiService.RETROFIT_SERVICE.logout()
-            } catch (e: Exception){
-                throw  NoNetworkConnectionException()
-            }
+            response = apiService.RETROFIT_SERVICE.logout()
         }
 
         return getResponseCall(response)

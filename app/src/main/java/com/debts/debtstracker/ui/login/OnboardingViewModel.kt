@@ -2,16 +2,12 @@ package com.debts.debtstracker.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.debts.debtstracker.data.ErrorCode
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.RegisterModel
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.base.BaseViewModel
 import com.debts.debtstracker.util.Event
 import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
 
 class OnboardingViewModel(private val repository: RepositoryInterface): BaseViewModel() {
 
@@ -22,14 +18,10 @@ class OnboardingViewModel(private val repository: RepositoryInterface): BaseView
     val loginStatus: LiveData<Event<ResponseStatus<*>>> = _loginStatus
 
     fun login(username: String, pass: String){
-        viewModelScope.launch {
+        baseScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            val result = try {
-                    repository.login(username, pass)
-                } catch (e: NoNetworkConnectionException) {
-                    ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
-                }
+            val result = repository.login(username, pass)
 
             _loading.value = Event(result)
             _loginStatus.value = Event(result)
@@ -37,17 +29,12 @@ class OnboardingViewModel(private val repository: RepositoryInterface): BaseView
     }
 
     fun register(model: RegisterModel){
-        viewModelScope.launch {
+        baseScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
             var result: ResponseStatus<*> = ResponseStatus.None
-            measureTimeMillis {
-                result = try {
-                    repository.signUp(model)
-                } catch (e: NoNetworkConnectionException) {
-                    ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
-                }
-            }
+            result = repository.signUp(model)
+
             _loading.value = Event(result)
             _registerStatus.value = Event(result)
         }

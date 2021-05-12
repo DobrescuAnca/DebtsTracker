@@ -3,13 +3,10 @@ package com.debts.debtstracker.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.debts.debtstracker.data.ErrorCode
 import com.debts.debtstracker.data.NetworkState
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.api.NoNetworkConnectionException
 import com.debts.debtstracker.data.network.model.HomeCardFilterTypeEnum
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.data.network.model.HomeTotalDebtsModel
@@ -25,11 +22,10 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseViewModel() {
 
     val totalDebts = MutableLiveData<ResponseStatus<HomeTotalDebtsModel>>()
-
     private val filter = MutableLiveData(HomeCardFilterTypeEnum.ALL.toString())
 
     private val repoResult = Transformations.map(filter){
-        getPagedListRequests(HomeDataSource(filter.value.toString(), viewModelScope))
+        getPagedListRequests(HomeDataSource(filter.value.toString(), baseScope))
     }
 
     val content = Transformations.switchMap(repoResult) { it.pagedList }
@@ -44,20 +40,16 @@ class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseV
     init {
         filter.value = HomeCardFilterTypeEnum.ALL.toString()
 
-        dataSourceFactory = DataSourceFactory(HomeDataSource(filter.value.toString(), viewModelScope))
+        dataSourceFactory = DataSourceFactory(HomeDataSource(filter.value.toString(), baseScope))
         cardList = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
         responseStatus = Transformations.switchMap(dataSourceFactory.sourceLiveData) { it.networkState }
     }
 
     fun getTotalDebts(){
-        viewModelScope.launch {
+        baseScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-            val result = try {
-                 repositoryInterface.getUserTotalDebts()
-            } catch (e: NoNetworkConnectionException) {
-                ResponseStatus.Error(code = ErrorCode.NO_DATA_CONNECTION.code)
-            }
+            val result = repositoryInterface.getUserTotalDebts()
 
             totalDebts.value = result
             _loading.value = Event(result)
@@ -65,7 +57,6 @@ class HomeViewModel(private val repositoryInterface: RepositoryInterface): BaseV
     }
 
     private fun setupPaging(){
-
         cardList = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
         responseStatus = Transformations.switchMap(dataSourceFactory.sourceLiveData) { it.networkState }
     }

@@ -40,5 +40,6 @@ enum class ErrorCode(val code: Int) {
     INVALID_TOKEN(401),
     DATA_NOT_FOUND(404),
     INVALID_DATA(409),
-    SERVER_ERROR(500)
+    SERVER_ERROR(500),
+    JSON_PARSING_ERROR(2)
 }

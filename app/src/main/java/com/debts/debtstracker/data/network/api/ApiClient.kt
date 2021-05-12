@@ -1,15 +1,14 @@
 package com.debts.debtstracker.data.network.api
 
 import com.debts.debtstracker.data.network.model.AuthErrorModel
-import com.debts.debtstracker.injection.authorizationInterceptor
 import com.debts.debtstracker.injection.moshi
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.IOException
 
 class ApiClient(
     moshi: Moshi,
@@ -32,7 +31,6 @@ class ApiClient(
             .authenticator(TokenAuthenticator())
             .addInterceptor(authorizationInterceptor)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(ErrorInterceptor())
             .build()
 
         retrofitBuilder = Retrofit.Builder()
@@ -60,33 +58,11 @@ class ApiClient(
     }
 }
 
-class AuthorizationInterceptor(var accessToken: String?) : Interceptor {
+class TokenAuthenticatorException(refreshMessage: String) : IOException(refreshMessage)
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val original = chain.request()
-        val builder = original.newBuilder()
-
-        if(accessToken != "")
-            builder.addHeader(ApiClient.HEADER_AUTHORIZATION, "Bearer${accessToken}")
-
-        val request = builder.url(original.url).build()
-        return chain.proceed(request)
-    }
-}
-
-class ErrorInterceptor: Interceptor{
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val original = chain.request()
-        val response = chain.proceed(original)
-
-        return response
-    }
-}
-
-class NoNetworkConnectionException : Exception()
-
-fun updateAuthorizationInterceptor(accessToken: String) {
-    authorizationInterceptor.accessToken = accessToken
+enum class ExceptionTypes {
+    INVALID_REFRESH_TOKEN,
+    NO_NETWORK
 }
 
 fun parseError(response: retrofit2.Response<*>): AuthErrorModel? {

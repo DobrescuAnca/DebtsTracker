@@ -41,11 +41,15 @@ class TokenAuthenticator: Authenticator, KoinComponent {
             authToken = apiService.RETROFIT_SERVICE.refreshToken(refreshToken = sharedPrefs.getRefreshToken()?.refresh_token ?: "").execute().body()
 
         } catch (e: Exception){
-            throw  NoNetworkConnectionException()
+//            Timber.e("Token Authenticator ${e.message.toString()}")
+            throw  TokenAuthenticatorException(ExceptionTypes.NO_NETWORK.toString())
         }
 
         sharedPrefs.saveRefreshToken(authToken)
 
-        return authToken?.access_token ?: ""
+        if(authToken == null)
+            throw  TokenAuthenticatorException(ExceptionTypes.INVALID_REFRESH_TOKEN.toString())
+
+        return authToken.access_token
     }
 }
