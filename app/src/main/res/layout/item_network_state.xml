@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
+    <data/>
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <import type="com.debts.debtstracker.data.Status"/>
-
-        <variable
-            name="networkState"
-            type="com.debts.debtstracker.data.NetworkState" />
-
-    </data>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:padding="8dp">
-
         <TextView
             android:id="@+id/error_msg"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{networkState.msg == null || networkState.msg.empty ? View.INVISIBLE : View.VISIBLE}"
-            android:layout_gravity="center_horizontal" />
-
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            tools:text="Timeout"/>
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyle"
-            android:visibility="@{networkState.status == Status.OK ? View.INVISIBLE : View.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"/>
     </LinearLayout>
+
+
 </layout>

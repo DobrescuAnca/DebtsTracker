@@ -6,37 +6,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.observe
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.debts.debtstracker.R
-import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.Status
-import com.debts.debtstracker.data.network.model.HomeCardFilterTypeEnum
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
-import com.debts.debtstracker.ui.custom_views.RoundedIconTextView
+import com.debts.debtstracker.ui.base.LoadStateAdapter
 import com.debts.debtstracker.ui.main.MainActivity
-import com.debts.debtstracker.ui.main.profile.ProfileViewModel
-import com.debts.debtstracker.util.DEBT_ID
-import com.debts.debtstracker.util.EventObserver
-import com.debts.debtstracker.util.PROFILE_USER_ID
-import com.squareup.picasso.Picasso
+import com.debts.debtstracker.ui.main.MainViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by sharedViewModel()
-    private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val viewModel: MainViewModel by sharedViewModel()
 
     private lateinit var adapter: HomeCardsAdapter
+    private var filterJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dataBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_home,
@@ -44,11 +44,6 @@ class HomeFragment: BaseFragment() {
             false)
 
         return dataBinding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getTotalDebts()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,38 +54,28 @@ class HomeFragment: BaseFragment() {
 
         setupLayout()
         attachObservers()
-        profileViewModel.getLoggedUser()
     }
 
-    private fun setupLayout(){
-        dataBinding.currentUserProfilePicture.setOnClickListener{
+    private fun setupLayout() {
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { dataBinding.homeCardContainer.scrollToPosition(0) }
+        }
+
+        dataBinding.searchView.currentUserProfilePicture.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
             (activity as MainActivity).hideNavBar(true)
         }
 
         dataBinding.swipeRefresh.setOnRefreshListener {
-            viewModel.refreshFilter()
+//            viewModel.refreshFilter()
         }
 
         dataBinding.allFilter.selectView(true)
-
-        dataBinding.allFilter.setOnClickListener {
-           selectFilter(dataBinding.allFilter, HomeCardFilterTypeEnum.ALL)
-        }
-        dataBinding.friendFilter.setOnClickListener {
-            selectFilter(dataBinding.friendFilter, HomeCardFilterTypeEnum.FRIENDS)
-        }
-        dataBinding.debtsFilter.setOnClickListener {
-            selectFilter(dataBinding.debtsFilter, HomeCardFilterTypeEnum.DEBTS)
-        }
-    }
-
-    private fun selectFilter(filterView: RoundedIconTextView, filterType: HomeCardFilterTypeEnum){
-        if(!filterView.getViewIsSelected()) {
-            deselectFilters()
-            viewModel.setFilter(filterType)
-            filterView.selectView(true)
-        }
     }
 
     private fun deselectFilters(){
@@ -103,58 +88,28 @@ class HomeFragment: BaseFragment() {
         adapter = HomeCardsAdapter(
             this::onCardClicked
         )
-        dataBinding.homeCardContainer.adapter = adapter
+        dataBinding.homeCardContainer.adapter = adapter.withLoadStateFooter(LoadStateAdapter())
     }
 
     private fun onCardClicked(homeCard: HomeCardModel){
-        if(homeCard.homeCardType.toString().startsWith("FRIEND")){
-            val bundle = Bundle()
-            bundle.putString(PROFILE_USER_ID, homeCard.otherUserId)
-            findNavController().navigate(R.id.action_global_profileFriendFragment, bundle)
-        }
 
-        if(homeCard.homeCardType.toString().startsWith("DEBT")){
-            val bundle = Bundle()
-            bundle.putString(DEBT_ID, homeCard.debtId)
-//            findNavController().navigate(R.id.action_global_debtFragment, bundle)
+    }
+
+    private fun filter(filter: String) {
+        // Make sure we cancel the previous job before creating a new one
+        filterJob?.cancel()
+        filterJob = lifecycleScope.launch {
+            viewModel.filterHomeCards(filter).collectLatest {
+                adapter.submitData(it)
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun attachObservers() {
-        viewModel.totalDebts.observe(viewLifecycleOwner) {
-            if(it is ResponseStatus.Success) {
-                val totalDebts = it.data
-                dataBinding.tvTotalBorrowed.text = "${totalDebts.totalBorrowed} lei"
-                dataBinding.tvTotalLend.text = "${totalDebts.totalLent} lei"
-            }
-        }
-
-        profileViewModel.userProfile.observe(viewLifecycleOwner) {
-                Picasso.get()
-                    .load(it.profilePictureUrl)
-                    .error(R.drawable.ic_people_menu)
-                    .into(dataBinding.currentUserProfilePicture)
-        }
-
-        viewModel.content.observe(
-            viewLifecycleOwner) {
-            dataBinding.swipeRefresh.isRefreshing = false
-            adapter.submitList(it)
-        }
-
-        viewModel.networkState.observe(viewLifecycleOwner, EventObserver {
-            if(it.status == Status.EMPTY_LIST)
-                dataBinding.tvEmptyList.visibility = View.VISIBLE
-            else {
-                adapter.setNetworkStateValue(it)
-                dataBinding.tvEmptyList.visibility = View.GONE
-            }
-        })
     }
 
     override fun setLoading(loading: Boolean) {
-
     }
 
 }

@@ -127,19 +127,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etPassContainer"/>
 
-        <TextView
-            android:id="@+id/tv_signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="@string/no_account_signup_here"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btnLogin"/>
-
         <Button
             android:id="@+id/btnLogin"
             android:layout_alignParentBottom="true"
@@ -149,10 +136,10 @@
             android:text="@string/log_in"
             android:textSize="15sp"
             android:textAllCaps="false"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/forgot_password"
             app:layout_constraintEnd_toEndOf="parent"
             />
 

@@ -1,79 +1,38 @@
 package com.debts.debtstracker.data.pagination
 
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.PageKeyedDataSource
-import com.debts.debtstracker.data.NetworkState
-import com.debts.debtstracker.util.Event
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import retrofit2.Response
 
-abstract class BaseDataSource<T>(
-    private val scope: CoroutineScope
-) : PageKeyedDataSource<Int, T>(), KoinComponent {
+abstract class BaseDataSource<T: Any>: PagingSource<Int, T>() {
 
-    val networkState = MutableLiveData<Event<NetworkState>>()
+    abstract suspend fun requestData(page: Int): Response<List<T>>?
 
-    abstract suspend fun requestData(page: Int): Response<PagedListServerModel<T>>?
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
+        val position = params.key ?: 0
 
-    override fun loadInitial(
-        params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, T>
-    ) {
-        networkState.postValue(Event(NetworkState.LOADING))
+        val response = requestData(position)
+        val responseData = response?.body().orEmpty()
 
-        scope.launch {
-            try {
-                val response: Response<PagedListServerModel<T>>? = requestData(0)
-                networkState.postValue(Event(NetworkState.LOADED))
+        val nextKey = if(responseData.isNullOrEmpty())
+                    null
+                else position + (params.loadSize / NETWORK_PAGE_SIZE)
 
-                response?.let {
-                    if(response.isSuccessful) {
-                            val data = response.body()
-                            val list = data?.content ?: emptyList()
-                            callback.onResult(list, null, 1)
-                            if(list.isEmpty())
-                                networkState.postValue(Event(NetworkState.EMPTY_LIST))
-                    }
-                }
-            } catch (ioException: Exception) {
-                val error = NetworkState.error(ioException.message ?: "unknown error")
-                networkState.postValue(Event(error))
-            }
+        return LoadResult.Page(
+            data = responseData,
+            prevKey =  if (position == 0) null else position - 1,
+            nextKey = nextKey
+        )
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 
-    override fun loadAfter(
-        params: LoadParams<Int>,
-        callback: LoadCallback<Int, T>
-    ) {
-        networkState.postValue(Event(NetworkState.LOADING))
-
-        scope.launch {
-            try {
-                val page = params.key
-                val response: Response<PagedListServerModel<T>>? = requestData(page)
-
-                response?.let {
-                    if(response.isSuccessful){
-                            val data = response.body()
-                            val list = data?.content ?: emptyList()
-                            callback.onResult(list, page + 1)
-                            networkState.postValue(Event(NetworkState.LOADED))
-                    }
-                    else networkState.postValue(
-                        Event(NetworkState.error("error code: ${response.code()}"))
-                    )
-                }
-            } catch (exception: Exception) {
-                networkState.postValue(Event(NetworkState.error(exception.message ?: "unknown err")))
-            }
-        }
+    companion object {
+        const val NETWORK_PAGE_SIZE = 10
     }
-
-    override fun loadBefore(
-        params: LoadParams<Int>,
-        callback: LoadCallback<Int, T>
-    ) {}
 }

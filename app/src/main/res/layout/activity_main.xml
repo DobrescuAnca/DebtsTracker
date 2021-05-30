@@ -21,25 +21,17 @@
             app:navGraph="@navigation/navigation_main"
             tools:ignore="FragmentTagUsage" />
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="bottom"
-            android:backgroundTint="@color/whiteTransparent"
-            app:fabAlignmentMode="end"
-            app:menu="@menu/bottom_menu" />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
             app:maxImageSize="35dp"
+            android:layout_margin="20dp"
             app:tint="@color/white"
             android:backgroundTint="@color/colorPrimary"
             app:fabSize="normal"
-            app:layout_anchor="@id/bottomAppBar"
+            android:layout_gravity="bottom|end"
             tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

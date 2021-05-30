@@ -1,31 +1,18 @@
 package com.debts.debtstracker.data.repository
 
+import androidx.paging.PagingData
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.model.*
-import com.debts.debtstracker.data.pagination.PagedListServerModel
+import com.debts.debtstracker.data.network.model.AddDebtModel
+import com.debts.debtstracker.data.network.model.AuthModel
+import com.debts.debtstracker.data.network.model.HomeCardModel
+import kotlinx.coroutines.flow.Flow
 
 interface RepositoryInterface {
 
     suspend fun login(username: String, password: String): ResponseStatus<AuthModel>
 
-    suspend fun signUp(model: RegisterModel): ResponseStatus<*>
-
-    suspend fun getUserTotalDebts(): ResponseStatus<HomeTotalDebtsModel>
-
-    suspend fun getFriendList(): ResponseStatus<PagedListServerModel<UserModel>>
-
     suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<*>
 
-
-    suspend fun getUserProfile(id: String): ResponseStatus<UserModel>
-
-    suspend fun getLoggedUserProfile(): ResponseStatus<UserModel>
-
-    suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<UserModel>
-
-    suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<*>
-
-    suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<UserModel>
-
-    suspend fun logout(): ResponseStatus<*>
+    //pagination
+    fun getHomeCardsStream(filter: String): Flow<PagingData<HomeCardModel>>
 }

@@ -17,7 +17,7 @@ class ApiClient(
     private val okHttpClient: OkHttpClient
     private val retrofitBuilder: Retrofit.Builder
 
-    private val BASE_URL = "http://3.13.168.196:80/"
+    private val BASE_URL = "http://3.13.168.196:4000/"
 
     init {
 

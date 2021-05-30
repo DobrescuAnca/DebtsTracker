@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
     </data>
@@ -11,97 +10,40 @@
         android:layout_height="match_parent"
         android:background="@color/bg_white">
 
-        <TextView
-            android:id="@+id/appName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:background="@color/colorAccent"
-            android:textSize="22sp"
-            android:gravity="center"
+        <include
+            android:id="@+id/search_view"
+            layout="@layout/view_search"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/currentUserProfilePicture"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
-            app:srcCompat= "@drawable/ic_people"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/appName"
             />
-
-
-        <TextView
-            android:id="@+id/tvTotalBorrowed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            tools:text="123.65 lei"
-            android:gravity="center"
-            app:layout_constraintHorizontal_chainStyle="spread"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvTotalLend"
-            app:layout_constraintTop_toBottomOf="@id/appName"
-        />
-
-        <TextView
-            android:id="@+id/tvTotalLend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="123.65 lei"
-            android:gravity="center"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvTotalBorrowed"
-            app:layout_constraintTop_toTopOf="@id/tvTotalBorrowed"
-        />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/totalDebtsBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="tvTotalBorrowed, tvTotalLend"/>
-
-
-        <View
-            android:id="@+id/separationLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/colorAccent"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/totalDebtsBarrier"/>
 
         <com.debts.debtstracker.ui.custom_views.RoundedIconTextView
             android:id="@+id/allFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:viewTitle="@string/all"
-            app:iconResource="@drawable/ic_setup_dots"
+            app:viewTitle="@string/lent"
+            app:iconResource="@drawable/ic_right_arrow"
             android:layout_marginTop="15dp"
 
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/separationLine"
+            app:layout_constraintTop_toBottomOf="@id/search_view"
             app:layout_constraintEnd_toStartOf="@id/debtsFilter"/>
 
         <com.debts.debtstracker.ui.custom_views.RoundedIconTextView
             android:id="@+id/debtsFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:viewTitle="@string/debts"
-            app:iconResource="@drawable/ic_money"
+            app:viewTitle="@string/borrowed"
+            app:iconResource="@drawable/ic_arrow_left"
 
             app:layout_constraintStart_toEndOf="@id/allFilter"
             app:layout_constraintEnd_toStartOf="@id/friendFilter"
@@ -111,8 +53,8 @@
             android:id="@+id/friendFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:iconResource="@drawable/ic_people"
-            app:viewTitle="@string/friends"
+            app:iconResource="@drawable/ic_more"
+            app:viewTitle="@string/more"
 
             app:layout_constraintStart_toEndOf="@id/debtsFilter"
             app:layout_constraintEnd_toEndOf="parent"

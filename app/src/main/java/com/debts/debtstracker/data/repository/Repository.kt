@@ -1,12 +1,18 @@
 package com.debts.debtstracker.data.repository
 
-import com.debts.debtstracker.data.NetworkState
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.model.*
-import com.debts.debtstracker.data.pagination.PagedListServerModel
+import com.debts.debtstracker.data.network.model.AddDebtModel
+import com.debts.debtstracker.data.network.model.AuthModel
+import com.debts.debtstracker.data.network.model.HomeCardModel
+import com.debts.debtstracker.data.pagination.BaseDataSource.Companion.NETWORK_PAGE_SIZE
+import com.debts.debtstracker.data.pagination.HomeDataSource
 import com.debts.debtstracker.injection.ApiServiceObject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
@@ -43,26 +49,8 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun signUp(model: RegisterModel): ResponseStatus<NetworkState>{
-        var response: Response<NetworkState>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.register(model)
-        }
-        return getResponseCall(response)
-    }
-
-    override suspend fun getFriendList(): ResponseStatus<PagedListServerModel<UserModel>> {
-        var response: Response<PagedListServerModel<UserModel>>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.getFriendsList()
-        }
-        return getResponseCall(response)
-    }
-
-    override suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<NetworkState> {
-        var response: Response<NetworkState>
+    override suspend fun addDebt(debtModel: AddDebtModel): ResponseStatus<Any> {
+        var response: Response<Any>
 
         withContext(ioDispatcher){
             response = apiService.RETROFIT_SERVICE.addDebt(debtModel)
@@ -70,70 +58,11 @@ class Repository(
         return getResponseCall(response)
     }
 
-    override suspend fun getUserProfile(id: String): ResponseStatus<UserModel>{
-        var response: Response<UserModel>
 
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.getUserProfile(id)
-        }
-        return getResponseCall(response)
+    override fun getHomeCardsStream(filter: String): Flow<PagingData<HomeCardModel>> {
+        return Pager(
+            config = PagingConfig(NETWORK_PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = { HomeDataSource(filter) }
+        ).flow
     }
-
-
-    override suspend fun getLoggedUserProfile(): ResponseStatus<UserModel>{
-        var response: Response<UserModel>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.getLoggedUserProfile()
-        }
-        return getResponseCall(response)
-    }
-
-    override suspend fun updateProfile(profile: UpdateProfileModel): ResponseStatus<UserModel>{
-        var response: Response<UserModel>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.updateProfile(profile)
-        }
-        return getResponseCall(response)
-    }
-
-    override suspend fun updatePassword(passwordModel: UpdatePasswordModel): ResponseStatus<NetworkState>{
-        var response: Response<NetworkState>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.updatePassword(passwordModel)
-        }
-
-        return getResponseCall(response)
-    }
-
-    override suspend fun sendProfileAction(action: ProfileActionEnum, id: String): ResponseStatus<UserModel>{
-        var response: Response<UserModel>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.sendProfileAction(action, id)
-        }
-        return getResponseCall(response)
-    }
-
-    override suspend fun getUserTotalDebts(): ResponseStatus<HomeTotalDebtsModel>{
-        val response: Response<HomeTotalDebtsModel>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.getUserTotalDebts()
-        }
-        return getResponseCall(response)
-    }
-
-    override suspend fun logout(): ResponseStatus<NetworkState> {
-        var response: Response<NetworkState>
-
-        withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.logout()
-        }
-
-        return getResponseCall(response)
-    }
-
 }

@@ -1,57 +1,63 @@
 package com.debts.debtstracker.ui.main.home
 
-import androidx.databinding.ViewDataBinding
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.ItemHomeListBinding
-import com.debts.debtstracker.databinding.ItemNetworkStateBinding
-import com.debts.debtstracker.util.BasePagedListAdapter
 import com.debts.debtstracker.util.getCreationDateForCards
 import com.debts.debtstracker.util.getString
-import com.squareup.picasso.Picasso
 
 class HomeCardsAdapter(
     private val callback: (HomeCardModel) -> Unit
-): BasePagedListAdapter<HomeCardModel>(R.layout.item_home_list , DiffUtilHome()) {
+): PagingDataAdapter<HomeCardModel, HomeCardsAdapter.ViewHolder>(HOME_COMPARATOR) {
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context), R.layout.item_home_list,
+            parent,
+            false
+        ))
+    }
 
-    override fun bind(binding: ViewDataBinding, item: HomeCardModel?, position: Int) {
-        item?.let { homeCard ->
-            when(binding) {
-                is ItemHomeListBinding -> {
-                    binding.model = homeCard
-                    Picasso.get().load(homeCard.otherUserProfilePictureUrl).into(binding.notificationPicture)
-
-                    binding.creationDate.text = getCreationDateForCards(homeCard.creationDate)
-
-                    binding.tvSum.text = homeCard.sum.toString().plus(getString(R.string.lei))
-                    binding.isDebt = homeCard.debtId != null
-
-                    binding.root.setOnClickListener { callback(homeCard) }
-                }
-
-                is ItemNetworkStateBinding -> {
-                    binding.networkState = loadingState
-                }
-            }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val repoItem = getItem(position)
+        if (repoItem != null) {
+            holder.item = repoItem
+            holder.bind(repoItem)
         }
     }
-}
 
+    inner class ViewHolder(val binding: ItemHomeListBinding) : RecyclerView.ViewHolder(binding.root) {
+        var item: HomeCardModel? = null
 
-private class DiffUtilHome : DiffUtil.ItemCallback<HomeCardModel>() {
-    override fun areItemsTheSame(
-        oldItem: HomeCardModel,
-        newItem: HomeCardModel
-    ): Boolean {
-        return oldItem.id == newItem.id
+        init {
+            binding.root.setOnClickListener {
+                item?.let{callback(it) }
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        fun bind(model: HomeCardModel) {
+            binding.creationDate.text = getCreationDateForCards(model.creationDate)
+            binding.tvSum.text = model.sum.toString().plus(getString(R.string.lei))
+
+        }
     }
 
-    override fun areContentsTheSame(
-        oldItem: HomeCardModel,
-        newItem: HomeCardModel
-    ): Boolean {
-        return oldItem == newItem
+    companion object {
+        private val HOME_COMPARATOR = object : DiffUtil.ItemCallback<HomeCardModel>() {
+            override fun areItemsTheSame(oldItem: HomeCardModel, newItem: HomeCardModel): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: HomeCardModel, newItem: HomeCardModel): Boolean =
+                oldItem == newItem
+        }
     }
 }

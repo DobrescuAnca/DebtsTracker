@@ -9,10 +9,7 @@ import com.debts.debtstracker.data.network.api.AuthorizationInterceptor
 import com.debts.debtstracker.data.repository.Repository
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.login.OnboardingViewModel
-import com.debts.debtstracker.ui.main.add_debt.AddDebtViewModel
-import com.debts.debtstracker.ui.main.friends.UserListViewModel
-import com.debts.debtstracker.ui.main.home.HomeViewModel
-import com.debts.debtstracker.ui.main.profile.ProfileViewModel
+import com.debts.debtstracker.ui.main.MainViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -46,7 +43,7 @@ val localPreferencesModule = module {
 
 val repositoryModule = module(createdAtStart = true) {
     single<RepositoryInterface> {
-        Repository(get(), get())
+        Repository(get())
     }
 }
 
@@ -54,17 +51,8 @@ val onBoardingViewModel = module {
     viewModel{ OnboardingViewModel(get()) }
 }
 
-val userListViewModel = module {
-    viewModel{ UserListViewModel() }
-}
-val profileViewModel = module {
-    viewModel{ ProfileViewModel(get()) }
-}
-val addDebtViewModel = module {
-    viewModel { AddDebtViewModel(get()) }
-}
-val homeViewModel = module {
-    viewModel { HomeViewModel(get()) }
+val mainViewModel = module {
+    viewModel { MainViewModel(get()) }
 }
 
 val modulesList = listOf(
@@ -73,8 +61,5 @@ val modulesList = listOf(
     localPreferencesModule,
     repositoryModule,
     onBoardingViewModel,
-    userListViewModel,
-    profileViewModel,
-    addDebtViewModel,
-    homeViewModel
+    mainViewModel
 )

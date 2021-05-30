@@ -17,7 +17,7 @@ class TokenAuthenticator: Authenticator, KoinComponent {
     private val sharedPrefs: LocalPreferencesInterface by inject()
     private val apiService: ApiServiceObject by inject()
 
-    override fun authenticate(route: Route?, response: Response): Request? {
+    override fun authenticate(route: Route?, response: Response): Request {
         val errorString: String = response.body?.string() ?: ""
 
         if (response.code == 401) {

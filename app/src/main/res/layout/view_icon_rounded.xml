@@ -7,20 +7,24 @@
 
     <LinearLayout
         android:id="@+id/viewContainer"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:orientation="vertical"
-        android:padding="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:background="@drawable/bg_15_rounded_corners"
         android:backgroundTint="@color/colorLightGrey"
         >
 
         <ImageView
             android:id="@+id/tvIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_money"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="12dp"
+            android:layout_height="10dp"
+            android:src="@drawable/ic_arrow_left"
+            android:layout_gravity="center_vertical"
             app:tint="@color/white"
             android:foregroundTint="@color/white"
             tools:ignore="ContentDescription" />
@@ -31,8 +35,8 @@
             android:layout_height="wrap_content"
             android:text="@string/debts"
             android:maxLines="1"
-            android:textSize="10sp"
-            android:layout_marginTop="3dp"
+            android:textSize="12sp"
+            android:layout_marginStart="4dp"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             tools:ignore="SmallSp" />

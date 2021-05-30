@@ -26,7 +26,7 @@ class LoginFragment: BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dataBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_login,
@@ -50,10 +50,6 @@ class LoginFragment: BaseFragment() {
                 dataBinding.etEmail.text.toString(),
                 dataBinding.etPass.text.toString()
             )
-        }
-
-        dataBinding.tvSignup.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }
 
