@@ -20,59 +20,7 @@
         android:id="@+id/homeFragment"
         android:name="com.debts.debtstracker.ui.main.home.HomeFragment"
         tools:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
-
-    <action
-        android:id="@+id/action_global_friendsFragment"
-        app:destination="@id/friendsFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/friendsFragment"
-        app:popUpToInclusive="true"/>
-
-    <fragment
-        android:id="@+id/friendsFragment"
-        android:name="com.debts.debtstracker.ui.main.friends.FriendListFragment"
-        tools:label="FriendsFragment"
-        tools:layout="@layout/fragment_friend_list">
-        <action
-            android:id="@+id/action_friendsFragment_to_userListFragment"
-            app:destination="@id/userListFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-
-    <action
-        android:id="@+id/action_global_profileFriendFragment"
-        app:destination="@id/profileFriendFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"/>
-
-    <fragment
-        android:id="@+id/profileFriendFragment"
-        android:name="com.debts.debtstracker.ui.main.profile.friend_user.ProfileFriendUserFragment"
-        tools:label="ProfileFragment"
-        tools:layout="@layout/fragment_friend_profile"/>
-    <fragment
-        android:id="@+id/userListFragment"
-        android:name="com.debts.debtstracker.ui.main.friends.UserListFragment"
-        tools:label="UserListFragment"
-        tools:layout="@layout/fragment_user_list"/>
+        tools:layout="@layout/fragment_home"/>
 
     <action
         android:id="@+id/action_global_addDebtFragment"
@@ -88,20 +36,7 @@
         android:name="com.debts.debtstracker.ui.main.add_debt.AddDebtFragment"
         tools:label="AddDebtFragment"
         tools:layout="@layout/fragment_add_debt"/>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.debts.debtstracker.ui.main.profile.ProfileLoggedUserFragment"
-        tools:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_onboardingActivity"
-            app:destination="@id/onboardingActivity"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:launchSingleTop="true"/>
-    </fragment>
+
     <activity
         android:id="@+id/onboardingActivity"
         android:name="com.debts.debtstracker.ui.login.OnboardingActivity"

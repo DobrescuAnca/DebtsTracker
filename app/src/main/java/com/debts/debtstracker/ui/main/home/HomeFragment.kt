@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.debts.debtstracker.R
 import com.debts.debtstracker.data.network.model.HomeCardModel
@@ -51,6 +50,7 @@ class HomeFragment: BaseFragment() {
 
         setLoading(true)
         initAdapter()
+        (requireActivity() as MainActivity).hideNavBar(false)
 
         setupLayout()
         attachObservers()
@@ -67,8 +67,7 @@ class HomeFragment: BaseFragment() {
         }
 
         dataBinding.searchView.currentUserProfilePicture.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
-            (activity as MainActivity).hideNavBar(true)
+
         }
 
         dataBinding.swipeRefresh.setOnRefreshListener {

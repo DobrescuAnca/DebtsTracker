@@ -7,7 +7,7 @@ import com.debts.debtstracker.R
 import com.debts.debtstracker.databinding.ActivityMainBinding
 import com.debts.debtstracker.ui.base.BaseActivity
 
-class MainActivity : BaseActivity(){
+class MainActivity: BaseActivity(){
 
     private lateinit var dataBinding: ActivityMainBinding
 
