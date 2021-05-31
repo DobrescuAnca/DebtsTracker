@@ -14,6 +14,7 @@
 
     <color name="red">#e22209</color>
     <color name="error_color">#EF5E76</color>
+    <color name="warning_color">#FFCC00</color>
     <color name="green">#0e8219</color>
 
     <color name="colorDarkGrey">#19191b</color>

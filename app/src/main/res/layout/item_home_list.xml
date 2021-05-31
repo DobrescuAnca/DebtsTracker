@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="22:45"
-            android:textSize="10sp"
+            android:textSize="12sp"
 
             android:layout_margin="5dp"
             android:layout_gravity="end"
@@ -35,43 +35,55 @@
             android:paddingTop="10dp"
             android:layout_margin="10dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/notificationPicture"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_person_full"
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_right_arrow"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/iv_status"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_dot"
+
+                app:layout_constraintEnd_toEndOf="@id/iv_arrow"
+                app:layout_constraintStart_toEndOf="@id/iv_arrow"
+                app:layout_constraintTop_toBottomOf="@id/iv_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/iv_arrow"
+                tools:ignore="ContentDescription" />
             
             <TextView
-                android:id="@+id/tvText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
-
-                tools:text="You added new debt for mister sebastianTeodo12 and it is aiting for smth"
-                android:textColor="@color/colorDarkGrey"
-                android:textSize="15sp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/notificationPicture"/>
-
-            <TextView
-                android:id="@+id/tvSum"
+                android:id="@+id/tv_sum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                tools:text="12 lei"
+                android:layout_marginTop="6dp"
+
+                tools:text="15.45"
+                android:textColor="@color/colorDarkGrey"
+                android:textSize="21sp"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_arrow"/>
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                tools:text="mega"
                 android:textSize="14sp"
 
-                app:layout_constraintTop_toBottomOf="@id/tvText"
+                app:layout_constraintTop_toBottomOf="@id/tv_sum"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/notificationPicture"/>
+                app:layout_constraintStart_toStartOf="@id/tv_sum"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

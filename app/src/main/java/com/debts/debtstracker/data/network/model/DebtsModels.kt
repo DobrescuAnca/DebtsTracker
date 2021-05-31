@@ -5,17 +5,16 @@ data class HomeCardModel(
     val sum: Float,
     val description: String,
     val creationDate: Long,
-    val lenderId: String,
-    val borrowerId: String
+    val status: DebtStatus,
+    val isUserLender: Boolean
 )
 
 data class AddDebtModel(
-    val borrowerSumList: List<BorrowerDebtModel>,
+    val sum: Float,
     val description: String,
-    val lenderId: String
+    val isUserLender: Boolean
 )
 
-data class BorrowerDebtModel(
-    val borrowerId: String,
-    val sum: Float
-)
+enum class DebtStatus{
+    IN_PROGRESS, PAID, DELETED
+}
