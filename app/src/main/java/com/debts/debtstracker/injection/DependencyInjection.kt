@@ -19,7 +19,6 @@ val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
-
 object ApiServiceObject {
     val RETROFIT_SERVICE : ApiService by lazy {
         val apiClient = ApiClient(moshi)
