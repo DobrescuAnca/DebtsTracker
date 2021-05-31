@@ -7,6 +7,7 @@ import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.model.AddDebtModel
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.data.network.model.LoginModel
+import com.debts.debtstracker.data.network.model.SingleValueModel
 import com.debts.debtstracker.data.pagination.BaseDataSource.Companion.NETWORK_PAGE_SIZE
 import com.debts.debtstracker.data.pagination.HomeDataSource
 import com.debts.debtstracker.injection.ApiServiceObject
@@ -37,8 +38,8 @@ class Repository(
         }
     }
 
-    override suspend fun login(username: String, password: String): ResponseStatus<String>{
-        var response: Response<String>
+    override suspend fun login(username: String, password: String): ResponseStatus<SingleValueModel>{
+        var response: Response<SingleValueModel>
 
         withContext(ioDispatcher){
             response = apiService.RETROFIT_SERVICE.login( LoginModel(

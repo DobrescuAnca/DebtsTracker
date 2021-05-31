@@ -65,7 +65,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="6dp"
 
-                tools:text="15.45"
+                tools:text="15.45 lei"
                 android:textColor="@color/colorDarkGrey"
                 android:textSize="21sp"
 

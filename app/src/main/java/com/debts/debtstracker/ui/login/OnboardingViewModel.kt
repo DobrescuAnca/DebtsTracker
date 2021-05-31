@@ -21,7 +21,7 @@ class OnboardingViewModel(private val repository: RepositoryInterface): BaseView
 
             _loading.value = Event(result)
             if(result is ResponseStatus.Success)
-                _loginStatus.value = Event(result.data)
+                _loginStatus.value = Event(result.data.value)
         }
     }
 }

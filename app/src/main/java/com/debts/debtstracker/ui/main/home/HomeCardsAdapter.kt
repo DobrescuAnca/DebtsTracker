@@ -55,7 +55,7 @@ class HomeCardsAdapter(
 
             val statusColor = when(model.status){
                 DebtStatus.PAID -> R.color.colorPrimary
-                DebtStatus.IN_PROGRESS -> R.color.warning_color
+                DebtStatus.UNPAID -> R.color.warning_color
                 DebtStatus.DELETED -> R.color.error_color
             }
             binding.ivStatus.imageTintList  = ContextCompat.getColorStateList(context, statusColor)

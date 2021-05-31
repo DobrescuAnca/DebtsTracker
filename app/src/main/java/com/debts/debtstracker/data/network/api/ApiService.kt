@@ -1,8 +1,6 @@
 package com.debts.debtstracker.data.network.api
 
-import com.debts.debtstracker.data.network.model.AddDebtModel
-import com.debts.debtstracker.data.network.model.HomeCardModel
-import com.debts.debtstracker.data.network.model.LoginModel
+import com.debts.debtstracker.data.network.model.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,22 +9,31 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    // ----- auth ----
+    // ----- user ----
+    @POST("/user/authenticate")
+    suspend fun login(@Body model: LoginModel): Response<SingleValueModel>
 
-    @POST("/api/oauth/token")
-    suspend fun login(
-        @Body model: LoginModel
-    ): Response<String>
+    @POST("/user/logout")
+    suspend fun logout(): Response<Any>
+
+    @GET("/user/profile")
+    suspend fun getUserProfile(): Response<ProfileModel>
 
     // ----- home -------
-    @GET("api/home/cards")
+    @GET("/home/debts")
     suspend fun getHomeCards(
         @Query("filterType") filter: String,
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
     ): Response<List<HomeCardModel>>
 
+    @GET("/home/totals")
+    suspend fun getTotals(): Response<TotalsModel>
+
     // ----- debts ------
-    @POST("api/debts/add")
+    @POST("/debts/add")
     suspend fun addDebt(@Body debtModel: AddDebtModel): Response<Any>
+
+    @POST("/debts/equate")
+    suspend fun equate(): Response<Any>
 }

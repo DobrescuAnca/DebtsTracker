@@ -9,4 +9,13 @@ data class LoginModel(
     val password: String
 )
 
+data class ProfileModel(
+    val name: String,
+    val profilePictureUrl: String
+)
+
+data class SingleValueModel(
+    val value: String
+)
+
 
