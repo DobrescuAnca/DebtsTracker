@@ -13,6 +13,7 @@ import com.debts.debtstracker.R
 import com.debts.debtstracker.data.local.LocalPreferencesInterface
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
+import com.debts.debtstracker.ui.base.BaseActivity
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.base.LoadStateAdapter
 import com.debts.debtstracker.ui.main.MainActivity
@@ -72,7 +73,9 @@ class HomeFragment: BaseFragment() {
         }
 
         dataBinding.searchView.currentUserProfilePicture.setOnClickListener {
-
+            (activity as BaseActivity).showCustomDialog(
+                ProfileDialog(),
+            )
         }
 
         dataBinding.swipeRefresh.setOnRefreshListener {
