@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View"/>
@@ -9,16 +11,215 @@
             type="Boolean" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:id="@+id/tvDebtsTracker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="80dp"
+                android:text="@string/debts_tracker"
+                android:textSize="30sp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <LinearLayout
+                android:id="@+id/llLoginView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="20dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDebtsTracker"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="1dp"
+                    android:alpha="0.5"
+                    android:background="@color/greyLightTransparent"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_debt"
+                    android:textSize="12sp"
+                    android:layout_gravity="center_vertical"
+                    tools:ignore="SmallSp" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="1dp"
+                    android:alpha="0.5"
+                    android:background="@color/greyLightTransparent"
+                    />
+
+            </LinearLayout>
 
 
+            <TextView
+                android:id="@+id/tv_sum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sum"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/ubuntu_medium"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/et_sum"/>
+
+            <androidx.appcompat.widget.AppCompatToggleButton
+                android:id="@+id/debt_type"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textOff="@string/lent"
+                android:textOn="@string/borrowed"
+                android:showText="true"
+                android:checked="true"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_sum"
+                app:layout_constraintBottom_toBottomOf="@id/tv_sum"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_sum"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:inputType="number"
+                android:background="@drawable/bg_5_rounded_corners"
+                android:backgroundTint="@color/bg_white"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_description"/>
+
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/ubuntu_medium"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/et_description"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_description"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:inputType="textImeMultiLine"
+
+                android:background="@drawable/bg_5_rounded_corners"
+                android:backgroundTint="@color/bg_white"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_date"/>
+
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/ubuntu_medium"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/et_date"/>
+
+            <TextView
+                android:id="@+id/et_date"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:background="@drawable/bg_5_rounded_corners"
+                android:backgroundTint="@color/bg_white"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_error"/>
+
+
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mandatory_fields"
+                android:textColor="@color/error_color"
+                android:textSize="14sp"
+                android:layout_marginBottom="35dp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:visibility="invisible"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/delimitation_view"/>
+
+            <View
+                android:id="@+id/delimitation_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greyLightTransparent"
+                android:layout_marginBottom="25dp"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btn_add"/>
+
+            <TextView
+                android:id="@+id/btn_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_5_rounded_corners"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="@string/add_debt"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:padding="7dp"
+                android:layout_marginBottom="30dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
             layout="@layout/view_loading"
             android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
 
 </layout>
