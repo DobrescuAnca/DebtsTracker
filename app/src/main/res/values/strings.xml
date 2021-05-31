@@ -115,4 +115,10 @@
     <string name="equate">Equate</string>
     <string name="more">More</string>
     <string name="date">Date</string>
+
+    <string name="error_occurred">An error has occurred. Please try again</string>
+    <string name="internet_error">An error has occurred. Please check your internet connection and try again!</string>
+    <string name="server_error">Server is not responding. Please try again!</string>
+    <string name="json_parsing_error">An error occurred in the server communication, please contact your administrator (Json Parse Error)</string>
+
 </resources>

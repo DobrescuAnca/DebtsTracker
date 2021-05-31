@@ -5,8 +5,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.model.AddDebtModel
-import com.debts.debtstracker.data.network.model.AuthModel
 import com.debts.debtstracker.data.network.model.HomeCardModel
+import com.debts.debtstracker.data.network.model.LoginModel
 import com.debts.debtstracker.data.pagination.BaseDataSource.Companion.NETWORK_PAGE_SIZE
 import com.debts.debtstracker.data.pagination.HomeDataSource
 import com.debts.debtstracker.injection.ApiServiceObject
@@ -37,14 +37,15 @@ class Repository(
         }
     }
 
-    override suspend fun login(username: String, password: String): ResponseStatus<AuthModel>{
-        var response: Response<AuthModel>
+    override suspend fun login(username: String, password: String): ResponseStatus<String>{
+        var response: Response<String>
 
         withContext(ioDispatcher){
-            response = apiService.RETROFIT_SERVICE.login(
+            response = apiService.RETROFIT_SERVICE.login( LoginModel(
                     username = username,
                     password = password
                 )
+            )
         }
         return getResponseCall(response)
     }

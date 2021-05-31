@@ -5,11 +5,11 @@ import com.debts.debtstracker.data.local.LocalPreferencesInterface
 import com.debts.debtstracker.data.local.PreferencesSource
 import com.debts.debtstracker.data.network.api.ApiClient
 import com.debts.debtstracker.data.network.api.ApiService
-import com.debts.debtstracker.data.network.api.AuthorizationInterceptor
 import com.debts.debtstracker.data.repository.Repository
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.login.OnboardingViewModel
 import com.debts.debtstracker.ui.main.MainViewModel
+import com.debts.debtstracker.ui.main.add_debt.AddDebtViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,11 +19,10 @@ val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
-val authorizationInterceptor = AuthorizationInterceptor("")
 
 object ApiServiceObject {
     val RETROFIT_SERVICE : ApiService by lazy {
-        val apiClient = ApiClient(moshi, authorizationInterceptor)
+        val apiClient = ApiClient(moshi)
         apiClient.createApi(ApiService::class.java)
     }
 }
@@ -53,6 +52,7 @@ val onBoardingViewModel = module {
 
 val mainViewModel = module {
     viewModel { MainViewModel(get()) }
+    viewModel { AddDebtViewModel(get()) }
 }
 
 val modulesList = listOf(

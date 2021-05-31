@@ -39,7 +39,7 @@ class RoundedIconTextView: LinearLayout {
 
     fun selectView(select: Boolean){
         if(select)
-            dataBinding.viewContainer.backgroundTintList = context.resources.getColorStateList(R.color.colorAccent, context.theme)
+            dataBinding.viewContainer.backgroundTintList = context.resources.getColorStateList(R.color.colorSecondary, context.theme)
         else
             dataBinding.viewContainer.backgroundTintList = context.resources.getColorStateList(R.color.colorLightGrey, context.theme)
 

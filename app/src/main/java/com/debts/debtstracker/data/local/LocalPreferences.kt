@@ -1,38 +1,33 @@
 package com.debts.debtstracker.data.local
 
-import com.debts.debtstracker.data.network.api.updateAuthorizationInterceptor
-import com.debts.debtstracker.data.network.model.AuthModel
-import com.debts.debtstracker.injection.moshi
+import com.debts.debtstracker.data.network.api.AuthorizationInterceptor
 
 class LocalPreferences(
     private val preferencesSource: PreferencesSource
 ) : LocalPreferencesInterface {
 
-    private val tokenJsonAdapter =
-        moshi.adapter(AuthModel::class.java)
-
-    override fun saveRefreshToken(token: AuthModel?) {
-        preferencesSource.customPrefs()[REFRESH_TOKEN] = tokenJsonAdapter.toJson(token)
-        updateAuthorizationInterceptor(token?.access_token ?: "")
+    override fun saveAccessToken(token: String) {
+        preferencesSource.customPrefs()[ACCESS_TOKEN] = token
+        AuthorizationInterceptor.updateAccessToken(token)
     }
 
-    override fun getRefreshToken(): AuthModel? {
-        val localTokenJson: String = preferencesSource.customPrefs()[REFRESH_TOKEN] ?: ""
-        if(localTokenJson.isEmpty()) {
-            updateAuthorizationInterceptor("")
+    override fun getAccessToken(): String? {
+        val localToken: String = preferencesSource.customPrefs()[ACCESS_TOKEN] ?: ""
+        if(localToken.isEmpty()) {
+            AuthorizationInterceptor.updateAccessToken("")
             return null
         }
-        updateAuthorizationInterceptor( tokenJsonAdapter.fromJson(localTokenJson)?.access_token ?: "")
-        return tokenJsonAdapter.fromJson(localTokenJson)
+        AuthorizationInterceptor.updateAccessToken(localToken)
+        return localToken
     }
 
     override fun clearSharedPrefs() {
         preferencesSource.customPrefs().edit().clear().apply()
-        updateAuthorizationInterceptor("")
+        AuthorizationInterceptor.updateAccessToken("")
     }
 
     companion object {
         const val PREFERENCES_FILE_NAME = "preferences"
-        const val REFRESH_TOKEN = "token"
+        const val ACCESS_TOKEN = "token"
     }
 }

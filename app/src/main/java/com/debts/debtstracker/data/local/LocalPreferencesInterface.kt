@@ -1,12 +1,10 @@
 package com.debts.debtstracker.data.local
 
-import com.debts.debtstracker.data.network.model.AuthModel
-
 interface LocalPreferencesInterface {
 
-    fun saveRefreshToken(token: AuthModel?)
+    fun saveAccessToken(token: String)
 
-    fun getRefreshToken(): AuthModel?
+    fun getAccessToken(): String?
 
     fun clearSharedPrefs()
 }

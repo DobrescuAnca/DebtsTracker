@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.debts.debtstracker.R
+import com.debts.debtstracker.data.local.LocalPreferencesInterface
 import com.debts.debtstracker.data.network.model.HomeCardModel
 import com.debts.debtstracker.databinding.FragmentHomeBinding
 import com.debts.debtstracker.ui.base.BaseFragment
@@ -21,12 +23,14 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment: BaseFragment() {
 
     private lateinit var dataBinding: FragmentHomeBinding
     private val viewModel: MainViewModel by sharedViewModel()
+    private val sharedPrefs: LocalPreferencesInterface by inject()
 
     private lateinit var adapter: HomeCardsAdapter
     private var filterJob: Job? = null
@@ -48,6 +52,7 @@ class HomeFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        verifyToken()
         setLoading(true)
         initAdapter()
         (requireActivity() as MainActivity).hideNavBar(false)
@@ -109,6 +114,14 @@ class HomeFragment: BaseFragment() {
     }
 
     override fun setLoading(loading: Boolean) {
+    }
+
+    private fun verifyToken(){
+        val token = sharedPrefs.getAccessToken()
+        if(token.isNullOrEmpty()){
+            findNavController().navigate(R.id.action_global_onboardingActivity)
+            (activity as MainActivity).finish()
+        }
     }
 
 }

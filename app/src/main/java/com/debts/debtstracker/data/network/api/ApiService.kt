@@ -1,38 +1,24 @@
 package com.debts.debtstracker.data.network.api
 
 import com.debts.debtstracker.data.network.model.AddDebtModel
-import com.debts.debtstracker.data.network.model.AuthModel
 import com.debts.debtstracker.data.network.model.HomeCardModel
-import com.debts.debtstracker.util.BASIC_AUTHORIZATION
+import com.debts.debtstracker.data.network.model.LoginModel
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
 
     // ----- auth ----
 
     @POST("/api/oauth/token")
-    @FormUrlEncoded
     suspend fun login(
-        @Field("grant_type") grantType: String = "password",
-        @Field("scope") scope: String = "mobile",
-        @Field("username") username: String,
-        @Field("password") password: String,
-        @Header("Authorization") authorization:String = BASIC_AUTHORIZATION
-    ): Response<AuthModel>
-
-    @POST("/api/oauth/token")
-    @FormUrlEncoded
-    fun refreshToken(
-        @Field("grant_type") grantType: String = "refresh_token",
-        @Field("scope") scope: String = "mobile",
-        @Field("refresh_token") refreshToken: String,
-        @Header("Authorization") authorization:String = BASIC_AUTHORIZATION
-    ): retrofit2.Call<AuthModel>
-
+        @Body model: LoginModel
+    ): Response<String>
 
     // ----- home -------
-
     @GET("api/home/cards")
     suspend fun getHomeCards(
         @Query("filterType") filter: String,
@@ -41,7 +27,6 @@ interface ApiService {
     ): Response<List<HomeCardModel>>
 
     // ----- debts ------
-
     @POST("api/debts/add")
     suspend fun addDebt(@Body debtModel: AddDebtModel): Response<Any>
 }

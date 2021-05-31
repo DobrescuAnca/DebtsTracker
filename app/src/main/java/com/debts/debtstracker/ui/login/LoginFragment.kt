@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.debts.debtstracker.R
-import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.local.LocalPreferencesInterface
-import com.debts.debtstracker.data.network.model.AuthModel
 import com.debts.debtstracker.databinding.FragmentLoginBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.util.EventObserver
@@ -54,18 +52,11 @@ class LoginFragment: BaseFragment() {
     }
 
     private fun attachObservers(){
-        viewModel.loginStatus.observe(viewLifecycleOwner, EventObserver { result ->
-            when (result) {
-                is ResponseStatus.Success -> {
-                    sharedPrefs.saveRefreshToken(result.data as AuthModel)
-                    findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
-                    (activity as OnboardingActivity).finish()
-                }
-                is ResponseStatus.Loading -> setLoading(true)
-                is ResponseStatus.Error -> {
-                    setLoading(false)
-                }
-            }
+        viewModel.loginStatus.observe(viewLifecycleOwner, EventObserver {
+            sharedPrefs.saveAccessToken(it)
+
+            findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+            (activity as OnboardingActivity).finish()
         })
     }
 

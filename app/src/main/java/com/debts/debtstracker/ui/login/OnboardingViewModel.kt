@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 
 class OnboardingViewModel(private val repository: RepositoryInterface): BaseViewModel() {
 
-    private var _loginStatus: MutableLiveData<Event<ResponseStatus<*>>> = MutableLiveData(Event(ResponseStatus.None))
-    val loginStatus: LiveData<Event<ResponseStatus<*>>> = _loginStatus
+    private var _loginStatus: MutableLiveData<Event<String>> = MutableLiveData()
+    val loginStatus: LiveData<Event<String>> = _loginStatus
 
     fun login(username: String, pass: String){
         baseScope.launch {
@@ -20,7 +20,8 @@ class OnboardingViewModel(private val repository: RepositoryInterface): BaseView
             val result = repository.login(username, pass)
 
             _loading.value = Event(result)
-            _loginStatus.value = Event(result)
+            if(result is ResponseStatus.Success)
+                _loginStatus.value = Event(result.data)
         }
     }
 }

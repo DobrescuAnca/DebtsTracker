@@ -11,8 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 
 class ApiClient(
-    moshi: Moshi,
-    authorizationInterceptor: AuthorizationInterceptor
+    moshi: Moshi
 ) {
     private val okHttpClient: OkHttpClient
     private val retrofitBuilder: Retrofit.Builder
@@ -28,8 +27,7 @@ class ApiClient(
         val loggingInterceptor = HttpLoggingInterceptor().apply { this.level = level }
 
         okHttpClient = OkHttpClient.Builder()
-            .authenticator(TokenAuthenticator())
-            .addInterceptor(authorizationInterceptor)
+            .addInterceptor(AuthorizationInterceptor())
             .addInterceptor(loggingInterceptor)
             .build()
 
@@ -54,7 +52,7 @@ class ApiClient(
     }
 
     companion object{
-        const val HEADER_AUTHORIZATION = "Authorization"
+        const val HEADER_AUTHORIZATION = "BASE_AUTH"
     }
 }
 
