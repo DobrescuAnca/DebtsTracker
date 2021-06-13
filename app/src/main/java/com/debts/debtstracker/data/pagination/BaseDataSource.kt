@@ -2,17 +2,18 @@ package com.debts.debtstracker.data.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.debts.debtstracker.data.network.model.ListModel
 import retrofit2.Response
 
 abstract class BaseDataSource<T: Any>: PagingSource<Int, T>() {
 
-    abstract suspend fun requestData(page: Int): Response<List<T>>?
+    abstract suspend fun requestData(page: Int): Response<ListModel<T>>?
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         val position = params.key ?: 0
 
         val response = requestData(position)
-        val responseData = response?.body().orEmpty()
+        val responseData = response?.body()?.content.orEmpty()
 
         val nextKey = if(responseData.isNullOrEmpty())
                     null

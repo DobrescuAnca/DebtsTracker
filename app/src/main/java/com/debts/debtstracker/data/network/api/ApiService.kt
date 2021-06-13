@@ -10,30 +10,30 @@ import retrofit2.http.Query
 interface ApiService {
 
     // ----- user ----
-    @POST("/user/authenticate")
+    @POST("user/authenticate")
     suspend fun login(@Body model: LoginModel): Response<SingleValueModel>
 
-    @POST("/user/logout")
+    @POST("user/logout")
     suspend fun logout(): Response<Any>
 
-    @GET("/user/profile")
+    @GET("user/profile")
     suspend fun getUserProfile(): Response<ProfileModel>
 
     // ----- home -------
-    @GET("/home/debts")
+    @GET("home/debts")
     suspend fun getHomeCards(
         @Query("filterType") filter: String,
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10
-    ): Response<List<HomeCardModel>>
+    ): Response<ListModel<HomeCardModel>>
 
-    @GET("/home/totals")
+    @GET("home/totals")
     suspend fun getTotals(): Response<TotalsModel>
 
     // ----- debts ------
-    @POST("/debts/add")
+    @POST("debts/add")
     suspend fun addDebt(@Body debtModel: AddDebtModel): Response<Any>
 
-    @POST("/debts/equate")
+    @POST("debts/equate")
     suspend fun equate(): Response<Any>
 }

@@ -16,7 +16,7 @@ class ApiClient(
     private val okHttpClient: OkHttpClient
     private val retrofitBuilder: Retrofit.Builder
 
-    private val BASE_URL = "http://3.13.168.196:4000/api"
+    private val BASE_URL = "http://3.13.168.196:4000/api/"
 
     init {
 
@@ -52,7 +52,7 @@ class ApiClient(
     }
 
     companion object{
-        const val HEADER_AUTHORIZATION = "BASE_AUTH"
+        const val HEADER_AUTHORIZATION = "authorization"
     }
 }
 

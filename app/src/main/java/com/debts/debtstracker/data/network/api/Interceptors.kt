@@ -10,7 +10,7 @@ class AuthorizationInterceptor: Interceptor {
         val builder = original.newBuilder()
 
         if(accessToken != "")
-            builder.addHeader(ApiClient.HEADER_AUTHORIZATION, "$accessToken")
+            builder.addHeader(ApiClient.HEADER_AUTHORIZATION, "Basic $accessToken")
 
         val request = builder.url(original.url).build()
         return chain.proceed(request)

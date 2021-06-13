@@ -62,7 +62,7 @@
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/filterBarrier"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="allFilter,debtsFilter,friendFilter"/>
@@ -94,7 +94,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/homeCardContainer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:scrollbars="vertical"
 

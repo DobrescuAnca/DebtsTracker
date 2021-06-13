@@ -1,7 +1,7 @@
 package com.debts.debtstracker.data.network.model
 
 data class HomeCardModel(
-    val id: String,
+    val id: Int,
     val sum: Double,
     val description: String,
     val creationDate: Long,
@@ -13,8 +13,16 @@ data class HomeCardModel(
 data class AddDebtModel(
     val sum: Double,
     val description: String,
-    val date: String,
+    val creationDate: Long,
     val isUserLender: Boolean
+)
+
+data class ListModel<T>(
+    val content: List<T>,
+    val currentPage: Int,
+    val pageSize: Int,
+    val totalPages: Int,
+    val totalResults: Int
 )
 
 data class TotalsModel(

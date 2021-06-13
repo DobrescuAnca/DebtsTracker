@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.debts.debtstracker.R
+import com.debts.debtstracker.data.network.model.AddDebtModel
 import com.debts.debtstracker.databinding.FragmentAddDebtBinding
 import com.debts.debtstracker.ui.base.BaseFragment
 import org.joda.time.DateTime
@@ -45,14 +46,16 @@ class AddDebtFragment: BaseFragment() {
     private fun setupDatePicker(){
         dataBinding.etDate.text = DateTime.now().toString("dd.MM.yyyy")
 
-        val picker = DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
+        dataBinding.etDate.setOnClickListener {
+            val picker = DatePickerDialog(requireContext(), { _, year, monthOfYear, dayOfMonth ->
                 dataBinding.etDate.text =  viewModel.updateDate(year, monthOfYear+1, dayOfMonth)
             },
-            viewModel.selectedDate.year,
-            viewModel.selectedDate.monthOfYear,
-            viewModel.selectedDate.dayOfMonth
-        )
-        picker.show()
+                viewModel.selectedDate.year,
+                viewModel.selectedDate.monthOfYear,
+                viewModel.selectedDate.dayOfMonth
+            )
+            picker.show()
+        }
     }
 
     private fun setupListener(){
@@ -62,7 +65,12 @@ class AddDebtFragment: BaseFragment() {
                     dataBinding.tvError.isVisible = true
             else {
                 dataBinding.tvError.visibility = View.INVISIBLE
-                viewModel.addDebt()
+                viewModel.addDebt( AddDebtModel(
+                    dataBinding.etSum.text.toString().toDouble(),
+                    dataBinding.etDescription.text.toString(),
+                    viewModel.selectedDate.millis,
+                    !dataBinding.debtType.isChecked
+                ))
             }
         }
     }

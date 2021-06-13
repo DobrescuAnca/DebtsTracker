@@ -18,6 +18,7 @@ import com.debts.debtstracker.ui.base.BaseFragment
 import com.debts.debtstracker.ui.base.LoadStateAdapter
 import com.debts.debtstracker.ui.main.MainActivity
 import com.debts.debtstracker.ui.main.MainViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -54,9 +55,9 @@ class HomeFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         verifyToken()
-        setLoading(true)
         initAdapter()
-        (requireActivity() as MainActivity).hideNavBar(false)
+
+        viewModel.getProfile()
 
         setupLayout()
         attachObservers()
@@ -83,6 +84,7 @@ class HomeFragment: BaseFragment() {
         }
 
         dataBinding.allFilter.selectView(true)
+        filter("All")
     }
 
     private fun deselectFilters(){
@@ -114,12 +116,24 @@ class HomeFragment: BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun attachObservers() {
+        viewModel.loading.observe(viewLifecycleOwner, loadingObserver)
+
+        viewModel.profileData.observe(viewLifecycleOwner){
+            it.profilePictureUrl?.let { url ->
+                Picasso.get()
+                    .load(url)
+                    .centerCrop()
+                    .into(dataBinding.searchView.currentUserProfilePicture)
+            }
+        }
     }
 
     override fun setLoading(loading: Boolean) {
+
     }
 
     private fun verifyToken(){
+        setLoading(true)
         val token = sharedPrefs.getAccessToken()
         if(token.isNullOrEmpty()){
             findNavController().navigate(R.id.action_global_onboardingActivity)

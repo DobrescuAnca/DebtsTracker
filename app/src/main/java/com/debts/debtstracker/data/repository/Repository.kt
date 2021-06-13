@@ -4,10 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.debts.debtstracker.data.ResponseStatus
-import com.debts.debtstracker.data.network.model.AddDebtModel
-import com.debts.debtstracker.data.network.model.HomeCardModel
-import com.debts.debtstracker.data.network.model.LoginModel
-import com.debts.debtstracker.data.network.model.SingleValueModel
+import com.debts.debtstracker.data.network.model.*
 import com.debts.debtstracker.data.pagination.BaseDataSource.Companion.NETWORK_PAGE_SIZE
 import com.debts.debtstracker.data.pagination.HomeDataSource
 import com.debts.debtstracker.injection.ApiServiceObject
@@ -59,6 +56,35 @@ class Repository(
         }
         return getResponseCall(response)
     }
+
+    override suspend fun getUserProfile(): ResponseStatus<ProfileModel> {
+        var response: Response<ProfileModel>
+
+        withContext(ioDispatcher){
+            response = apiService.RETROFIT_SERVICE.getUserProfile()
+        }
+        return getResponseCall(response)
+    }
+
+    override suspend fun getTotals(): ResponseStatus<TotalsModel> {
+        var response: Response<TotalsModel>
+
+        withContext(ioDispatcher){
+            response = apiService.RETROFIT_SERVICE.getTotals()
+        }
+        return getResponseCall(response)
+    }
+
+    override suspend fun equate(): ResponseStatus<Any> {
+        var response: Response<Any>
+
+        withContext(ioDispatcher){
+            response = apiService.RETROFIT_SERVICE.equate()
+        }
+        return getResponseCall(response)
+    }
+
+
 
 
     override fun getHomeCardsStream(filter: String): Flow<PagingData<HomeCardModel>> {

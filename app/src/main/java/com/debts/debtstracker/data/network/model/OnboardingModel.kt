@@ -11,7 +11,7 @@ data class LoginModel(
 
 data class ProfileModel(
     val name: String,
-    val profilePictureUrl: String
+    val profilePictureUrl: String?
 )
 
 data class SingleValueModel(

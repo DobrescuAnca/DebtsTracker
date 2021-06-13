@@ -1,6 +1,7 @@
 package com.debts.debtstracker.ui.main.add_debt
 
 import com.debts.debtstracker.data.ResponseStatus
+import com.debts.debtstracker.data.network.model.AddDebtModel
 import com.debts.debtstracker.data.repository.RepositoryInterface
 import com.debts.debtstracker.ui.base.BaseViewModel
 import com.debts.debtstracker.util.Event
@@ -17,17 +18,17 @@ class AddDebtViewModel(private val repository: RepositoryInterface): BaseViewMod
         return selectedDate.toString("dd.MM.yyyy")
     }
 
-    fun addDebt(){
+    fun addDebt(debtModel: AddDebtModel){
         baseScope.launch {
             _loading.value = Event(ResponseStatus.Loading)
 
-//            val result = repository.addDebt()
-//
-//            if(result is ResponseStatus.Success) {
-//
-//            }
-//
-//            _loading.value = Event(result)
+            val result = repository.addDebt(debtModel)
+
+            if(result is ResponseStatus.Success) {
+
+            }
+
+            _loading.value = Event(result)
         }
     }
 
