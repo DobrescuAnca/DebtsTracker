@@ -29,34 +29,45 @@
             android:id="@+id/allFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:viewTitle="@string/lent"
-            app:iconResource="@drawable/ic_right_arrow"
+            app:viewTitle="@string/all"
+            app:iconResource="@drawable/ic_all"
             android:layout_marginTop="15dp"
 
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_view"
-            app:layout_constraintEnd_toStartOf="@id/debtsFilter"/>
+            app:layout_constraintEnd_toStartOf="@id/lentFilter"/>
 
         <com.debts.debtstracker.ui.custom_views.RoundedIconTextView
-            android:id="@+id/debtsFilter"
+            android:id="@+id/lentFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:viewTitle="@string/lent"
+            app:iconResource="@drawable/ic_right_arrow"
+
+            app:layout_constraintStart_toEndOf="@id/allFilter"
+            app:layout_constraintTop_toTopOf="@id/allFilter"
+            app:layout_constraintEnd_toStartOf="@id/borrowedFilter"/>
+
+        <com.debts.debtstracker.ui.custom_views.RoundedIconTextView
+            android:id="@+id/borrowedFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:viewTitle="@string/borrowed"
             app:iconResource="@drawable/ic_arrow_left"
 
-            app:layout_constraintStart_toEndOf="@id/allFilter"
-            app:layout_constraintEnd_toStartOf="@id/friendFilter"
+            app:layout_constraintStart_toEndOf="@id/lentFilter"
+            app:layout_constraintEnd_toStartOf="@id/moreFilter"
             app:layout_constraintTop_toTopOf="@id/allFilter"/>
 
         <com.debts.debtstracker.ui.custom_views.RoundedIconTextView
-            android:id="@+id/friendFilter"
+            android:id="@+id/moreFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:iconResource="@drawable/ic_more"
             app:viewTitle="@string/more"
 
-            app:layout_constraintStart_toEndOf="@id/debtsFilter"
+            app:layout_constraintStart_toEndOf="@id/borrowedFilter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/allFilter"/>
 
@@ -65,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="allFilter,debtsFilter,friendFilter"/>
+            app:constraint_referenced_ids="allFilter,lentFilter,borrowedFilter,moreFilter"/>
 
         <TextView
             android:id="@+id/tvEmptyList"
@@ -76,30 +87,23 @@
             android:layout_margin="20dp"
             android:visibility="gone"
 
-            app:layout_constraintTop_toTopOf="@id/swipeRefresh"
+            app:layout_constraintTop_toTopOf="@id/homeCardContainer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homeCardContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scrollbars="vertical"
             android:layout_margin="10dp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filterBarrier">
+            app:layout_constraintTop_toBottomOf="@id/filterBarrier"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/homeCardContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:scrollbars="vertical"
-
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

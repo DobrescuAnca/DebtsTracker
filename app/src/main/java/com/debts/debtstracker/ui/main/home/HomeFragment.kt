@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -58,12 +59,14 @@ class HomeFragment: BaseFragment() {
         initAdapter()
 
         viewModel.getProfile()
+        adapter.refresh()
 
         setupLayout()
         attachObservers()
     }
 
     private fun setupLayout() {
+        // Scroll to top when the list is refreshed from network.
         lifecycleScope.launch {
             adapter.loadStateFlow
                 // Only emit when REFRESH LoadState for RemoteMediator changes.
@@ -79,18 +82,38 @@ class HomeFragment: BaseFragment() {
             )
         }
 
-        dataBinding.swipeRefresh.setOnRefreshListener {
-//            viewModel.refreshFilter()
-        }
+    }
 
+    private fun setupFilterListeners(){
         dataBinding.allFilter.selectView(true)
         filter("All")
+
+        dataBinding.borrowedFilter.setOnClickListener {
+            deselectFilters()
+            dataBinding.borrowedFilter.selectView(true)
+            filter("Borrowed")
+        }
+        dataBinding.allFilter.setOnClickListener {
+            deselectFilters()
+            dataBinding.allFilter.selectView(true)
+            filter("All")
+        }
+        dataBinding.lentFilter.setOnClickListener {
+            deselectFilters()
+            dataBinding.lentFilter.selectView(true)
+            filter("Lent")
+        }
+        dataBinding.moreFilter.setOnClickListener {
+            deselectFilters()
+            dataBinding.lentFilter.selectView(true)
+            //todo open bottom sheet with more filter options
+        }
     }
 
     private fun deselectFilters(){
         dataBinding.allFilter.selectView(false)
-        dataBinding.debtsFilter.selectView(false)
-        dataBinding.friendFilter.selectView(false)
+        dataBinding.lentFilter.selectView(false)
+        dataBinding.borrowedFilter.selectView(false)
     }
 
     private fun initAdapter(){
@@ -98,10 +121,21 @@ class HomeFragment: BaseFragment() {
             this::onCardClicked
         )
         dataBinding.homeCardContainer.adapter = adapter.withLoadStateFooter(LoadStateAdapter())
+
+        adapter.addLoadStateListener { loadState ->
+            // show empty list
+            val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+            showEmptyList(isListEmpty)
+        }
     }
 
     private fun onCardClicked(homeCard: HomeCardModel){
 
+    }
+
+    private fun showEmptyList(show: Boolean) {
+        dataBinding.tvEmptyList.isVisible = show
+        dataBinding.homeCardContainer.isVisible = !show
     }
 
     private fun filter(filter: String) {
