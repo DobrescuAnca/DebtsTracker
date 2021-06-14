@@ -31,7 +31,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="80dp"
+            android:minHeight="70dp"
             android:paddingTop="10dp"
             android:layout_margin="10dp">
 
@@ -63,11 +63,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
 
                 tools:text="15.45 lei"
                 android:textColor="@color/colorDarkGrey"
-                android:textSize="21sp"
+                android:textSize="18sp"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 tools:text="mega"
-                android:textSize="14sp"
+                android:textSize="13sp"
 
                 app:layout_constraintTop_toBottomOf="@id/tv_sum"
                 app:layout_constraintEnd_toEndOf="parent"

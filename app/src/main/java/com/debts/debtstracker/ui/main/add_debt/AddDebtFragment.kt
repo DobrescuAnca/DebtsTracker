@@ -8,10 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.debts.debtstracker.R
+import com.debts.debtstracker.data.ResponseStatus
 import com.debts.debtstracker.data.network.model.AddDebtModel
 import com.debts.debtstracker.databinding.FragmentAddDebtBinding
 import com.debts.debtstracker.ui.base.BaseFragment
+import com.debts.debtstracker.util.EventObserver
+import com.debts.debtstracker.util.hideKeyboard
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -54,12 +60,15 @@ class AddDebtFragment: BaseFragment() {
                 viewModel.selectedDate.monthOfYear,
                 viewModel.selectedDate.dayOfMonth
             )
+            picker.datePicker.maxDate = DateTime.now().millis
             picker.show()
         }
     }
 
     private fun setupListener(){
         dataBinding.btnAdd.setOnClickListener {
+            requireContext().hideKeyboard(dataBinding.btnAdd)
+
             if(dataBinding.etDescription.text.isNullOrEmpty()
                 || dataBinding.etSum.text.isNullOrEmpty())
                     dataBinding.tvError.isVisible = true
@@ -75,9 +84,23 @@ class AddDebtFragment: BaseFragment() {
         }
     }
 
+    private fun showDebtAddedSuccessfully(){
+        if(dataBinding.debtAddedSuccessfully != true) {
+            dataBinding.debtAddedSuccessfully = true
+            lifecycleScope.launch() {
+                delay(3000)
+                dataBinding.debtAddedSuccessfully = false
+            }
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     private fun attachObservers() {
+        viewModel.addDebtStatus.observe(viewLifecycleOwner, EventObserver{
+            if(it is ResponseStatus.Success)
+                showDebtAddedSuccessfully()
+        })
     }
 
 

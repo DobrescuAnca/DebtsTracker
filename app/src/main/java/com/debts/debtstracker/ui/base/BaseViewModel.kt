@@ -22,8 +22,6 @@ open class BaseViewModel: ViewModel() {
 
 
     private var handler = CoroutineExceptionHandler { _, exception ->
-//        Timber.e(exception.toString())
-
         val responseStatus: ResponseStatus.Error = when(exception){
             is TokenAuthenticatorException -> {
                 if(exception.message == ExceptionTypes.INVALID_REFRESH_TOKEN.toString())

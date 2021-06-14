@@ -9,68 +9,28 @@
         <variable
             name="isLoading"
             type="Boolean" />
+        <variable
+            name="debtAddedSuccessfully"
+            type="Boolean" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.debts.debtstracker.ui.custom_views.SuccessFixedMessageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:successMessageTitle="@string/debt_added_successfully"
+        tools:visibility="gone"
+        android:visibility="@{debtAddedSuccessfully ? View.VISIBLE : View.GONE}"
+            android:elevation="2dp"
+        />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp">
-
-            <TextView
-                android:id="@+id/tvDebtsTracker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="80dp"
-                android:text="@string/debts_tracker"
-                android:textSize="30sp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-
-            <LinearLayout
-                android:id="@+id/llLoginView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="20dp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDebtsTracker"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <View
-                    android:layout_width="60dp"
-                    android:layout_margin="10dp"
-                    android:layout_height="1dp"
-                    android:alpha="0.5"
-                    android:background="@color/greyLightTransparent"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_debt"
-                    android:textSize="12sp"
-                    android:layout_gravity="center_vertical"
-                    tools:ignore="SmallSp" />
-
-                <View
-                    android:layout_width="60dp"
-                    android:layout_margin="10dp"
-                    android:layout_height="1dp"
-                    android:alpha="0.5"
-                    android:background="@color/greyLightTransparent"
-                    />
-
-            </LinearLayout>
-
 
             <TextView
                 android:id="@+id/tv_sum"

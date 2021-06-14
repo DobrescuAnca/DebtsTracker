@@ -59,7 +59,7 @@ class HomeFragment: BaseFragment() {
         initAdapter()
 
         viewModel.getProfile()
-        adapter.refresh()
+        setupFilterListeners()
 
         setupLayout()
         attachObservers()
@@ -81,7 +81,6 @@ class HomeFragment: BaseFragment() {
                 ProfileDialog(),
             )
         }
-
     }
 
     private fun setupFilterListeners(){
